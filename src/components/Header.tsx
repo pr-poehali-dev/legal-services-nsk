@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { useModal } from "@/hooks/useModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { openModal } = useModal();
 
   const menuItems = [
     { name: "Главная", href: "#home" },
@@ -41,7 +43,10 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button className="bg-primary hover:bg-primary/90">
+            <Button
+              className="bg-primary hover:bg-primary/90"
+              onClick={openModal}
+            >
               Консультация
             </Button>
           </div>
@@ -69,7 +74,10 @@ const Header = () => {
                   {item.name}
                 </a>
               ))}
-              <Button className="mt-4 w-full bg-primary hover:bg-primary/90">
+              <Button
+                className="mt-4 w-full bg-primary hover:bg-primary/90"
+                onClick={openModal}
+              >
                 Консультация
               </Button>
             </nav>

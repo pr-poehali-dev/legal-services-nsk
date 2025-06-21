@@ -8,20 +8,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Icon from "@/components/ui/icon";
+import { useModal } from "@/hooks/useModal";
 
 const PopupModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, closeModal, openModal } = useModal();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsOpen(true);
+      openModal();
     }, 30000); // 30 seconds
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [openModal]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
