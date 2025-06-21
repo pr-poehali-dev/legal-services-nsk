@@ -62,10 +62,20 @@ const Hero = () => {
           <div className="relative">
             <div className="aspect-square lg:aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
               <img
-                src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=750&fit=crop"
-                alt="Юридические услуги в Новосибирске"
-                className="w-full h-full object-cover"
+                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=750&fit=crop"
+                alt="Профессиональный юрист в Новосибирске"
+                className="w-full h-full object-cover brightness-75"
               />
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <div className="text-center text-white px-6">
+                  <h3 className="text-2xl lg:text-3xl font-bold mb-2 drop-shadow-lg">
+                    Ваша защита —
+                  </h3>
+                  <p className="text-xl lg:text-2xl font-semibold drop-shadow-lg">
+                    моя профессия
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="absolute -bottom-6 -left-6 bg-card border border-border rounded-xl p-4 shadow-lg">
               <div className="flex items-center space-x-3">
