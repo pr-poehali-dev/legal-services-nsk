@@ -62,7 +62,7 @@ const Hero = () => {
           <div className="relative">
             <div className="aspect-square lg:aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
               <img
-                src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&h=750&fit=crop&crop=face"
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop&crop=face"
                 alt="Юрист в Новосибирске"
                 className="w-full h-full object-cover"
               />
