@@ -1,8 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
+import BlogModal from "./BlogModal";
 
 const Blog = () => {
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+
   const posts = [
     {
       title: "Новые изменения в трудовом законодательстве 2024",
@@ -59,7 +63,10 @@ const Blog = () => {
                     <span>{post.readTime}</span>
                   </div>
                 </div>
-                <CardTitle className="text-lg hover:text-primary transition-colors duration-200 cursor-pointer">
+                <CardTitle
+                  className="text-lg hover:text-primary transition-colors duration-200 cursor-pointer"
+                  onClick={() => setSelectedPost(post)}
+                >
                   {post.title}
                 </CardTitle>
               </CardHeader>
@@ -76,6 +83,7 @@ const Blog = () => {
                     variant="ghost"
                     size="sm"
                     className="p-0 h-auto text-primary hover:text-primary/80"
+                    onClick={() => setSelectedPost(post)}
                   >
                     Читать далее
                     <Icon name="ArrowRight" className="h-4 w-4 ml-1" />
@@ -92,6 +100,12 @@ const Blog = () => {
             Все статьи блога
           </Button>
         </div>
+
+        <BlogModal
+          post={selectedPost}
+          isOpen={!!selectedPost}
+          onClose={() => setSelectedPost(null)}
+        />
       </div>
     </section>
   );

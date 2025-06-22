@@ -1,8 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
+import ServiceModal from "./ServiceModal";
 
 const Services = () => {
+  const [selectedService, setSelectedService] = useState<any>(null);
+
   const services = [
     {
       icon: "Building2",
@@ -73,7 +77,11 @@ const Services = () => {
                   <span className="text-lg font-semibold text-primary">
                     {service.price}
                   </span>
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedService(service)}
+                  >
                     Подробнее
                   </Button>
                 </div>
@@ -88,6 +96,12 @@ const Services = () => {
             Записаться на консультацию
           </Button>
         </div>
+
+        <ServiceModal
+          service={selectedService}
+          isOpen={!!selectedService}
+          onClose={() => setSelectedService(null)}
+        />
       </div>
     </section>
   );
