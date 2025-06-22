@@ -4,103 +4,67 @@ import { useModal } from "@/hooks/useModal";
 
 const Hero = () => {
   const { openModal } = useModal();
+
   return (
-    <section
-      id="home"
-      className="pt-20 pb-16 bg-gradient-to-br from-background to-secondary/30"
-    >
+    <section className="relative bg-gradient-to-b from-background to-secondary/20 pt-20 pb-16 overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
+        <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="space-y-6">
-            <div className="space-y-4">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-medium">
-                <Icon name="MapPin" className="h-4 w-4 mr-2" />
-                Новосибирск
-              </div>
-              <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                Профессиональная юридическая помощь в Новосибирске
-              </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Более 10 лет успешной практики. Защищаю права и интересы граждан
-                и предприятий. Индивидуальный подход к каждому клиенту и
-                гарантия результата.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90"
-                onClick={openModal}
-              >
-                <Icon name="Phone" className="h-5 w-5 mr-2" />
-                Бесплатная консультация
-              </Button>
-              <Button variant="outline" size="lg">
-                <Icon name="FileText" className="h-5 w-5 mr-2" />
-                Наши услуги
-              </Button>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">500+</div>
-                <div className="text-sm text-muted-foreground">
-                  Выигранных дел
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">10+</div>
-                <div className="text-sm text-muted-foreground">Лет опыта</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">98%</div>
-                <div className="text-sm text-muted-foreground">
-                  Довольных клиентов
-                </div>
-              </div>
-            </div>
+            <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight">
+              Профессиональная{" "}
+              <span className="text-primary">юридическая помощь</span> в
+              Новосибирске
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Защищаем ваши права и интересы более 10 лет. Индивидуальный подход
+              к каждому клиенту и гарантия результата.
+            </p>
           </div>
 
-          {/* Image */}
-          <div className="relative">
-            <div className="aspect-square lg:aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
-              <img
-                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=750&fit=crop"
-                alt="Профессиональный юрист в Новосибирске"
-                className="w-full h-full object-cover brightness-75"
-              />
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <div className="text-center text-white px-6">
-                  <h3 className="text-2xl lg:text-3xl font-bold mb-2 drop-shadow-lg">
-                    Ваша защита —
-                  </h3>
-                  <p className="text-xl lg:text-2xl font-semibold drop-shadow-lg">
-                    моя профессия
-                  </p>
-                </div>
-              </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-white px-8"
+              onClick={openModal}
+            >
+              <Icon name="Calendar" className="h-5 w-5 mr-2" />
+              Запись на консультацию
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-primary text-primary hover:bg-primary/10"
+              onClick={() =>
+                document
+                  .getElementById("services")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              <Icon name="ArrowDown" className="h-5 w-5 mr-2" />
+              Наши услуги
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold text-primary">500+</div>
+              <div className="text-muted-foreground">Успешных дел</div>
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-card border border-border rounded-xl p-4 shadow-lg">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                  <Icon name="Award" className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <div className="font-semibold text-sm">
-                    Лицензированный адвокат
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Адвокатская палата НСО
-                  </div>
-                </div>
-              </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold text-primary">10+</div>
+              <div className="text-muted-foreground">Лет опыта</div>
+            </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold text-primary">98%</div>
+              <div className="text-muted-foreground">Довольных клиентов</div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-gradient-to-r from-accent/5 to-transparent pointer-events-none" />
     </section>
   );
 };
