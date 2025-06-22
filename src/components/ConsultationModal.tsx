@@ -31,6 +31,26 @@ const ConsultationModal = () => {
     setIsSubmitting(true);
 
     try {
+      // Отправляем данные на Яндекс.Бизнес
+      const formPayload = new FormData();
+      formPayload.append("name", formData.name);
+      formPayload.append("phone", formData.phone);
+      formPayload.append(
+        "message",
+        formData.question || "Запрос на консультацию",
+      );
+      formPayload.append("company_id", "131746883928");
+
+      await fetch(
+        "https://yandex.ru/business/widget/request/company/131746883928",
+        {
+          method: "POST",
+          body: formPayload,
+          mode: "no-cors",
+        },
+      );
+
+      // Дублируем в localStorage для внутреннего учета
       const consultation = {
         ...formData,
         date: new Date().toISOString(),
