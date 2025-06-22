@@ -156,10 +156,6 @@ const ServiceModal = ({ service, isOpen, onClose }: ServiceModalProps) => {
               onClick={() => {
                 consultationModal.open();
                 onClose();
-                window.open(
-                  "https://yandex.ru/business/widget/request/company/131746883928",
-                  "_blank",
-                );
               }}
             >
               <Icon name="Calendar" className="h-5 w-5 mr-2" />
