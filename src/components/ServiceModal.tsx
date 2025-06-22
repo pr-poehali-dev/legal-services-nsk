@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { useModal } from "@/hooks/useModal";
 
 interface Service {
   icon: string;
@@ -24,6 +25,8 @@ interface ServiceModalProps {
 }
 
 const ServiceModal = ({ service, isOpen, onClose }: ServiceModalProps) => {
+  const { consultationModal } = useModal();
+
   if (!service) return null;
 
   const serviceDetails = {
@@ -151,8 +154,6 @@ const ServiceModal = ({ service, isOpen, onClose }: ServiceModalProps) => {
               size="lg"
               className="flex-1"
               onClick={() => {
-                const { consultationModal } =
-                  require("@/hooks/useModal").useModal();
                 consultationModal.open();
               }}
             >
