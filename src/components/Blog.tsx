@@ -2,9 +2,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
+import { useState } from "react";
+import BlogModal from "./BlogModal";
 
 const Blog = () => {
   const { openModal } = useModal();
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
+
+  const handlePostClick = (post: any) => {
+    setSelectedPost(post);
+    setIsBlogModalOpen(true);
+  };
 
   const articles = [
     {
@@ -50,7 +59,8 @@ const Blog = () => {
           {articles.map((article, index) => (
             <Card
               key={index}
-              className="border-border hover:shadow-lg transition-shadow duration-300"
+              className="border-border hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+              onClick={() => handlePostClick(article)}
             >
               <CardHeader className="space-y-4">
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -72,14 +82,20 @@ const Blog = () => {
                     {article.date}
                   </span>
                   <Button variant="ghost" size="sm">
-                    <Icon name="ArrowRight" className="h-4 w-4 ml-1" />
                     Читать
+                    <Icon name="ArrowRight" className="h-4 w-4 ml-1" />
                   </Button>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
+
+        <BlogModal
+          post={selectedPost}
+          isOpen={isBlogModalOpen}
+          onClose={() => setIsBlogModalOpen(false)}
+        />
 
         <div className="bg-card border border-border rounded-2xl p-8 text-center space-y-6">
           <div className="space-y-2">

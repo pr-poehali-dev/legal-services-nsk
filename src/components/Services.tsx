@@ -2,9 +2,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
+import { useState } from "react";
+import ServiceModal from "./ServiceModal";
 
 const Services = () => {
   const { openModal } = useModal();
+  const [selectedService, setSelectedService] = useState(null);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+
+  const handleServiceClick = (service: any) => {
+    setSelectedService(service);
+    setIsServiceModalOpen(true);
+  };
 
   const services = [
     {
@@ -89,7 +98,8 @@ const Services = () => {
           {services.map((service, index) => (
             <Card
               key={index}
-              className="border-border hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="border-border hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer"
+              onClick={() => handleServiceClick(service)}
             >
               <CardHeader className="space-y-4">
                 <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center">
@@ -126,6 +136,12 @@ const Services = () => {
             </Card>
           ))}
         </div>
+
+        <ServiceModal
+          service={selectedService}
+          isOpen={isServiceModalOpen}
+          onClose={() => setIsServiceModalOpen(false)}
+        />
 
         <div className="text-center">
           <Button
