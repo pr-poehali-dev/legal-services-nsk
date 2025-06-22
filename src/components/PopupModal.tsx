@@ -44,11 +44,17 @@ const PopupModal = () => {
       existing.push(consultation);
       localStorage.setItem("consultations", JSON.stringify(existing));
 
-      toast.success(
-        "Заявка отправлена! Мы свяжемся с вами в течение 30 минут.",
-      );
+      toast.success("Заявка отправлена! Переходим к оформлению заявки...");
       setFormData({ name: "", phone: "", question: "" });
       closeModal();
+
+      // Переход на Яндекс.Бизнес для оформления заявки
+      setTimeout(() => {
+        window.open(
+          "https://yandex.ru/business/widget/request/company/131746883928",
+          "_blank",
+        );
+      }, 1000);
     } catch (error) {
       toast.error("Ошибка отправки. Попробуйте еще раз.");
     } finally {
