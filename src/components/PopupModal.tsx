@@ -31,26 +31,17 @@ const PopupModal = () => {
     setIsSubmitting(true);
 
     try {
-      // Отправляем данные на Яндекс.Бизнес
-      const formPayload = new FormData();
-      formPayload.append("name", formData.name);
-      formPayload.append("phone", formData.phone);
-      formPayload.append(
-        "message",
-        formData.question || "Запрос на бесплатную консультацию",
-      );
-      formPayload.append("company_id", "131746883928");
+      // Открываем виджет Яндекс.Бизнес в новом окне
+      const params = new URLSearchParams({
+        name: formData.name,
+        phone: formData.phone,
+        message: formData.question || "Запрос на бесплатную консультацию",
+      });
 
-      await fetch(
-        "https://yandex.ru/business/widget/request/company/131746883928",
-        {
-          method: "POST",
-          body: formPayload,
-          mode: "no-cors",
-        },
-      );
+      const yandexUrl = `https://yandex.ru/business/131746883928/reviews?${params.toString()}`;
+      window.open(yandexUrl, "_blank", "width=600,height=700");
 
-      // Дублируем в localStorage для внутреннего учета
+      // Сохраняем локально для учета
       const consultation = {
         ...formData,
         date: new Date().toISOString(),
@@ -63,7 +54,7 @@ const PopupModal = () => {
       existing.push(consultation);
       localStorage.setItem("consultations", JSON.stringify(existing));
 
-      toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время.");
+      toast.success("Открыто окно для отправки заявки в Яндекс.Бизнес");
       setFormData({ name: "", phone: "", question: "" });
       closeModal();
     } catch (error) {
