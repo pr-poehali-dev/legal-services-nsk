@@ -31,21 +31,12 @@ const ConsultationModal = () => {
     setIsSubmitting(true);
 
     try {
-      // Открываем виджет Яндекс.Бизнес в новом окне
-      const params = new URLSearchParams({
-        name: formData.name,
-        phone: formData.phone,
-        message: formData.question || "Запрос на консультацию",
-      });
-
-      const yandexUrl = `https://yandex.ru/business/131746883928/reviews?${params.toString()}`;
-      window.open(yandexUrl, "_blank", "width=600,height=700");
-
-      // Сохраняем локально для учета
+      // Сохраняем заявку локально
       const consultation = {
         ...formData,
         date: new Date().toISOString(),
         id: Date.now(),
+        type: "consultation",
       };
 
       const existing = JSON.parse(
@@ -54,7 +45,16 @@ const ConsultationModal = () => {
       existing.push(consultation);
       localStorage.setItem("consultations", JSON.stringify(existing));
 
-      toast.success("Открыто окно для отправки заявки в Яндекс.Бизнес");
+      // Формируем ссылку для WhatsApp
+      const message = `Заявка на консультацию:
+Имя: ${formData.name}
+Телефон: ${formData.phone}
+Вопрос: ${formData.question || "Не указан"}`;
+
+      const whatsappUrl = `https://wa.me/79999999999?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, "_blank");
+
+      toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время");
       setFormData({ name: "", phone: "", question: "" });
       consultationModal.close();
     } catch (error) {
