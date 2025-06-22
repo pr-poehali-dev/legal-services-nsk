@@ -1,9 +1,6 @@
 import Icon from "@/components/ui/icon";
-import { Button } from "@/components/ui/button";
-import { useModal } from "@/hooks/useModal";
 
 const Practice = () => {
-  const { openModal } = useModal();
   const practices = [
     {
       icon: "Gavel",
@@ -100,14 +97,6 @@ const Practice = () => {
                   </div>
                 </div>
               </div>
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90"
-                onClick={openModal}
-              >
-                <Icon name="Calendar" className="h-5 w-5 mr-2" />
-                Записаться на консультацию
-              </Button>
             </div>
             <div className="space-y-4">
               <div className="bg-primary/10 rounded-xl p-6 text-center">

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -6,111 +7,149 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
-import { useState } from "react";
+import { toast } from "sonner";
 
 const PopupModal = () => {
-  const { isOpen, closeModal } = useModal();
+  const { isOpen, closeModal, openModal } = useModal();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: "",
-    message: "",
+    question: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь можно добавить логику отправки формы
-    console.log("Форма отправлена:", formData);
-    closeModal();
-    // Показываем уведомление об успешной отправке
-    alert("Спасибо! Мы свяжемся с вами в ближайшее время.");
+
+    if (!formData.name || !formData.phone) {
+      toast.error("Заполните обязательные поля");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Сохраняем заявку локально
+      const consultation = {
+        ...formData,
+        date: new Date().toISOString(),
+        id: Date.now(),
+      };
+
+      const existing = JSON.parse(
+        localStorage.getItem("consultations") || "[]",
+      );
+      existing.push(consultation);
+      localStorage.setItem("consultations", JSON.stringify(existing));
+
+      toast.success(
+        "Заявка отправлена! Мы свяжемся с вами в течение 30 минут.",
+      );
+      setFormData({ name: "", phone: "", question: "" });
+      closeModal();
+    } catch (error) {
+      toast.error("Ошибка отправки. Попробуйте еще раз.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      openModal();
+    }, 30000); // 30 seconds
+
+    return () => clearTimeout(timer);
+  }, [openModal]);
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
-            <Icon name="Calendar" className="h-5 w-5 text-primary" />
+            <Icon name="Scale" className="h-6 w-6 text-primary" />
             <span>Бесплатная консультация</span>
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Имя *</label>
-            <Input
-              name="name"
-              placeholder="Ваше имя"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-            />
+        <div className="space-y-6">
+          <div className="text-center space-y-3">
+            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
+              <Icon name="Gift" className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-lg font-semibold">
+              Получите консультацию юриста бесплатно!
+            </h3>
+            <p className="text-muted-foreground text-sm">
+              Оставьте заявку и получите профессиональную консультацию по вашему
+              вопросу в течение 30 минут
+            </p>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Телефон *</label>
-            <Input
-              name="phone"
-              placeholder="+7 (___) ___-__-__"
-              value={formData.phone}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Input
+                placeholder="Ваше имя *"
+                value={formData.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Input
+                placeholder="Номер телефона *"
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Input
+                placeholder="Кратко о вашем вопросе"
+                value={formData.question}
+                onChange={(e) => handleInputChange("question", e.target.value)}
+              />
+            </div>
+          </form>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Email</label>
-            <Input
-              name="email"
-              type="email"
-              placeholder="your@email.com"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Ваш вопрос</label>
-            <Textarea
-              name="message"
-              placeholder="Кратко опишите вашу ситуацию..."
-              className="min-h-[80px]"
-              value={formData.message}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="flex space-x-2">
+          <div className="space-y-4">
             <Button
-              type="submit"
-              className="flex-1 bg-primary hover:bg-primary/90"
+              className="w-full bg-primary hover:bg-primary/90"
+              size="lg"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
             >
-              <Icon name="Send" className="h-4 w-4 mr-2" />
-              Отправить
-            </Button>
-            <Button type="button" variant="outline" onClick={closeModal}>
-              Отмена
+              <Icon name="Phone" className="h-5 w-5 mr-2" />
+              {isSubmitting ? "Отправляем..." : "Получить консультацию"}
             </Button>
           </div>
 
-          <p className="text-xs text-muted-foreground text-center">
-            <Icon name="Shield" className="h-3 w-3 inline mr-1" />
-            Ваши данные защищены
-          </p>
-        </form>
+          <div className="text-center text-xs text-muted-foreground">
+            Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+          </div>
+
+          <div className="flex items-center justify-center space-x-4 text-sm text-muted-foreground">
+            <div className="flex items-center space-x-1">
+              <Icon name="Clock" className="h-4 w-4" />
+              <span>Быстро</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Icon name="Shield" className="h-4 w-4" />
+              <span>Конфиденциально</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Icon name="Gift" className="h-4 w-4" />
+              <span>Бесплатно</span>
+            </div>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
