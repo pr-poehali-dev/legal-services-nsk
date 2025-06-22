@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Home from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 import PopupModal from "@/components/PopupModal";
+import ConsultationModal from "@/components/ConsultationModal";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             </Routes>
           </main>
           <PopupModal />
+          <ConsultationModal />
         </div>
       </Router>
     </ModalProvider>

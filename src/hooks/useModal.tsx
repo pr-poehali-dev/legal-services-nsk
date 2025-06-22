@@ -4,6 +4,11 @@ interface ModalContextType {
   isOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
+  consultationModal: {
+    isOpen: boolean;
+    open: () => void;
+    close: () => void;
+  };
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -18,12 +23,26 @@ export const useModal = () => {
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [consultationIsOpen, setConsultationIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
+  const consultationModal = {
+    isOpen: consultationIsOpen,
+    open: () => setConsultationIsOpen(true),
+    close: () => setConsultationIsOpen(false),
+  };
+
   return (
-    <ModalContext.Provider value={{ isOpen, openModal, closeModal }}>
+    <ModalContext.Provider
+      value={{
+        isOpen,
+        openModal,
+        closeModal,
+        consultationModal,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );

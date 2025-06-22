@@ -147,7 +147,15 @@ const ServiceModal = ({ service, isOpen, onClose }: ServiceModalProps) => {
           </div>
 
           <div className="flex space-x-3 pt-4">
-            <Button size="lg" className="flex-1">
+            <Button
+              size="lg"
+              className="flex-1"
+              onClick={() => {
+                const { consultationModal } =
+                  require("@/hooks/useModal").useModal();
+                consultationModal.open();
+              }}
+            >
               <Icon name="Calendar" className="h-5 w-5 mr-2" />
               Записаться на консультацию
             </Button>
