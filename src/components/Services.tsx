@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useState } from "react";
 import ServiceModal from "./ServiceModal";
+import { useModal } from "@/hooks/useModal";
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState<any>(null);
+  const consultationModal = useModal();
 
   const services = [
     {
@@ -109,7 +111,11 @@ const Services = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button size="lg" className="bg-primary hover:bg-primary/90">
+          <Button
+            size="lg"
+            className="bg-primary hover:bg-primary/90"
+            onClick={() => consultationModal.open()}
+          >
             <Icon name="Calendar" className="h-5 w-5 mr-2" />
             Записаться на консультацию
           </Button>
