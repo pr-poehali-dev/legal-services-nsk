@@ -31,20 +31,19 @@ const ConsultationModal = () => {
     setIsSubmitting(true);
 
     try {
-      // Отправляем данные на API
+      // Отправляем уведомление через Green API
+      const message = `🆕 Новая заявка на консультацию\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n❓ Вопрос: ${formData.question || "Не указан"}\n⏰ Время: ${new Date().toLocaleString("ru-RU")}`;
+
       const response = await fetch(
-        `https://api.example.com/leads/c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e`,
+        `https://1103.api.green-api.com/waInstance1103279953/sendMessage/c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: formData.name,
-            phone: formData.phone,
-            question: formData.question,
-            type: "consultation",
-            timestamp: new Date().toISOString(),
+            chatId: "79999999999@c.us", // замените на ваш номер
+            message: message,
           }),
         },
       );
