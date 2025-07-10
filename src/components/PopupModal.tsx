@@ -31,28 +31,27 @@ const PopupModal = () => {
     setIsSubmitting(true);
 
     try {
-      // Сохраняем заявку локально
-      const consultation = {
-        ...formData,
-        date: new Date().toISOString(),
-        id: Date.now(),
-        type: "popup",
-      };
-
-      const existing = JSON.parse(
-        localStorage.getItem("consultations") || "[]",
+      // Отправляем данные на API
+      const response = await fetch(
+        `https://api.example.com/leads/c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            question: formData.question,
+            type: "popup",
+            timestamp: new Date().toISOString(),
+          }),
+        },
       );
-      existing.push(consultation);
-      localStorage.setItem("consultations", JSON.stringify(existing));
 
-      // Формируем ссылку для WhatsApp
-      const message = `Заявка на бесплатную консультацию:
-Имя: ${formData.name}
-Телефон: ${formData.phone}
-Вопрос: ${formData.question || "Не указан"}`;
-
-      const whatsappUrl = `https://wa.me/79999999999?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, "_blank");
+      if (!response.ok) {
+        throw new Error("Ошибка отправки");
+      }
 
       toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время");
       setFormData({ name: "", phone: "", question: "" });
