@@ -42,7 +42,7 @@ const PopupModal = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            chatId: "79999999999@c.us", // замените на ваш номер
+            chatId: "79994523500@c.us",
             message: message,
           }),
         },
