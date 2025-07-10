@@ -104,7 +104,7 @@ const Footer = () => {
               <div className="flex items-start space-x-2">
                 <Icon name="MapPin" className="h-4 w-4 mt-0.5" />
                 <span className="text-sm">
-                  г. Новосибирск, ул. Красный проспект, д. 50
+                  г. Новосибирск, ул. Ленина, д.3, офис 323
                 </span>
               </div>
             </div>
