@@ -8,6 +8,7 @@ const Hero = () => {
     <section
       id="home"
       className="pt-20 pb-16 bg-gradient-to-br from-background to-secondary/30"
+      role="banner"
     >
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -39,7 +40,12 @@ const Hero = () => {
               </Button>
               <Button variant="outline" size="lg">
                 <Icon name="FileText" className="h-5 w-5 mr-2" />
-                Наши услуги
+                <a
+                  href="#services"
+                  className="w-full h-full flex items-center justify-center"
+                >
+                  Наши услуги
+                </a>
               </Button>
             </div>
 
@@ -68,9 +74,12 @@ const Hero = () => {
           <div className="relative">
             <div className="aspect-square lg:aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
               <img
-                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=750&fit=crop"
-                alt="Профессиональный юрист в Новосибирске"
+                src="/img/44535199-aa32-4b9a-9bbf-4b7dfb3075bf.jpg"
+                alt="Профессиональный юрист в Новосибирске - консультация в офисе ЮрСервис НСК"
                 className="w-full h-full object-cover brightness-75"
+                loading="eager"
+                width="600"
+                height="750"
               />
               <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                 <div className="text-center text-white px-6">

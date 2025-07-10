@@ -67,10 +67,18 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-background">
+    <section
+      id="services"
+      className="py-20 bg-background"
+      role="main"
+      aria-labelledby="services-heading"
+    >
       <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+          <h2
+            id="services-heading"
+            className="text-3xl lg:text-4xl font-bold text-foreground"
+          >
             Наши услуги
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
