@@ -26,17 +26,7 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))',
-					50: 'hsl(var(--primary-50))',
-					100: 'hsl(var(--primary-100))',
-					200: 'hsl(var(--primary-200))',
-					300: 'hsl(var(--primary-300))',
-					400: 'hsl(var(--primary-400))',
-					500: 'hsl(var(--primary))',
-					600: 'hsl(var(--primary-600))',
-					700: 'hsl(var(--primary-700))',
-					800: 'hsl(var(--primary-800))',
-					900: 'hsl(var(--primary-900))'
+					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -62,18 +52,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				success: {
-					DEFAULT: 'hsl(var(--success))',
-					foreground: 'hsl(var(--success-foreground))'
-				},
-				warning: {
-					DEFAULT: 'hsl(var(--warning))',
-					foreground: 'hsl(var(--warning-foreground))'
-				},
-				gold: {
-					DEFAULT: 'hsl(var(--gold))',
-					foreground: 'hsl(var(--gold-foreground))'
-				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -83,13 +61,6 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				},
-				glass: {
-					DEFAULT: 'rgba(255, 255, 255, 0.08)',
-					secondary: 'rgba(255, 255, 255, 0.05)',
-					border: 'rgba(255, 255, 255, 0.15)',
-					dark: 'rgba(0, 0, 0, 0.08)',
-					darkBorder: 'rgba(0, 0, 0, 0.15)'
 				}
 			},
 			borderRadius: {
