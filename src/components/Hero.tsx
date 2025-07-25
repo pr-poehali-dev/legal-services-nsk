@@ -22,11 +22,7 @@ const Hero = () => {
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                 Профессиональная юридическая помощь в Новосибирске
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Более 10 лет успешной практики. Защищаю права и интересы граждан
-                и предприятий. Индивидуальный подход к каждому клиенту и
-                гарантия результата.
-              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed">Более 2 лет успешной практики. Защищаю права и интересы граждан и предприятий. Индивидуальный подход к каждому клиенту и гарантия результата.</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
