@@ -106,7 +106,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                 <div className="text-center text-white px-6">
                   <h3 className="text-2xl lg:text-3xl font-bold mb-2 drop-shadow-lg">
-                    Ваша защита —
+                    Доверьте нам свои права —
                   </h3>
                   <p className="text-xl lg:text-2xl font-semibold drop-shadow-lg">
                     моя профессия
