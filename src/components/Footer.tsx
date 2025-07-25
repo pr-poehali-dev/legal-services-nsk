@@ -7,9 +7,11 @@ const Footer = () => {
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Icon name="Scale" className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center shadow-lg">
+                <Icon name="Scale" className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 ЮрСервис НСК
               </span>
             </div>
@@ -32,7 +34,7 @@ const Footer = () => {
 
           {/* Services */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Услуги</h3>
+            <h3 className="font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Услуги</h3>
             <ul className="space-y-2 text-muted-foreground">
               <li>
                 <a href="#" className="hover:text-primary">
@@ -64,7 +66,7 @@ const Footer = () => {
 
           {/* Practice Areas */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Практика</h3>
+            <h3 className="font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Практика</h3>
             <ul className="space-y-2 text-muted-foreground">
               <li>
                 <a href="#" className="hover:text-primary">
@@ -91,7 +93,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Контакты</h3>
+            <h3 className="font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Контакты</h3>
             <div className="space-y-2 text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Icon name="Phone" className="h-4 w-4" />

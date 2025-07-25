@@ -77,9 +77,11 @@ const Services = () => {
         <div className="text-center space-y-4 mb-16">
           <h2
             id="services-heading"
-            className="text-3xl lg:text-4xl font-bold text-foreground"
+            className="text-3xl lg:text-4xl font-bold"
           >
-            Наши услуги
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Наши услуги
+            </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Предоставляем полный спектр юридических услуг для физических лиц и
@@ -91,23 +93,31 @@ const Services = () => {
           {services.map((service, index) => (
             <Card
               key={index}
-              className="hover:shadow-lg transition-shadow duration-300 border-border"
+              className="group relative overflow-hidden border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 bg-gradient-to-br from-card to-card/80 backdrop-blur-sm"
             >
-              <CardHeader className="space-y-4 pb-4">
-                <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-                  <Icon name={service.icon} className="h-6 w-6 text-primary" />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br from-primary to-accent"></div>
+              
+              <CardHeader className="space-y-4 pb-4 relative z-10">
+                <div className="w-14 h-14 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <Icon name={service.icon} className="h-7 w-7 text-primary group-hover:text-accent transition-colors duration-300" />
                 </div>
-                <CardTitle className="text-xl">{service.title}</CardTitle>
+                <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
+                  {service.title}
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">{service.description}</p>
+              <CardContent className="space-y-4 relative z-10">
+                <p className="text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300">
+                  {service.description}
+                </p>
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-lg font-semibold text-primary">
+                  <span className="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                     {service.price}
                   </span>
                   <Button
                     variant="outline"
                     size="sm"
+                    className="border-primary/20 hover:border-primary hover:bg-primary/5 transition-all duration-300 group-hover:shadow-md"
                     onClick={() => setSelectedService(service)}
                   >
                     Подробнее
@@ -118,10 +128,10 @@ const Services = () => {
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <Button
             size="lg"
-            className="bg-primary hover:bg-primary/90"
+            className="bg-gradient-to-r from-primary to-accent hover:from-primary-600 hover:to-accent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 px-8 py-6 text-lg"
             onClick={() => consultationModal.open()}
           >
             <Icon name="Calendar" className="h-5 w-5 mr-2" />

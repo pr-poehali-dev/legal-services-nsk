@@ -21,9 +21,11 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Icon name="Scale" className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center shadow-lg">
+              <Icon name="Scale" className="h-6 w-6 text-white" />
+            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               ЮрСервис НСК
             </span>
           </div>
@@ -44,9 +46,10 @@ const Header = () => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Button
-              className="bg-primary hover:bg-primary/90"
+              className="bg-gradient-to-r from-primary to-accent hover:from-primary-600 hover:to-accent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
               onClick={openModal}
             >
+              <Icon name="Phone" className="h-4 w-4 mr-2" />
               Консультация
             </Button>
           </div>
@@ -75,9 +78,10 @@ const Header = () => {
                 </a>
               ))}
               <Button
-                className="mt-4 w-full bg-primary hover:bg-primary/90"
+                className="mt-4 w-full bg-gradient-to-r from-primary to-accent hover:from-primary-600 hover:to-accent shadow-lg transition-all duration-300"
                 onClick={openModal}
               >
+                <Icon name="Phone" className="h-4 w-4 mr-2" />
                 Консультация
               </Button>
             </nav>
