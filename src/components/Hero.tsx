@@ -42,7 +42,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="frosted-glass shadow-glass hover:shadow-elegant text-foreground hover:text-accent transition-all duration-500 hover:scale-105 hover:-translate-y-1"
+                className="bg-accent hover:bg-accent/90 text-primary font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 onClick={openModal}
               >
                 <Icon name="Phone" className="h-5 w-5 mr-2" />

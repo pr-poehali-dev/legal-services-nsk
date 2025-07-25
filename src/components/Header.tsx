@@ -46,7 +46,7 @@ const Header = () => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Button
-              className="frosted-glass hover:shadow-glass text-foreground hover:text-accent transition-all duration-500 hover:scale-105"
+              className="bg-accent/90 hover:bg-accent text-foreground font-semibold border border-accent/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               onClick={openModal}
             >
               <Icon name="Phone" className="h-4 w-4 mr-2" />
@@ -78,7 +78,7 @@ const Header = () => {
                 </a>
               ))}
               <Button
-                className="mt-4 w-full frosted-glass hover:shadow-glass text-foreground hover:text-accent transition-all duration-500"
+                className="mt-4 w-full bg-accent/90 hover:bg-accent text-foreground font-semibold border border-accent/30 shadow-lg hover:shadow-xl transition-all duration-300"
                 onClick={openModal}
               >
                 <Icon name="Phone" className="h-4 w-4 mr-2" />
