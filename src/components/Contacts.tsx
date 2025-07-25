@@ -52,7 +52,7 @@ ${formData.message}
 ⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
 
       // Отправляем в WhatsApp (номер без +7)
-      const whatsappNumber = "79139999999"; // Замените на ваш номер
+      const whatsappNumber = "79994523500";
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
       
       // Открываем WhatsApp
