@@ -10,17 +10,17 @@ const Hero = () => {
       className="relative pt-20 pb-16 overflow-hidden"
       role="banner"
     >
-      {/* Background with animated gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-background to-accent/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-from)_0%,_transparent_50%)] from-primary-100/20"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+      {/* Background with glassmorphism effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-50/30 via-background to-accent/5">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(210,180,140,0.1)_0%,_transparent_50%)]"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
       </div>
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-medium">
+              <div className="inline-flex items-center px-4 py-2 rounded-full frosted-glass shadow-glass text-accent text-sm font-medium">
                 <Icon name="MapPin" className="h-4 w-4 mr-2" />
                 Новосибирск
               </div>
@@ -42,7 +42,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-primary to-primary-600 hover:from-primary-600 hover:to-primary-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                className="frosted-glass shadow-glass hover:shadow-elegant text-foreground hover:text-accent transition-all duration-500 hover:scale-105 hover:-translate-y-1"
                 onClick={openModal}
               >
                 <Icon name="Phone" className="h-5 w-5 mr-2" />
@@ -51,7 +51,7 @@ const Hero = () => {
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-2 border-primary/20 hover:border-primary hover:bg-primary/5 transition-all duration-300"
+                className="glass-card border-2 border-accent/30 hover:border-accent hover:shadow-glass transition-all duration-500"
               >
                 <Icon name="FileText" className="h-5 w-5 mr-2" />
                 <a
@@ -66,7 +66,7 @@ const Hero = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center group">
-                <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl font-bold gradient-text group-hover:scale-110 transition-transform duration-500">
                   500+
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
@@ -74,7 +74,7 @@ const Hero = () => {
                 </div>
               </div>
               <div className="text-center group">
-                <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl font-bold gradient-text group-hover:scale-110 transition-transform duration-500">
                   10+
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
@@ -82,7 +82,7 @@ const Hero = () => {
                 </div>
               </div>
               <div className="text-center group">
-                <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl font-bold gradient-text group-hover:scale-110 transition-transform duration-500">
                   98%
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
@@ -114,13 +114,13 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-card/80 backdrop-blur-sm border border-border rounded-xl p-4 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:-translate-y-1">
+            <div className="absolute -bottom-6 -left-6 frosted-glass rounded-xl p-4 shadow-glass hover:shadow-elegant transition-all duration-500 hover:-translate-y-1">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
-                  <Icon name="Award" className="h-6 w-6 text-primary" />
+                <div className="w-12 h-12 glass-card rounded-full flex items-center justify-center">
+                  <Icon name="Award" className="h-6 w-6 text-accent" />
                 </div>
                 <div>
-                  <div className="font-semibold text-sm bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  <div className="font-semibold text-sm gradient-text">
                     Лицензированный адвокат
                   </div>
                   <div className="text-xs text-muted-foreground">
