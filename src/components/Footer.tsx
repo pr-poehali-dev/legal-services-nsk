@@ -13,10 +13,7 @@ const Footer = () => {
                 ЮрСервис НСК
               </span>
             </div>
-            <p className="text-muted-foreground">
-              Профессиональные юридические услуги в Новосибирске. Защищаем ваши
-              права и интересы с 2014 года.
-            </p>
+            <p className="text-muted-foreground">Профессиональные юридические услуги в Новосибирске. Защищаем ваши права и интересы с 2024 года.</p>
             <div className="flex space-x-4">
               <a href="#" className="text-muted-foreground hover:text-primary">
                 <Icon name="Phone" className="h-5 w-5" />
