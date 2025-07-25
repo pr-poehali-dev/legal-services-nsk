@@ -37,9 +37,28 @@ const Contacts = () => {
 
     setIsLoading(true);
     
-    // Имитация отправки формы
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Формируем сообщение для WhatsApp
+      const whatsappMessage = `🔔 Новая заявка с сайта ЮрСервис НСК
+
+👤 Имя: ${formData.name}
+📞 Телефон: ${formData.phone}
+${formData.email ? `📧 Email: ${formData.email}` : ''}
+${formData.subject ? `📋 Тема: ${formData.subject}` : ''}
+
+💬 Сообщение:
+${formData.message}
+
+⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+
+      // Отправляем в WhatsApp (номер без +7)
+      const whatsappNumber = "79139999999"; // Замените на ваш номер
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+      
+      // Открываем WhatsApp
+      window.open(whatsappUrl, '_blank');
+      
+      // Показываем успешное сообщение
       setIsSubmitted(true);
       setFormData({
         name: "",
@@ -160,9 +179,9 @@ const Contacts = () => {
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                   <div className="flex items-center space-x-2 text-green-800">
                     <Icon name="CheckCircle" className="h-5 w-5" />
-                    <span className="font-medium">Сообщение отправлено!</span>
+                    <span className="font-medium">Сообщение отправлено в WhatsApp!</span>
                   </div>
-                  <p className="text-green-600 text-sm mt-1">Мы свяжемся с вами в течение часа</p>
+                  <p className="text-green-600 text-sm mt-1">Мы получили вашу заявку и свяжемся с вами в ближайшее время</p>
                 </div>
               )}
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -190,7 +209,7 @@ const Contacts = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Email</label>
+                  <label className="text-sm font-medium">Email (необязательно)</label>
                   <Input 
                     name="email"
                     type="email" 
