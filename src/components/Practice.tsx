@@ -67,9 +67,7 @@ const Practice = () => {
                   />
                   <div>
                     <div className="font-semibold">Многолетний опыт</div>
-                    <div className="text-sm text-muted-foreground">
-                      Более 10 лет успешной практики
-                    </div>
+                    <div className="text-sm text-muted-foreground">Более 2 лет успешной практики</div>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
