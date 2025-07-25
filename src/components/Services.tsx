@@ -7,7 +7,7 @@ import { useModal } from "@/hooks/useModal";
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState<any>(null);
-  const consultationModal = useModal();
+  const { consultationModal } = useModal();
 
   const services = [
     {
