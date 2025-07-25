@@ -64,7 +64,7 @@ const Cases = () => {
           {cases.map((case_, index) => (
             <Card
               key={index}
-              className="glass-card hover:glass-strong transition-all duration-300"
+              className="border-border hover:shadow-lg transition-shadow duration-300"
             >
               <CardHeader className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -81,7 +81,7 @@ const Cases = () => {
                 <p className="text-muted-foreground text-sm">
                   {case_.description}
                 </p>
-                <div className="inline-flex items-center px-3 py-1 rounded-full glass text-primary text-sm font-medium">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
                   <Icon name="CheckCircle" className="h-4 w-4 mr-1" />
                   {case_.result}
                 </div>
@@ -100,7 +100,7 @@ const Cases = () => {
 
         <div className="grid lg:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="glass-card">
+            <Card key={index} className="border-border">
               <CardContent className="p-6 space-y-4">
                 <div className="flex space-x-1">
                   {[...Array(testimonial.rating)].map((_, i) => (

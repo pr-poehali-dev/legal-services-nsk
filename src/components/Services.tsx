@@ -91,7 +91,7 @@ const Services = () => {
           {services.map((service, index) => (
             <Card
               key={index}
-              className="glass-card hover:glass-strong transition-all duration-300"
+              className="hover:shadow-lg transition-shadow duration-300 border-border"
             >
               <CardHeader className="space-y-4 pb-4">
                 <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
@@ -108,7 +108,6 @@ const Services = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="glass-button border-white/30 hover:bg-white/10"
                     onClick={() => setSelectedService(service)}
                   >
                     Подробнее
@@ -122,7 +121,7 @@ const Services = () => {
         <div className="text-center mt-12">
           <Button
             size="lg"
-            className="glass-button hover:bg-primary/20 border-0 text-foreground font-semibold"
+            className="bg-primary hover:bg-primary/90"
             onClick={() => consultationModal.open()}
           >
             <Icon name="Calendar" className="h-5 w-5 mr-2" />

@@ -49,7 +49,7 @@ const Contacts = () => {
           <div className="space-y-8">
             <div className="grid sm:grid-cols-2 gap-6">
               {contactInfo.map((info, index) => (
-                <Card key={index} className="glass-card">
+                <Card key={index} className="border-border">
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
@@ -82,7 +82,7 @@ const Contacts = () => {
             </div>
 
             {/* Map placeholder */}
-            <Card className="glass-card">
+            <Card className="border-border">
               <CardContent className="p-0">
                 <div className="aspect-video bg-secondary/30 rounded-lg flex items-center justify-center">
                   <div className="text-center space-y-2">
@@ -98,7 +98,7 @@ const Contacts = () => {
           </div>
 
           {/* Contact Form */}
-          <Card className="glass-card">
+          <Card className="border-border">
             <CardHeader>
               <CardTitle className="text-xl">Задать вопрос</CardTitle>
               <p className="text-muted-foreground">
@@ -147,7 +147,7 @@ const Contacts = () => {
               </div>
 
               <Button
-                className="w-full glass-button hover:bg-primary/20 border-0 text-foreground font-semibold"
+                className="w-full bg-primary hover:bg-primary/90"
                 size="lg"
               >
                 <Icon name="Send" className="h-5 w-5 mr-2" />
