@@ -83,6 +83,13 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				glass: {
+					DEFAULT: 'rgba(255, 255, 255, 0.08)',
+					secondary: 'rgba(255, 255, 255, 0.05)',
+					border: 'rgba(255, 255, 255, 0.15)',
+					dark: 'rgba(0, 0, 0, 0.08)',
+					darkBorder: 'rgba(0, 0, 0, 0.15)'
 				}
 			},
 			borderRadius: {
