@@ -176,12 +176,12 @@ ${formData.message}
             </CardHeader>
             <CardContent className="space-y-6">
               {isSubmitted && (
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <div className="flex items-center space-x-2 text-green-800">
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <div className="flex items-center space-x-2 text-amber-800">
                     <Icon name="CheckCircle" className="h-5 w-5" />
                     <span className="font-medium">Сообщение отправлено в WhatsApp!</span>
                   </div>
-                  <p className="text-green-600 text-sm mt-1">Мы получили вашу заявку и свяжемся с вами в ближайшее время</p>
+                  <p className="text-amber-600 text-sm mt-1">Мы получили вашу заявку и свяжемся с вами в ближайшее время</p>
                 </div>
               )}
               <form onSubmit={handleSubmit} className="space-y-6">
