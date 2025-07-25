@@ -15,7 +15,7 @@ const Hero = () => {
           {/* Content */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-medium">
+              <div className="inline-flex items-center px-3 py-1 rounded-full glass text-primary text-sm font-medium">
                 <Icon name="MapPin" className="h-4 w-4 mr-2" />
                 Новосибирск
               </div>
@@ -28,13 +28,13 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90"
+                className="glass-button hover:bg-primary/20 border-0 text-foreground font-semibold"
                 onClick={openModal}
               >
                 <Icon name="Phone" className="h-5 w-5 mr-2" />
                 Бесплатная консультация
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" className="glass-button border-white/30 hover:bg-white/10">
                 <Icon name="FileText" className="h-5 w-5 mr-2" />
                 <a
                   href="#services"
@@ -88,7 +88,7 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-card border border-border rounded-xl p-4 shadow-lg">
+            <div className="absolute -bottom-6 -left-6 glass-card rounded-xl p-4">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
                   <Icon name="Award" className="h-6 w-6 text-primary" />
