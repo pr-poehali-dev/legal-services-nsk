@@ -5,6 +5,8 @@ import Home from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
+import ScrollToTop from "@/components/ScrollToTop";
+import SmoothScroll from "@/components/SmoothScroll";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           </main>
           <PopupModal />
           <ConsultationModal />
+          <ScrollToTop />
+          <SmoothScroll />
         </div>
       </Router>
     </ModalProvider>

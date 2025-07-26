@@ -1,13 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ServiceModal from "./ServiceModal";
 import { useModal } from "@/hooks/useModal";
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState<any>(null);
-  const consultationModal = useModal();
+  const { consultationModal } = useModal();
+  const [visibleCards, setVisibleCards] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisibleCards(new Array(services.length).fill(true));
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const services = [
     {
@@ -91,7 +99,10 @@ const Services = () => {
           {services.map((service, index) => (
             <Card
               key={index}
-              className="hover:shadow-lg transition-shadow duration-300 border-border"
+              className={`hover:shadow-lg hover:-translate-y-2 transition-all duration-500 border-border transform ${
+                visibleCards[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <CardHeader className="space-y-4 pb-4">
                 <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
