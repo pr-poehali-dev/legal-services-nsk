@@ -7,11 +7,14 @@ import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
 import PopupModal from "@/components/PopupModal";
+import SEOHead from "@/components/SEOHead";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Header />
+    <>
+      <SEOHead />
+      <div className="min-h-screen">
+        <Header />
       <Hero />
       <Services />
       <Practice />
@@ -19,8 +22,9 @@ const Index = () => {
       <Blog />
       <Contacts />
       <Footer />
-      <PopupModal />
-    </div>
+        <PopupModal />
+      </div>
+    </>
   );
 };
 

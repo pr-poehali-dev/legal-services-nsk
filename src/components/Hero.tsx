@@ -11,10 +11,10 @@ const Hero = () => {
     setIsVisible(true);
   }, []);
   return (
-    <section
+    <main
       id="home"
       className="pt-20 pb-16 bg-gradient-to-br from-background to-secondary/30"
-      role="banner"
+      role="main"
     >
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -52,15 +52,15 @@ const Hero = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8">
+            <div className="grid grid-cols-3 gap-6 pt-8" itemScope itemType="https://schema.org/Organization">
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">500+</div>
+                <div className="text-2xl font-bold text-primary" itemProp="numberOfEmployees">500+</div>
                 <div className="text-sm text-muted-foreground">
                   Выигранных дел
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">10+</div>
+                <div className="text-2xl font-bold text-primary" itemProp="foundingDate">10+</div>
                 <div className="text-sm text-muted-foreground">Лет опыта</div>
               </div>
               <div className="text-center">
@@ -82,6 +82,7 @@ const Hero = () => {
                 loading="eager"
                 width="600"
                 height="750"
+                itemProp="image"
               />
               <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                 <div className="text-center text-white px-6">
@@ -112,7 +113,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 };
 

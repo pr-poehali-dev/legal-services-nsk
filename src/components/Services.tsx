@@ -78,8 +78,10 @@ const Services = () => {
     <section
       id="services"
       className="py-20 bg-background"
-      role="main"
+      role="region"
       aria-labelledby="services-heading"
+      itemScope
+      itemType="https://schema.org/Service"
     >
       <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-16">
