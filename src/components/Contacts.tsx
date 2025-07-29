@@ -35,10 +35,10 @@ const Contacts = () => {
     setIsSubmitting(true);
 
     try {
-      // Green API настройки (замените на ваши данные)
-      const idInstance = 'YOUR_ID_INSTANCE'; // Замените на ваш ID
-      const apiTokenInstance = 'YOUR_API_TOKEN'; // Замените на ваш токен
-      const chatId = '79994523500@c.us'; // Номер получателя в формате Green API
+      // Green API настройки
+      const idInstance = '1103279953';
+      const apiTokenInstance = '****************************************************'; // Замените на ваш реальный токен
+      const chatId = '79994523500@c.us'; // Номер получателя
 
       const message = `🆕 Новое обращение с сайта:
 
@@ -52,7 +52,7 @@ ${formData.message}
 
 ⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
 
-      const response = await fetch(`https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
+      const response = await fetch(`https://1103.api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

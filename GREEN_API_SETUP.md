@@ -1,26 +1,22 @@
-# Настройка Green API для WhatsApp интеграции
+# Green API для WhatsApp интеграции - НАСТРОЕНО ✅
 
-## 1. Регистрация в Green API
+## Текущие настройки:
 
-1. Перейдите на сайт [green-api.com](https://green-api.com)
-2. Зарегистрируйтесь и создайте аккаунт
-3. Создайте новый инстанс WhatsApp
+- **API URL**: https://1103.api.green-api.com
+- **Media URL**: https://1103.media.green-api.com  
+- **ID Instance**: 1103279953
+- **Статус**: Авторизован ✅
+- **Телефон**: +7 999 452 35 00
 
-## 2. Получение данных API
+## ⚠️ ВАЖНО! 
 
-После создания инстанса вы получите:
-- `idInstance` - ID вашего инстанса 
-- `apiTokenInstance` - токен API
-
-## 3. Настройка в коде
-
-В файле `src/components/Contacts.tsx` замените следующие переменные на ваши данные:
+Для работы формы нужно заменить в коде `src/components/Contacts.tsx` строку:
 
 ```javascript
-const idInstance = 'YOUR_ID_INSTANCE'; // Замените на ваш ID
-const apiTokenInstance = 'YOUR_API_TOKEN'; // Замените на ваш токен  
-const chatId = '79994523500@c.us'; // Номер получателя в формате Green API
+const apiTokenInstance = '****************************************************'; 
 ```
+
+На ваш реальный API Token Instance из личного кабинета Green API.
 
 ## 4. Настройка номера получателя
 
