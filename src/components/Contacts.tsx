@@ -9,19 +9,19 @@ const Contacts = () => {
     {
       icon: "Phone",
       title: "Телефон",
-      value: "+7 (383) 123-45-67",
-      link: "tel:+73831234567",
+      value: "+7 (999) 452 35 00",
+      link: "tel:+79994523500",
     },
     {
       icon: "Mail",
       title: "Email",
-      value: "info@jurservice-nsk.ru",
-      link: "mailto:info@jurservice-nsk.ru",
+      value: "vituarten@icloud.com",
+      link: "mailto:vituarten@icloud.com",
     },
     {
       icon: "MapPin",
       title: "Адрес",
-      value: "г. Новосибирск, ул. Красный проспект, д. 50, оф. 301",
+      value: "г. Новосибирск, ул. Ленина, д. 3, офис 323",
       link: "#",
     },
     {
