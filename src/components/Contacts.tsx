@@ -81,17 +81,20 @@ const Contacts = () => {
               ))}
             </div>
 
-            {/* Map placeholder */}
+            {/* Yandex Map */}
             <Card className="border-border">
               <CardContent className="p-0">
-                <div className="aspect-video bg-secondary/30 rounded-lg flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <Icon
-                      name="MapPin"
-                      className="h-12 w-12 text-primary mx-auto"
-                    />
-                    <div className="text-muted-foreground">Карта офиса</div>
-                  </div>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <iframe
+                    src="https://yandex.ru/map-widget/v1/?ll=82.920430%2C55.030204&z=11&l=map&pt=82.920430%2C55.030204,pm2rdm"
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    style={{ minHeight: '300px' }}
+                    title="Карта офиса в Новосибирске"
+                    loading="lazy"
+                    allowFullScreen
+                  />
                 </div>
               </CardContent>
             </Card>
