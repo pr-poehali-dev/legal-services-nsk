@@ -3,8 +3,87 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 const Contacts = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    subject: '',
+    message: '',
+    consent: false
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const sendToWhatsApp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.phone || !formData.message || !formData.consent) {
+      alert('Пожалуйста, заполните все обязательные поля и дайте согласие на обработку данных');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Green API настройки (замените на ваши данные)
+      const idInstance = 'YOUR_ID_INSTANCE'; // Замените на ваш ID
+      const apiTokenInstance = 'YOUR_API_TOKEN'; // Замените на ваш токен
+      const chatId = '79994523500@c.us'; // Номер получателя в формате Green API
+
+      const message = `🆕 Новое обращение с сайта:
+
+👤 Имя: ${formData.name}
+📞 Телефон: ${formData.phone}
+${formData.email ? `📧 Email: ${formData.email}` : ''}
+${formData.subject ? `📋 Тема: ${formData.subject}` : ''}
+
+💬 Сообщение:
+${formData.message}
+
+⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+
+      const response = await fetch(`https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chatId: chatId,
+          message: message
+        })
+      });
+
+      if (response.ok) {
+        alert('Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.');
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          subject: '',
+          message: '',
+          consent: false
+        });
+      } else {
+        throw new Error('Ошибка при отправке');
+      }
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      alert('Произошла ошибка при отправке сообщения. Попробуйте позвонить нам напрямую.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const contactInfo = [
     {
       icon: "Phone",
@@ -109,58 +188,106 @@ const Contacts = () => {
               </p>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Имя *</label>
-                  <Input placeholder="Ваше имя" />
+              <form onSubmit={sendToWhatsApp} className="space-y-6">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Имя *</label>
+                    <Input 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Ваше имя" 
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Телефон *</label>
+                    <Input 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+7 (___) ___-__-__" 
+                      required
+                    />
+                  </div>
                 </div>
+
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Телефон *</label>
-                  <Input placeholder="+7 (___) ___-__-__" />
+                  <label className="text-sm font-medium">Email</label>
+                  <Input 
+                    name="email"
+                    type="email" 
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="your@email.com" 
+                  />
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Email</label>
-                <Input type="email" placeholder="your@email.com" />
-              </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Тема обращения</label>
+                  <Input 
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    placeholder="Кратко опишите тему вопроса" 
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Тема обращения</label>
-                <Input placeholder="Кратко опишите тему вопроса" />
-              </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Сообщение *</label>
+                  <Textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Подробно опишите вашу ситуацию или вопрос..."
+                    className="min-h-[120px]"
+                    required
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Сообщение *</label>
-                <Textarea
-                  placeholder="Подробно опишите вашу ситуацию или вопрос..."
-                  className="min-h-[120px]"
-                />
-              </div>
+                <div className="flex items-start space-x-2">
+                  <input 
+                    type="checkbox" 
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleInputChange}
+                    className="mt-1" 
+                    id="consent" 
+                    required
+                  />
+                  <label
+                    htmlFor="consent"
+                    className="text-sm text-muted-foreground"
+                  >
+                    Я согласен на обработку персональных данных в соответствии с
+                    политикой конфиденциальности
+                  </label>
+                </div>
 
-              <div className="flex items-start space-x-2">
-                <input type="checkbox" className="mt-1" id="consent" />
-                <label
-                  htmlFor="consent"
-                  className="text-sm text-muted-foreground"
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary hover:bg-primary/90"
+                  size="lg"
                 >
-                  Я согласен на обработку персональных данных в соответствии с
-                  политикой конфиденциальности
-                </label>
-              </div>
+                  {isSubmitting ? (
+                    <>
+                      <Icon name="Loader2" className="h-5 w-5 mr-2 animate-spin" />
+                      Отправляем...
+                    </>
+                  ) : (
+                    <>
+                      <Icon name="Send" className="h-5 w-5 mr-2" />
+                      Отправить сообщение
+                    </>
+                  )}
+                </Button>
 
-              <Button
-                className="w-full bg-primary hover:bg-primary/90"
-                size="lg"
-              >
-                <Icon name="Send" className="h-5 w-5 mr-2" />
-                Отправить сообщение
-              </Button>
-
-              <div className="text-center text-sm text-muted-foreground">
-                <Icon name="Shield" className="h-4 w-4 inline mr-1" />
-                Ваши данные защищены и не передаются третьим лицам
-              </div>
+                <div className="text-center text-sm text-muted-foreground">
+                  <Icon name="Shield" className="h-4 w-4 inline mr-1" />
+                  Ваши данные защищены и не передаются третьим лицам
+                </div>
+              </form>
             </CardContent>
           </Card>
         </div>
