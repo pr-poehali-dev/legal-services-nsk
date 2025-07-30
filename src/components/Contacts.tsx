@@ -3,8 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
-import PrivacyPolicy from "./PrivacyPolicy";
-import { dataStorage } from "@/utils/dataStorage";
 import { useState } from "react";
 
 const Contacts = () => {
@@ -17,7 +15,6 @@ const Contacts = () => {
     consent: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -38,15 +35,6 @@ const Contacts = () => {
     setIsSubmitting(true);
 
     try {
-      // Сохраняем данные клиента
-      const clientId = dataStorage.saveClientData({
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        message: `${formData.subject ? formData.subject + ': ' : ''}${formData.message}`,
-        source: 'contact_form'
-      });
-
       // Green API настройки
       const idInstance = '1103279953';
       const apiTokenInstance = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e';
@@ -76,8 +64,6 @@ ${formData.message}
       });
 
       if (response.ok) {
-        // Обновляем статус данных клиента
-        dataStorage.updateStatus(clientId, 'processed');
         alert('Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.');
         setFormData({
           name: '',
@@ -273,14 +259,8 @@ ${formData.message}
                     htmlFor="consent"
                     className="text-sm text-muted-foreground"
                   >
-                    Я согласен на обработку персональных данных в соответствии с{' '}
-                    <button
-                      type="button"
-                      onClick={() => setIsPrivacyOpen(true)}
-                      className="text-primary hover:underline"
-                    >
-                      политикой конфиденциальности
-                    </button>
+                    Я согласен на обработку персональных данных в соответствии с
+                    политикой конфиденциальности
                   </label>
                 </div>
 
@@ -312,11 +292,6 @@ ${formData.message}
           </Card>
         </div>
       </div>
-      
-      <PrivacyPolicy 
-        isOpen={isPrivacyOpen} 
-        onClose={() => setIsPrivacyOpen(false)} 
-      />
     </section>
   );
 };
