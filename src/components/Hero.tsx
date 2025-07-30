@@ -61,7 +61,7 @@ const Hero = () => {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary" itemProp="foundingDate">2+</div>
-                <div className="text-sm text-muted-foreground">Лет опыта</div>
+                <div className="text-sm text-muted-foreground">года опыта</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">98%</div>
