@@ -4,24 +4,58 @@ Allow: /
 # Sitemap
 Sitemap: https://jurservice-nsk.ru/sitemap.xml
 
-# Crawl-delay
-Crawl-delay: 1
+# Основные страницы
+Allow: /
+Allow: /services
+Allow: /about
+Allow: /contacts
+Allow: /blog
+Allow: /cases
 
-# Disallow admin areas
+# Политика конфиденциальности
+Allow: /privacy-policy
+
+# Медиа файлы и ресурсы
+Allow: /images/
+Allow: /assets/
+Allow: /img/
+
+# Запрещенные разделы
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /login/
 Disallow: /register/
+Disallow: /api/
+Disallow: /private/
+Disallow: /.env
+Disallow: /package.json
+Disallow: /src/
+Disallow: /node_modules/
 
-# Allow important pages
+# Поисковые системы
+User-agent: Googlebot
 Allow: /
-Allow: /services
-Allow: /about
-Allow: /contact
-Allow: /cases
-Allow: /blog
 
-# Clean URLs
+User-agent: Yandex
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Ограничения для агрессивных ботов
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+# Общая задержка между запросами
+Crawl-delay: 1
+
+# Очистка URL параметров для аналитики
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
 Clean-param: fbclid&gclid&yclid
 Clean-param: _ga&_gid&_gac
