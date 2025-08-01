@@ -28,7 +28,7 @@ const Hero = () => {
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                 Профессиональная юридическая помощь в Новосибирске
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">Более 2 лет успешной практики. Защищаю права и интересы граждан и предприятий. Индивидуальный подход к каждому клиенту и гарантия результата.</p>
+              <p className="text-lg text-muted-foreground leading-relaxed">Более 10 лет успешной практики. Защищаю права и интересы граждан и предприятий. Индивидуальный подход к каждому клиенту и гарантия результата.</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -60,8 +60,8 @@ const Hero = () => {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary" itemProp="foundingDate">2+</div>
-                <div className="text-sm text-muted-foreground">года опыта</div>
+                <div className="text-2xl font-bold text-primary" itemProp="foundingDate">10 +</div>
+                <div className="text-sm text-muted-foreground">лет опыта</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">98%</div>
