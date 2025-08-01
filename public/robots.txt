@@ -1,3 +1,6 @@
+# Robots.txt for юридический-сервис.рф
+# Юрист по гражданским делам в Новосибирске
+
 User-agent: *
 Allow: /
 
@@ -25,3 +28,12 @@ Allow: /blog
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
 Clean-param: fbclid&gclid&yclid
 Clean-param: _ga&_gid&_gac
+
+# Yandex
+User-agent: Yandex
+Host: https://юридический-сервис.рф
+Crawl-delay: 1.5
+
+# Google
+User-agent: Googlebot
+Crawl-delay: 1

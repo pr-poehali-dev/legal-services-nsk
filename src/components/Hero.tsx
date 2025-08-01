@@ -26,9 +26,9 @@ const Hero = () => {
                 Новосибирск
               </div>
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                Профессиональная юридическая помощь в Новосибирске
+                Юрист по гражданским делам в Новосибирске
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">Более 2 лет успешной практики. Защищаю права и интересы граждан и предприятий. Индивидуальный подход к каждому клиенту и гарантия результата.</p>
+              <p className="text-lg text-muted-foreground leading-relaxed">Опытный юрист с 15-летней практикой. Помогаю решать семейные, жилищные, трудовые и другие гражданские споры. Консультация от 2000₽. Бесплатный звонок!</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -60,13 +60,13 @@ const Hero = () => {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary" itemProp="foundingDate">2+</div>
-                <div className="text-sm text-muted-foreground">года опыта</div>
+                <div className="text-2xl font-bold text-primary" itemProp="foundingDate">15+</div>
+                <div className="text-sm text-muted-foreground">лет опыта</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">98%</div>
+                <div className="text-2xl font-bold text-primary">95%</div>
                 <div className="text-sm text-muted-foreground">
-                  Довольных клиентов
+                  Успешных дел
                 </div>
               </div>
             </div>

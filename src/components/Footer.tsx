@@ -13,7 +13,7 @@ const Footer = () => {
                 ЮрСервис НСК
               </span>
             </div>
-            <p className="text-muted-foreground">Профессиональные юридические услуги в Новосибирске. Защищаем ваши права и интересы с 2024 года.</p>
+            <p className="text-muted-foreground">Опытный юрист по гражданским делам в Новосибирске. Помогаю в семейных, жилищных, трудовых спорах. 15 лет практики.</p>
             <div className="flex space-x-4">
               <a href="#" className="text-muted-foreground hover:text-primary">
                 <Icon name="Phone" className="h-5 w-5" />
@@ -29,21 +29,21 @@ const Footer = () => {
 
           {/* Services */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Услуги</h3>
+            <h3 className="font-semibold text-foreground">Гражданские дела</h3>
             <ul className="space-y-2 text-muted-foreground">
               <li>
                 <a href="#" className="hover:text-primary">
-                  Корпоративное право
+                  Семейные споры
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-primary">
-                  Семейное право
+                  Жилищные вопросы
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-primary">
-                  Недвижимость
+                  Трудовые дела
                 </a>
               </li>
               <li>
