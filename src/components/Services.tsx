@@ -9,6 +9,7 @@ const Services = () => {
   const [selectedService, setSelectedService] = useState<any>(null);
   const { consultationModal } = useModal();
   const [visibleCards, setVisibleCards] = useState<boolean[]>([]);
+  const [activeTab, setActiveTab] = useState('popular');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -17,62 +18,109 @@ const Services = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const services = [
+  const tabs = [
+    { id: 'popular', label: 'ПОПУЛЯРНЫЕ' },
+    { id: 'citizens', label: 'УСЛУГИ ДЛЯ ГРАЖДАН' },
+    { id: 'business', label: 'УСЛУГИ ДЛЯ БИЗНЕСА' },
+    { id: 'realestate', label: 'НЕДВИЖИМОСТЬ' },
+    { id: 'bankruptcy', label: 'БАНКРОТСТВО' },
+  ];
+
+  const allServices = [
     {
       icon: "Building2",
       title: "Корпоративное право",
       description: "Сопровождение бизнеса, договоры, споры между участниками",
       price: "от 15 000 ₽",
+      category: ['popular', 'business']
     },
     {
       icon: "Users",
       title: "Семейное право",
       description: "Развод, раздел имущества, алименты, опека",
       price: "от 10 000 ₽",
+      category: ['popular', 'citizens']
     },
     {
       icon: "Home",
       title: "Недвижимость",
       description: "Сделки с недвижимостью, споры с застройщиками",
       price: "от 12 000 ₽",
+      category: ['popular', 'realestate']
     },
     {
       icon: "Briefcase",
       title: "Трудовое право",
       description: "Защита трудовых прав, взыскание заработной платы",
       price: "от 8 000 ₽",
+      category: ['citizens']
     },
     {
       icon: "Shield",
       title: "Арбитражные споры",
       description: "Защита по уголовным делам, представительство в суде",
       price: "от 25 000 ₽",
+      category: ['business']
     },
     {
       icon: "FileText",
       title: "Гражданские споры",
       description: "Взыскание долгов, защита прав потребителей",
       price: "от 7 000 ₽",
+      category: ['popular', 'citizens']
     },
     {
       icon: "Car",
       title: "Споры по ДТП",
       description: "Взыскание ущерба, представительство в суде по автоавариям",
       price: "от 9 000 ₽",
+      category: ['citizens']
     },
     {
       icon: "ShieldCheck",
       title: "Защита прав потребителей",
       description: "Возврат некачественного товара, споры с продавцами",
       price: "от 6 000 ₽",
+      category: ['citizens']
     },
     {
       icon: "CreditCard",
       title: "Возврат долгов",
       description: "Взыскание задолженности, работа с должниками",
       price: "от 8 500 ₽",
+      category: ['business', 'citizens']
+    },
+    {
+      icon: "TrendingDown",
+      title: "Банкротство физических лиц",
+      description: "Процедура банкротства для граждан, списание долгов",
+      price: "от 30 000 ₽",
+      category: ['bankruptcy', 'citizens']
+    },
+    {
+      icon: "Building",
+      title: "Банкротство юридических лиц",
+      description: "Ликвидация предприятий, банкротство организаций",
+      price: "от 50 000 ₽",
+      category: ['bankruptcy', 'business']
+    },
+    {
+      icon: "MapPin",
+      title: "Земельное право",
+      description: "Оформление земельных участков, споры по межеванию",
+      price: "от 15 000 ₽",
+      category: ['realestate']
     },
   ];
+
+  const getFilteredServices = () => {
+    if (activeTab === 'popular') {
+      return allServices.filter(service => service.category.includes('popular'));
+    }
+    return allServices.filter(service => service.category.includes(activeTab));
+  };
+
+  const services = getFilteredServices();
 
   return (
     <section
@@ -84,7 +132,7 @@ const Services = () => {
       itemType="https://schema.org/Service"
     >
       <div className="container mx-auto px-4">
-        <div className="text-center space-y-4 mb-16">
+        <div className="text-center space-y-4 mb-8">
           <h2
             id="services-heading"
             className="text-3xl lg:text-4xl font-bold text-foreground"
@@ -95,6 +143,22 @@ const Services = () => {
             Предоставляем полный спектр юридических услуг для физических лиц и
             предприятий
           </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-6 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                activeTab === tab.id
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
