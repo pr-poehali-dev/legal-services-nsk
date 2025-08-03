@@ -19,76 +19,58 @@ const Services = () => {
 
   const services = [
     {
-      icon: "TrendingUp",
-      title: "Сопровождение бизнеса",
-      description: "Комплексное юридическое обслуживание. Правовой аудит",
-      price: "от 25 000 ₽",
-    },
-    {
-      icon: "Users",
-      title: "Семейный юрист",
-      description: "Бракоразводный процесс, алименты, установление отцовства",
+      icon: "Building2",
+      title: "Корпоративное право",
+      description: "Сопровождение бизнеса, договоры, споры между участниками",
       price: "от 15 000 ₽",
     },
     {
       icon: "Users",
-      title: "Банкротство и ликвидация юр. лиц",
-      description: "Анализ ситуации, подготовка документов, публикации в СМИ, уведомление кредиторов",
-      price: "от 35 000 ₽",
+      title: "Семейное право",
+      description: "Развод, раздел имущества, алименты, опека",
+      price: "от 10 000 ₽",
     },
     {
-      icon: "Settings",
-      title: "Банкротство физических лиц",
-      description: "Анализ ситуации, подготовка документов, публикации в СМИ, уведомление кредиторов",
-      price: "от 30 000 ₽",
-    },
-    {
-      icon: "Building",
-      title: "Недвижимость и перепланировки",
-      description: "Оформление и сопровождение сделок по недвижимости. Узаконивание перепланировок",
-      price: "от 20 000 ₽",
-    },
-    {
-      icon: "CreditCard",
-      title: "Взыскание долгов",
-      description: "Взыскание дебиторской задолженности, долгов по договорам и распискам",
+      icon: "Home",
+      title: "Недвижимость",
+      description: "Сделки с недвижимостью, споры с застройщиками",
       price: "от 12 000 ₽",
     },
     {
-      icon: "Building2",
-      title: "Регистрация бизнеса",
-      description: "Регистрация ООО, ИП и другие процедуры",
+      icon: "Briefcase",
+      title: "Трудовое право",
+      description: "Защита трудовых прав, взыскание заработной платы",
       price: "от 8 000 ₽",
     },
     {
-      icon: "FileText",
-      title: "Составление и анализ документов",
-      description: "Разработка и анализ любых договоров, соглашений, исков, заявлений",
-      price: "от 5 000 ₽",
+      icon: "Shield",
+      title: "Арбитражные споры",
+      description: "Защита по уголовным делам, представительство в суде",
+      price: "от 25 000 ₽",
     },
     {
-      icon: "Gavel",
-      title: "Представительство и защита в суде",
-      description: "Представляем ваши интересы в арбитраже и судах общей юрисдикции",
-      price: "от 20 000 ₽",
+      icon: "FileText",
+      title: "Гражданские споры",
+      description: "Взыскание долгов, защита прав потребителей",
+      price: "от 7 000 ₽",
+    },
+    {
+      icon: "Car",
+      title: "Споры по ДТП",
+      description: "Взыскание ущерба, представительство в суде по автоавариям",
+      price: "от 9 000 ₽",
     },
     {
       icon: "ShieldCheck",
       title: "Защита прав потребителей",
-      description: "Расторжение договора о покупке или оформлении услуги, возврат денежных средств",
-      price: "от 10 000 ₽",
+      description: "Возврат некачественного товара, споры с продавцами",
+      price: "от 6 000 ₽",
     },
     {
-      icon: "Car",
-      title: "Автоюрист. Споры по ДТП",
-      description: "Экспертиза и оценка ущерба после ДТП. Претензии по качеству ремонта авто. Споры с ГИБДД",
-      price: "от 15 000 ₽",
-    },
-    {
-      icon: "Scale",
-      title: "Споры с застройщиками",
-      description: "Взыскание неустойки по ДДУ. Споры по качеству строительства",
-      price: "от 18 000 ₽",
+      icon: "CreditCard",
+      title: "Возврат долгов",
+      description: "Взыскание задолженности, работа с должниками",
+      price: "от 8 500 ₽",
     },
   ];
 
@@ -115,7 +97,7 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <Card
               key={index}
@@ -125,13 +107,25 @@ const Services = () => {
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <CardHeader className="space-y-4 pb-4">
-                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <Icon name={service.icon} className="h-8 w-8 text-gray-600" />
+                <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
+                  <Icon name={service.icon} className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle className="text-lg font-bold text-gray-900 leading-tight">{service.title}</CardTitle>
+                <CardTitle className="text-xl">{service.title}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
+                <p className="text-muted-foreground">{service.description}</p>
+                <div className="flex justify-between items-center pt-2">
+                  <span className="text-lg font-semibold text-primary">
+                    {service.price}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedService(service)}
+                  >
+                    Подробнее
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
