@@ -29,24 +29,80 @@ const Services = () => {
   const allServices = [
     {
       icon: "Building2",
-      title: "Корпоративное право",
-      description: "Сопровождение бизнеса, договоры, споры между участниками",
+      title: "Сопровождение бизнеса",
+      description: "Полное юридическое сопровождение деятельности компании",
       price: "от 15 000 ₽",
       category: ['popular', 'business']
     },
     {
       icon: "Users",
-      title: "Семейное право",
+      title: "Семейный юрист",
       description: "Развод, раздел имущества, алименты, опека",
       price: "от 10 000 ₽",
       category: ['popular', 'citizens']
     },
     {
+      icon: "TrendingDown",
+      title: "Банкротство физических лиц",
+      description: "Процедура банкротства для граждан, списание долгов",
+      price: "от 30 000 ₽",
+      category: ['popular', 'bankruptcy', 'citizens']
+    },
+    {
       icon: "Home",
-      title: "Недвижимость",
-      description: "Сделки с недвижимостью, споры с застройщиками",
+      title: "Недвижимость и перепланировки",
+      description: "Сделки с недвижимостью, узаконивание перепланировок",
       price: "от 12 000 ₽",
       category: ['popular', 'realestate']
+    },
+    {
+      icon: "CreditCard",
+      title: "Взыскание долгов",
+      description: "Взыскание задолженности, работа с должниками",
+      price: "от 8 500 ₽",
+      category: ['popular', 'business', 'citizens']
+    },
+    {
+      icon: "FileCheck",
+      title: "Регистрация бизнеса",
+      description: "Регистрация ООО, ИП, изменение учредительных документов",
+      price: "от 5 000 ₽",
+      category: ['popular', 'business']
+    },
+    {
+      icon: "FileText",
+      title: "Составление и анализ документов",
+      description: "Подготовка договоров, анализ документации, правовая экспертиза",
+      price: "от 3 000 ₽",
+      category: ['popular', 'business', 'citizens']
+    },
+    {
+      icon: "Shield",
+      title: "Представительство и защита в суде",
+      description: "Представительство интересов в судах всех инстанций",
+      price: "от 25 000 ₽",
+      category: ['popular', 'business', 'citizens']
+    },
+    {
+      icon: "ShieldCheck",
+      title: "Защита прав потребителей",
+      description: "Возврат некачественного товара, споры с продавцами",
+      price: "от 6 000 ₽",
+      category: ['popular', 'citizens']
+    },
+    {
+      icon: "Car",
+      title: "Автоюрист. Споры по ДТП",
+      description: "Взыскание ущерба, представительство в суде по автоавариям",
+      price: "от 9 000 ₽",
+      category: ['popular', 'citizens']
+    },
+    {
+      icon: "Building",
+      title: "Споры с застройщиками",
+      description: "Защита прав дольщиков, взыскание неустойки, возврат средств",
+      price: "от 15 000 ₽",
+      category: ['popular', 'realestate', 'citizens']
     },
     {
       icon: "Briefcase",
@@ -54,48 +110,6 @@ const Services = () => {
       description: "Защита трудовых прав, взыскание заработной платы",
       price: "от 8 000 ₽",
       category: ['citizens']
-    },
-    {
-      icon: "Shield",
-      title: "Арбитражные споры",
-      description: "Защита по уголовным делам, представительство в суде",
-      price: "от 25 000 ₽",
-      category: ['business']
-    },
-    {
-      icon: "FileText",
-      title: "Гражданские споры",
-      description: "Взыскание долгов, защита прав потребителей",
-      price: "от 7 000 ₽",
-      category: ['popular', 'citizens']
-    },
-    {
-      icon: "Car",
-      title: "Споры по ДТП",
-      description: "Взыскание ущерба, представительство в суде по автоавариям",
-      price: "от 9 000 ₽",
-      category: ['citizens']
-    },
-    {
-      icon: "ShieldCheck",
-      title: "Защита прав потребителей",
-      description: "Возврат некачественного товара, споры с продавцами",
-      price: "от 6 000 ₽",
-      category: ['citizens']
-    },
-    {
-      icon: "CreditCard",
-      title: "Возврат долгов",
-      description: "Взыскание задолженности, работа с должниками",
-      price: "от 8 500 ₽",
-      category: ['business', 'citizens']
-    },
-    {
-      icon: "TrendingDown",
-      title: "Банкротство физических лиц",
-      description: "Процедура банкротства для граждан, списание долгов",
-      price: "от 30 000 ₽",
-      category: ['bankruptcy', 'citizens']
     },
     {
       icon: "Building",
