@@ -1,27 +1,49 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://юридический-сервис.рф/sitemap.xml
-
-# Crawl-delay
+# Специальные директивы для основных поисковых систем
+User-agent: Yandex
+Allow: /
 Crawl-delay: 1
 
-# Disallow admin areas
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /login/
-Disallow: /register/
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
 
-# Allow important pages
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Карта сайта
+Sitemap: https://юридический-сервис.рф/sitemap.xml
+
+# Время между запросами (в секундах)
+Crawl-delay: 1
+
+# Разрешаем индексацию всех важных разделов
 Allow: /
 Allow: /services
 Allow: /about
 Allow: /contact
+Allow: /consultation
 Allow: /cases
 Allow: /blog
 
-# Clean URLs
+# Ограничиваем доступ к служебным и административным областям
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login/
+Disallow: /register/
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.json$
+
+# Очистка параметров URL для предотвращения дублирования контента
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
-Clean-param: fbclid&gclid&yclid
-Clean-param: _ga&_gid&_gac
+Clean-param: fbclid&gclid&yclid&msclkid
+Clean-param: _ga&_gid&_gac&_ym_uid&_ym_d
+Clean-param: ref&source&campaign
