@@ -138,8 +138,5 @@ const Hero = () => {
     </main>
   );
 };
-<meta
-  name="zen-verification"
-  content="YCwoumhBNaE0wC9HIS3C2vf3bwaWJqvDdMnKE3TJofPEW8O0xeg0vMxmWrT2w5PL"
-/>;
+
 export default Hero;
