@@ -259,8 +259,14 @@ ${formData.message}
                     htmlFor="consent"
                     className="text-sm text-muted-foreground"
                   >
-                    Я согласен на обработку персональных данных в соответствии с
-                    политикой конфиденциальности
+                    Я согласен на обработку персональных данных в соответствии с{" "}
+                    <a 
+                      href="/privacy" 
+                      target="_blank"
+                      className="text-primary hover:underline"
+                    >
+                      политикой конфиденциальности
+                    </a>
                   </label>
                 </div>
 

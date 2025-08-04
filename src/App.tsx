@@ -3,6 +3,7 @@ import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
 import Header from "@/components/Header";
 import Home from "@/pages/Index";
+import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
@@ -20,6 +21,7 @@ function App() {
             <main>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
