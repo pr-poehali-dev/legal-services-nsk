@@ -31,98 +31,84 @@ const Services = () => {
       icon: "Building2",
       title: "Сопровождение бизнеса",
       description: "Полное юридическое сопровождение деятельности компании",
-      price: "от 15 000 ₽",
       category: ['popular', 'business']
     },
     {
       icon: "Users",
       title: "Семейный юрист",
       description: "Развод, раздел имущества, алименты, опека",
-      price: "от 10 000 ₽",
       category: ['popular', 'citizens']
     },
     {
       icon: "TrendingDown",
       title: "Банкротство физических лиц",
       description: "Процедура банкротства для граждан, списание долгов",
-      price: "от 30 000 ₽",
       category: ['popular', 'bankruptcy', 'citizens']
     },
     {
       icon: "Home",
       title: "Недвижимость и перепланировки",
       description: "Сделки с недвижимостью, узаконивание перепланировок",
-      price: "от 12 000 ₽",
       category: ['popular', 'realestate']
     },
     {
       icon: "CreditCard",
       title: "Взыскание долгов",
       description: "Взыскание задолженности, работа с должниками",
-      price: "от 8 500 ₽",
       category: ['popular', 'business', 'citizens']
     },
     {
       icon: "FileCheck",
       title: "Регистрация бизнеса",
       description: "Регистрация ООО, ИП, изменение учредительных документов",
-      price: "от 5 000 ₽",
       category: ['popular', 'business']
     },
     {
       icon: "FileText",
       title: "Составление и анализ документов",
       description: "Подготовка договоров, анализ документации, правовая экспертиза",
-      price: "от 3 000 ₽",
       category: ['popular', 'business', 'citizens']
     },
     {
       icon: "Shield",
       title: "Представительство и защита в суде",
       description: "Представительство интересов в судах всех инстанций",
-      price: "от 25 000 ₽",
       category: ['popular', 'business', 'citizens']
     },
     {
       icon: "ShieldCheck",
       title: "Защита прав потребителей",
       description: "Возврат некачественного товара, споры с продавцами",
-      price: "от 6 000 ₽",
       category: ['popular', 'citizens']
     },
     {
       icon: "Car",
       title: "Автоюрист. Споры по ДТП",
       description: "Взыскание ущерба, представительство в суде по автоавариям",
-      price: "от 9 000 ₽",
       category: ['popular', 'citizens']
     },
     {
       icon: "Building",
       title: "Споры с застройщиками",
       description: "Защита прав дольщиков, взыскание неустойки, возврат средств",
-      price: "от 15 000 ₽",
       category: ['popular', 'realestate', 'citizens']
     },
     {
       icon: "Briefcase",
       title: "Трудовое право",
       description: "Защита трудовых прав, взыскание заработной платы",
-      price: "от 8 000 ₽",
       category: ['citizens']
     },
     {
       icon: "Building",
       title: "Банкротство юридических лиц",
       description: "Ликвидация предприятий, банкротство организаций",
-      price: "от 50 000 ₽",
       category: ['bankruptcy', 'business']
     },
     {
       icon: "MapPin",
       title: "Земельное право",
       description: "Оформление земельных участков, споры по межеванию",
-      price: "от 15 000 ₽",
       category: ['realestate']
     },
   ];
@@ -192,10 +178,14 @@ const Services = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">{service.description}</p>
-                <div className="flex justify-between items-center pt-2">
-                  <span className="text-lg font-semibold text-primary">
-                    {service.price}
-                  </span>
+                <div className="flex flex-col gap-3 pt-2">
+                  <Button
+                    className="w-full bg-primary hover:bg-primary/90 text-white"
+                    onClick={() => consultationModal.open()}
+                  >
+                    <Icon name="MessageCircle" className="h-4 w-4 mr-2" />
+                    Получить консультацию
+                  </Button>
                   <Button
                     variant="outline"
                     size="sm"
