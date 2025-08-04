@@ -1,21 +1,35 @@
+User-agent: *
+Allow: /
+
+# Специальные директивы для основных поисковых систем
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
 # Карта сайта
 Sitemap: https://юридический-сервис.рф/sitemap.xml
 
-# Общие правила для всех поисковых систем
-User-agent: *
-Allow: /
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /login/
-Disallow: /register/
-Disallow: /src/
-Disallow: /node_modules/
-Disallow: /.git/
-Disallow: /dist/
+# Время между запросами (в секундах)
+Crawl-delay: 1
 
-# Специальные правила для Яндекса
-User-agent: Yandex
+# Разрешаем индексацию всех важных разделов
 Allow: /
+Allow: /services
+Allow: /about
+Allow: /contact
+Allow: /consultation
+Allow: /cases
+Allow: /blog
+
+# Ограничиваем доступ к служебным и административным областям
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /login/
@@ -27,35 +41,9 @@ Disallow: /dist/
 Disallow: /*.js$
 Disallow: /*.css$
 Disallow: /*.json$
-Crawl-delay: 1
+
+# Очистка параметров URL для предотвращения дублирования контента
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
 Clean-param: fbclid&gclid&yclid&msclkid
 Clean-param: _ga&_gid&_gac&_ym_uid&_ym_d
 Clean-param: ref&source&campaign
-
-# Специальные правила для Googlebot
-User-agent: Googlebot
-Allow: /
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /login/
-Disallow: /register/
-Disallow: /src/
-Disallow: /node_modules/
-Disallow: /.git/
-Disallow: /dist/
-# Crawl-delay не поддерживается Google, но не мешает другим ботам
-Crawl-delay: 1
-
-# Специальные правила для Bingbot
-User-agent: Bingbot
-Allow: /
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /login/
-Disallow: /register/
-Disallow: /src/
-Disallow: /node_modules/
-Disallow: /.git/
-Disallow: /dist/
-Crawl-delay: 2
