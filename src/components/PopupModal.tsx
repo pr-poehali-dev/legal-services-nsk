@@ -69,7 +69,7 @@ const PopupModal = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       openModal();
-    }, 50000); // 30 seconds
+    }, 30000); // 30 seconds
 
     return () => clearTimeout(timer);
   }, [openModal]);
@@ -139,8 +139,8 @@ const PopupModal = () => {
 
           <div className="text-center text-xs text-muted-foreground">
             Нажимая кнопку, вы соглашаетесь с{" "}
-            <a 
-              href="/privacy" 
+            <a
+              href="/privacy"
               target="_blank"
               className="text-primary hover:underline"
             >
