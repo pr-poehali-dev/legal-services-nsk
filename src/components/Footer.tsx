@@ -115,8 +115,8 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
             <div className="text-muted-foreground text-sm">
               © 2024 ЮрСервис НСК. Все права защищены. ИП Витушкин Артем
-              Вячеславович, ИНН: 421210273345 ОГРН: 323547600197695, Адрес:
-              г.Новосибирск ул. Ленина д.3 офис 323
+              Вячеславович, ИНН: 421210273345 ОГРН: 323547600197695, Адрес: г.
+              Новосибирск ул. Ленина д.3 офис 323
             </div>
             <a
               href="https://webmaster.yandex.ru/siteinfo/?site=https://юридический-сервис.рф"
