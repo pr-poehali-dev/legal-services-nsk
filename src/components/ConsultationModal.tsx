@@ -125,14 +125,7 @@ const ConsultationModal = () => {
           </Button>
 
           <div className="text-center text-xs text-muted-foreground">
-            Нажимая кнопку, вы соглашаетесь с{" "}
-            <a 
-              href="/privacy" 
-              target="_blank"
-              className="text-primary hover:underline"
-            >
-              политикой конфиденциальности
-            </a>
+            Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
           </div>
         </div>
       </DialogContent>

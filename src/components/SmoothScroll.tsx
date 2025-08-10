@@ -7,17 +7,13 @@ const SmoothScroll = () => {
       const target = e.target as HTMLAnchorElement;
       const href = target.getAttribute("href");
       
-      if (href && href.startsWith("#") && href.length > 1) {
-        try {
-          const element = document.querySelector(href);
-          if (element) {
-            element.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-        } catch (error) {
-          console.warn('Invalid selector:', href);
+      if (href && href.startsWith("#")) {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
         }
       }
     };
