@@ -69,7 +69,7 @@ const PopupModal = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       openModal();
-    }, 40000); // 30 seconds
+    }, 30000); // 30 seconds
 
     return () => clearTimeout(timer);
   }, [openModal]);
@@ -138,7 +138,14 @@ const PopupModal = () => {
           </div>
 
           <div className="text-center text-xs text-muted-foreground">
-            Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+            Нажимая кнопку, вы соглашаетесь с{" "}
+            <a
+              href="/privacy"
+              target="_blank"
+              className="text-primary hover:underline"
+            >
+              политикой конфиденциальности
+            </a>
           </div>
 
           <div className="flex items-center justify-center space-x-4 text-sm text-muted-foreground">

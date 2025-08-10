@@ -13,7 +13,10 @@ const Footer = () => {
                 ЮрСервис НСК
               </span>
             </div>
-            <p className="text-muted-foreground">Профессиональные юридические услуги в Новосибирске. Защищаем ваши права и интересы с 2024 года.</p>
+            <p className="text-muted-foreground">
+              Профессиональные юридические услуги в Новосибирске. Защищаем ваши
+              права и интересы с 2024 года.
+            </p>
             <div className="flex space-x-4">
               <a href="#" className="text-muted-foreground hover:text-primary">
                 <Icon name="Phone" className="h-5 w-5" />
@@ -111,26 +114,28 @@ const Footer = () => {
         <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
             <div className="text-muted-foreground text-sm">
-              © 2024 ЮрСервис НСК. Все права защищены.
+              © 2024 ЮрСервис НСК. Все права защищены. ИП Витушкин Артем
+              Вячеславович, ИНН: 421210273345 ОГРН: 323547600197695, Адрес:
+              г.Новосибирск ул. Ленина д.3 офис 323
             </div>
-            <a 
+            <a
               href="https://webmaster.yandex.ru/siteinfo/?site=https://юридический-сервис.рф"
               target="_blank"
               rel="noopener noreferrer"
               className="opacity-80 hover:opacity-100 transition-opacity"
             >
-              <img 
-                width="88" 
-                height="31" 
-                alt="Яндекс.Метрика" 
-                border="0" 
+              <img
+                width="88"
+                height="31"
+                alt="Яндекс.Метрика"
+                border="0"
                 src="https://yandex.ru/cycounter?https://юридический-сервис.рф&theme=light&lang=ru"
                 className="rounded-lg"
               />
             </a>
           </div>
           <div className="flex space-x-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-primary">
+            <a href="privacy" className="hover:text-primary">
               Политика конфиденциальности
             </a>
             <a href="#" className="hover:text-primary">

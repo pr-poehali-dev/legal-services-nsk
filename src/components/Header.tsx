@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
 
-const Header = () => {
+interface HeaderProps {
+  onLoginClick?: () => void;
+}
+
+const Header = ({ onLoginClick }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { openModal } = useModal();
@@ -56,8 +60,15 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* CTA Buttons */}
+          <div className="hidden md:flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={onLoginClick}
+            >
+              <Icon name="LogIn" className="h-4 w-4 mr-2" />
+              Войти
+            </Button>
             <Button
               className="bg-primary hover:bg-primary/90"
               onClick={openModal}
@@ -92,7 +103,18 @@ const Header = () => {
                 </a>
               ))}
               <Button
-                className="mt-4 w-full bg-primary hover:bg-primary/90"
+                variant="outline"
+                className="mt-2 w-full"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  onLoginClick?.();
+                }}
+              >
+                <Icon name="LogIn" className="h-4 w-4 mr-2" />
+                Войти
+              </Button>
+              <Button
+                className="mt-2 w-full bg-primary hover:bg-primary/90"
                 onClick={openModal}
               >
                 Консультация
