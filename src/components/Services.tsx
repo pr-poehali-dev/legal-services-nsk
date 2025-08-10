@@ -9,7 +9,7 @@ const Services = () => {
   const [selectedService, setSelectedService] = useState<any>(null);
   const { consultationModal } = useModal();
   const [visibleCards, setVisibleCards] = useState<boolean[]>([]);
-  const [activeTab, setActiveTab] = useState('popular');
+  const [activeTab, setActiveTab] = useState("popular");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,11 +19,11 @@ const Services = () => {
   }, []);
 
   const tabs = [
-    { id: 'popular', label: 'ПОПУЛЯРНЫЕ' },
-    { id: 'citizens', label: 'УСЛУГИ ДЛЯ ГРАЖДАН' },
-    { id: 'business', label: 'УСЛУГИ ДЛЯ БИЗНЕСА' },
-    { id: 'realestate', label: 'НЕДВИЖИМОСТЬ' },
-    { id: 'bankruptcy', label: 'БАНКРОТСТВО' },
+    { id: "popular", label: "ПОПУЛЯРНЫЕ" },
+    { id: "citizens", label: "УСЛУГИ ДЛЯ ГРАЖДАН" },
+    { id: "business", label: "УСЛУГИ ДЛЯ БИЗНЕСА" },
+    { id: "realestate", label: "НЕДВИЖИМОСТЬ" },
+    { id: "bankruptcy", label: "БАНКРОТСТВО" },
   ];
 
   const allServices = [
@@ -31,93 +31,99 @@ const Services = () => {
       icon: "Building2",
       title: "Сопровождение бизнеса",
       description: "Полное юридическое сопровождение деятельности компании",
-      category: ['popular', 'business']
+      category: ["popular", "business"],
     },
     {
       icon: "Users",
       title: "Семейный юрист",
       description: "Развод, раздел имущества, алименты, опека",
-      category: ['popular', 'citizens']
+      category: ["popular", "citizens"],
     },
     {
       icon: "TrendingDown",
       title: "Банкротство физических лиц",
       description: "Процедура банкротства для граждан, списание долгов",
-      category: ['popular', 'bankruptcy', 'citizens']
+      category: ["popular", "bankruptcy", "citizens"],
     },
     {
       icon: "Home",
       title: "Недвижимость и перепланировки",
       description: "Сделки с недвижимостью, узаконивание перепланировок",
-      category: ['popular', 'realestate']
+      category: ["popular", "realestate"],
     },
     {
       icon: "CreditCard",
       title: "Взыскание долгов",
       description: "Взыскание задолженности, работа с должниками",
-      category: ['popular', 'business', 'citizens']
+      category: ["popular", "business", "citizens"],
     },
     {
       icon: "FileCheck",
       title: "Регистрация бизнеса",
       description: "Регистрация ООО, ИП, изменение учредительных документов",
-      category: ['popular', 'business']
+      category: ["popular", "business"],
     },
     {
       icon: "FileText",
       title: "Составление и анализ документов",
-      description: "Подготовка договоров, анализ документации, правовая экспертиза",
-      category: ['popular', 'business', 'citizens']
+      description:
+        "Подготовка договоров, анализ документации, правовая экспертиза",
+      category: ["popular", "business", "citizens"],
     },
     {
       icon: "Shield",
       title: "Представительство и защита в суде",
       description: "Представительство интересов в судах всех инстанций",
-      category: ['popular', 'business', 'citizens']
+      category: ["popular", "business", "citizens"],
     },
     {
       icon: "ShieldCheck",
       title: "Защита прав потребителей",
       description: "Возврат некачественного товара, споры с продавцами",
-      category: ['popular', 'citizens']
+      category: ["popular", "citizens"],
     },
     {
       icon: "Car",
       title: "Автоюрист. Споры по ДТП",
       description: "Взыскание ущерба, представительство в суде по автоавариям",
-      category: ['popular', 'citizens']
+      category: ["popular", "citizens"],
     },
     {
       icon: "Building",
       title: "Споры с застройщиками",
-      description: "Защита прав дольщиков, взыскание неустойки, возврат средств",
-      category: ['popular', 'realestate', 'citizens']
+      description:
+        "Защита прав дольщиков, взыскание неустойки, возврат средств",
+      category: ["popular", "realestate", "citizens"],
     },
     {
       icon: "Briefcase",
       title: "Трудовое право",
       description: "Защита трудовых прав, взыскание заработной платы",
-      category: ['citizens']
+      category: ["citizens"],
     },
     {
       icon: "Building",
       title: "Банкротство юридических лиц",
       description: "Ликвидация предприятий, банкротство организаций",
-      category: ['bankruptcy', 'business']
+      category: ["bankruptcy", "business"],
     },
     {
       icon: "MapPin",
       title: "Земельное право",
       description: "Оформление земельных участков, споры по межеванию",
-      category: ['realestate']
+      category: ["realestate"],
     },
   ];
 
   const getFilteredServices = () => {
-    if (activeTab === 'popular') {
-      return allServices.filter(service => service.category.includes('popular'));
+    if (activeTab === "popular") {
+      return allServices.filter((service) =>
+        service.category.includes("popular"),
+      );
     }
-    return allServices.filter(service => service.category.includes(activeTab));
+    return allServices.filter((service) =>
+      service.category.includes(activeTab),
+    );
   };
 
   const services = getFilteredServices();
@@ -152,8 +158,8 @@ const Services = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-6 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                 activeTab === tab.id
-                  ? 'bg-primary text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? "bg-primary text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
               {tab.label}
@@ -166,7 +172,9 @@ const Services = () => {
             <Card
               key={index}
               className={`hover:shadow-lg hover:-translate-y-2 transition-all duration-500 border-border transform ${
-                visibleCards[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                visibleCards[index]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
@@ -184,7 +192,7 @@ const Services = () => {
                     onClick={() => consultationModal.open()}
                   >
                     <Icon name="MessageCircle" className="h-4 w-4 mr-2" />
-                    Получить консультацию
+                    Бесплатная консультацию
                   </Button>
                   <Button
                     variant="outline"
