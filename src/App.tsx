@@ -2,8 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import Header from "@/components/Header";
-import Home from "@/pages/Index";
+import Layout from "@/components/Layout";
+import HomePage from "@/pages/HomePage";
+import ServicesPage from "@/pages/ServicesPage";
+import AboutPage from "@/pages/AboutPage";
+import ContactPage from "@/pages/ContactPage";
 import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
 import PopupModal from "@/components/PopupModal";
@@ -31,15 +34,15 @@ const AppContent = () => {
 
   // Обычный сайт для неавторизованных пользователей
   return (
-    <div className="min-h-screen bg-background">
-      <Header onLoginClick={() => setShowAuthModal(true)} />
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
       <PopupModal />
       <ConsultationModal />
       <AuthModal 
@@ -51,7 +54,7 @@ const AppContent = () => {
       <ScrollToTop />
       <SmoothScroll />
       <Toaster />
-    </div>
+    </Layout>
   );
 };
 
