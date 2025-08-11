@@ -2,8 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
 import Home from "@/pages/Index";
+import Services from "@/pages/Services";
+import About from "@/pages/About";
+import Contacts from "@/pages/Contacts";
 import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
 import PopupModal from "@/components/PopupModal";
@@ -32,10 +35,13 @@ const AppContent = () => {
   // Обычный сайт для неавторизованных пользователей
   return (
     <div className="min-h-screen bg-background">
-      <Header onLoginClick={() => setShowAuthModal(true)} />
+      <Navigation onLoginClick={() => setShowAuthModal(true)} />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contacts" element={<Contacts />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

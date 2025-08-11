@@ -1,0 +1,358 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import Icon from "@/components/ui/icon";
+import { useModal } from "@/hooks/useModal";
+
+const Contacts = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: ""
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { openModal } = useModal();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    // Здесь можно добавить отправку данных
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const contactInfo = [
+    {
+      icon: "MapPin",
+      title: "Адрес офиса",
+      content: [
+        "г. Новосибирск, ул. Крылова, д. 36, офис 302",
+        "м. Площадь Маркса (5 минут пешком)"
+      ],
+      action: null
+    },
+    {
+      icon: "Phone", 
+      title: "Телефоны",
+      content: [
+        "+7 (383) 363-45-67",
+        "+7 (383) 363-45-68"
+      ],
+      action: "tel:+73833634567"
+    },
+    {
+      icon: "Mail",
+      title: "Электронная почта",
+      content: [
+        "info@jurservice-nsk.ru",
+        "consultation@jurservice-nsk.ru"  
+      ],
+      action: "mailto:info@jurservice-nsk.ru"
+    },
+    {
+      icon: "Clock",
+      title: "Режим работы",
+      content: [
+        "Пн-Пт: 9:00 - 19:00",
+        "Сб: 10:00 - 16:00", 
+        "Вс: выходной"
+      ],
+      action: null
+    }
+  ];
+
+  const services = [
+    "Корпоративное право",
+    "Гражданское право", 
+    "Семейное право",
+    "Уголовное право",
+    "Недвижимость",
+    "Налоговые споры",
+    "Арбитражные дела",
+    "Другое"
+  ];
+
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen pt-16 flex items-center justify-center">
+        <div className="container mx-auto px-4">
+          <Card className="max-w-md mx-auto text-center">
+            <CardContent className="p-8">
+              <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Icon name="CheckCircle" className="h-12 w-12 text-green-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-foreground mb-4">
+                Заявка отправлена!
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                Спасибо за обращение. Наш специалист свяжется с вами в течение 30 минут 
+                для уточнения деталей и назначения консультации.
+              </p>
+              <Button 
+                onClick={() => setIsSubmitted(false)}
+                variant="outline"
+                className="w-full"
+              >
+                Отправить еще одну заявку
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen pt-16">
+      {/* Hero секция */}
+      <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Свяжитесь с нами
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            Получите бесплатную консультацию от наших экспертов. 
+            Мы ответим на все вопросы и поможем найти оптимальное решение.
+          </p>
+          <Button 
+            size="lg" 
+            className="bg-primary hover:bg-primary/90"
+            onClick={openModal}
+          >
+            <Icon name="Phone" className="h-5 w-5 mr-2" />
+            Позвонить сейчас
+          </Button>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Форма обратной связи */}
+          <div>
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl text-center">
+                  Оставьте заявку на консультацию
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Ваше имя *
+                    </label>
+                    <Input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Введите ваше имя"
+                      required
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Email *
+                      </label>
+                      <Input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-foreground mb-2">
+                        Телефон *
+                      </label>
+                      <Input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+7 (999) 123-45-67"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Интересующая услуга
+                    </label>
+                    <select
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                      <option value="">Выберите услугу</option>
+                      {services.map((service, index) => (
+                        <option key={index} value={service}>
+                          {service}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Описание вашего вопроса
+                    </label>
+                    <Textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Расскажите подробнее о вашей ситуации..."
+                      rows={4}
+                      className="w-full resize-none"
+                    />
+                  </div>
+
+                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-3">
+                    <Icon name="Send" className="h-5 w-5 mr-2" />
+                    Отправить заявку
+                  </Button>
+
+                  <p className="text-sm text-muted-foreground text-center">
+                    Нажимая на кнопку, вы соглашаетесь с обработкой персональных данных
+                  </p>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Контактная информация */}
+          <div className="space-y-8">
+            <div className="grid gap-6">
+              {contactInfo.map((info, index) => (
+                <Card key={index} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Icon name={info.icon as any} className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-foreground mb-2">{info.title}</h3>
+                        <div className="space-y-1">
+                          {info.content.map((item, idx) => (
+                            <div key={idx}>
+                              {info.action ? (
+                                <a 
+                                  href={info.action}
+                                  className="text-muted-foreground hover:text-primary transition-colors"
+                                >
+                                  {item}
+                                </a>
+                              ) : (
+                                <p className="text-muted-foreground">{item}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Карта */}
+            <Card>
+              <CardContent className="p-0">
+                <div className="bg-muted h-64 rounded-md flex items-center justify-center">
+                  <div className="text-center text-muted-foreground">
+                    <Icon name="MapPin" className="h-12 w-12 mx-auto mb-3" />
+                    <p className="font-semibold">Интерактивная карта</p>
+                    <p className="text-sm">г. Новосибирск, ул. Крылова, д. 36</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Быстрые контакты */}
+            <Card className="bg-primary text-primary-foreground">
+              <CardContent className="p-6 text-center">
+                <Icon name="Phone" className="h-8 w-8 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">
+                  Нужна срочная консультация?
+                </h3>
+                <p className="text-primary-foreground/80 mb-4">
+                  Звоните прямо сейчас, мы работаем до 19:00
+                </p>
+                <a href="tel:+73833634567">
+                  <Button size="lg" variant="secondary" className="w-full">
+                    <Icon name="Phone" className="h-5 w-5 mr-2" />
+                    +7 (383) 363-45-67
+                  </Button>
+                </a>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Как проходит консультация */}
+      <section className="py-16 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              Как проходит консультация
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Простой и понятный процесс получения юридической помощи
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-primary">1</span>
+              </div>
+              <h3 className="text-lg font-semibold mb-3">Заявка</h3>
+              <p className="text-muted-foreground">
+                Оставляете заявку на сайте или звоните по телефону в удобное время
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-primary">2</span>
+              </div>
+              <h3 className="text-lg font-semibold mb-3">Обратный звонок</h3>
+              <p className="text-muted-foreground">
+                Наш специалист связывается с вами в течение 30 минут для уточнения деталей
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-primary">3</span>
+              </div>
+              <h3 className="text-lg font-semibold mb-3">Консультация</h3>
+              <p className="text-muted-foreground">
+                Получаете бесплатную консультацию и конкретный план решения вопроса
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Contacts;
