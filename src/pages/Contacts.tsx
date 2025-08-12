@@ -39,8 +39,8 @@ const Contacts = () => {
       icon: "MapPin",
       title: "Адрес офиса",
       content: [
-        "г. Новосибирск, ул. Крылова, д. 36, офис 302",
-        "м. Площадь Маркса (5 минут пешком)",
+        "г. Новосибирск, ул. Ленина, д. 3, офис 323",
+        "м. Площадь Ленина (5 минут пешком)",
       ],
       action: null,
     },
@@ -281,9 +281,7 @@ const Contacts = () => {
                   <div className="text-center text-muted-foreground">
                     <Icon name="MapPin" className="h-12 w-12 mx-auto mb-3" />
                     <p className="font-semibold">Интерактивная карта</p>
-                    <p className="text-sm">
-                      г. Новосибирск, ул. Крылова, д. 36
-                    </p>
+                    <p className="text-sm">г. Новосибирск, ул. Ленина, д. 3</p>
                   </div>
                 </div>
               </CardContent>
