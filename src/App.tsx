@@ -3,6 +3,7 @@ import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { BlogProvider } from "@/contexts/BlogContext";
+import { ClientProvider } from "@/contexts/ClientContext";
 import Navigation from "@/components/Navigation";
 import Home from "@/pages/Index";
 import Services from "@/pages/Services";
@@ -30,7 +31,7 @@ const AppContent = () => {
   if (isAuthenticated && user) {
     if (user.role === 'client') {
       return <ClientDashboard />;
-    } else if (user.role === 'lawyer') {
+    } else if (user.role === 'lawyer' || user.role === 'admin') {
       return <LawyerDashboard />;
     }
   }
@@ -70,13 +71,15 @@ function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light">
       <AuthProvider>
-        <BlogProvider>
-          <ModalProvider>
-            <Router>
-              <AppContent />
-            </Router>
-          </ModalProvider>
-        </BlogProvider>
+        <ClientProvider>
+          <BlogProvider>
+            <ModalProvider>
+              <Router>
+                <AppContent />
+              </Router>
+            </ModalProvider>
+          </BlogProvider>
+        </ClientProvider>
       </AuthProvider>
     </ThemeProvider>
   );

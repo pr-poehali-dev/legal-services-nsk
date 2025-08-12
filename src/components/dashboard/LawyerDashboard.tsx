@@ -9,29 +9,8 @@ import CaseManagement from './components/CaseManagement';
 import ClientManagement from './components/ClientManagement';
 import PlaceholderTab from './components/PlaceholderTab';
 import BlogAdmin from '@/components/admin/BlogAdmin';
-
-interface Client {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  registeredAt: string;
-  totalCases: number;
-  totalPaid: number;
-}
-
-interface Case {
-  id: string;
-  title: string;
-  description: string;
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
-  createdAt: string;
-  updatedAt: string;
-  client: string;
-  clientId: string;
-  price: number;
-  progress: number;
-}
+import { useAuth } from '@/contexts/AuthContext';
+import { useClients } from '@/contexts/ClientContext';
 
 interface Stats {
   totalClients: number;
@@ -43,103 +22,74 @@ interface Stats {
 
 const LawyerDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const { user, logout } = useAuth();
+  const { clients, cases, addClient, addCase, updateCase, deleteCase } = useClients();
   
-  const [stats] = useState<Stats>({
-    totalClients: 24,
-    activeCases: 8,
-    completedCases: 15,
-    monthlyRevenue: 185000,
-    pendingPayments: 3
-  });
-
-  const [clients] = useState<Client[]>([
-    {
-      id: '1',
-      name: 'Иван Петров',
-      email: 'ivan@example.com',
-      phone: '+7 (999) 123-45-67',
-      registeredAt: '2024-07-15',
-      totalCases: 2,
-      totalPaid: 25000
-    },
-    {
-      id: '2',
-      name: 'Мария Сидорова',
-      email: 'maria@example.com',
-      phone: '+7 (999) 234-56-78',
-      registeredAt: '2024-06-20',
-      totalCases: 1,
-      totalPaid: 15000
-    },
-    {
-      id: '3',
-      name: 'Алексей Козлов',
-      email: 'alex@example.com',
-      phone: '+7 (999) 345-67-89',
-      registeredAt: '2024-08-01',
-      totalCases: 3,
-      totalPaid: 45000
-    }
-  ]);
-
-  const [cases] = useState<Case[]>([
-    {
-      id: '1',
-      title: 'Развод и раздел имущества',
-      description: 'Оформление развода с разделом совместно нажитого имущества',
-      status: 'in_progress',
-      createdAt: '2024-07-15',
-      updatedAt: '2024-08-01',
-      client: 'Иван Петров',
-      clientId: '1',
-      price: 25000,
-      progress: 65
-    },
-    {
-      id: '2',
-      title: 'Банкротство физического лица',
-      description: 'Процедура банкротства с реструктуризацией долгов',
-      status: 'pending',
-      createdAt: '2024-08-01',
-      updatedAt: '2024-08-01',
-      client: 'Мария Сидорова',
-      clientId: '2',
-      price: 35000,
-      progress: 10
-    },
-    {
-      id: '3',
-      title: 'Взыскание задолженности',
-      description: 'Взыскание долга по договору займа через суд',
-      status: 'completed',
-      createdAt: '2024-06-15',
-      updatedAt: '2024-07-30',
-      client: 'Алексей Козлов',
-      clientId: '3',
-      price: 20000,
-      progress: 100
-    }
-  ]);
-
   const [newCaseForm, setNewCaseForm] = useState({
     clientId: '',
     title: '',
     description: '',
     price: '',
-    status: 'pending'
+    status: 'pending',
+    priority: 'medium',
+    category: ''
   });
+
+  // Подсчет статистики из реальных данных
+  const stats: Stats = {
+    totalClients: clients.length,
+    activeCases: cases.filter(c => c.status === 'in_progress').length,
+    completedCases: cases.filter(c => c.status === 'completed').length,
+    monthlyRevenue: cases
+      .filter(c => c.status === 'completed')
+      .reduce((sum, c) => sum + c.price, 0),
+    pendingPayments: cases.filter(c => c.status === 'pending').length
+  };
 
   const handleCreateCase = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Creating new case:', newCaseForm);
+    if (!newCaseForm.clientId || !newCaseForm.title || !newCaseForm.description) {
+      alert('Заполните все обязательные поля');
+      return;
+    }
+
+    const client = clients.find(c => c.id === newCaseForm.clientId);
+    if (!client) {
+      alert('Клиент не найден');
+      return;
+    }
+
+    addCase({
+      title: newCaseForm.title,
+      description: newCaseForm.description,
+      status: newCaseForm.status as any,
+      priority: newCaseForm.priority as any,
+      clientId: newCaseForm.clientId,
+      clientName: client.name,
+      price: parseInt(newCaseForm.price) || 0,
+      progress: 0,
+      category: newCaseForm.category,
+      documents: [],
+      notes: ''
+    });
+
     // Reset form
     setNewCaseForm({
       clientId: '',
       title: '',
       description: '',
       price: '',
-      status: 'pending'
+      status: 'pending',
+      priority: 'medium',
+      category: ''
     });
+
+    alert('Дело успешно создано!');
+  };
+
+  const handleBackToSite = () => {
+    // Не разлогиниваем, просто скрываем дашборд
+    window.location.href = '/';
   };
 
   return (
@@ -149,17 +99,33 @@ const LawyerDashboard: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Панель юриста</h1>
-              <p className="text-gray-600 mt-1">Управление клиентами и делами</p>
+              <h1 className="text-3xl font-bold text-gray-900">
+                {user?.role === 'admin' ? 'Админ-панель' : 'Панель юриста'}
+              </h1>
+              <p className="text-gray-600 mt-1">
+                {user?.role === 'admin' 
+                  ? 'Управление системой и контентом' 
+                  : 'Управление клиентами и делами'
+                }
+              </p>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="outline">
-                <Icon name="Settings" className="h-4 w-4 mr-2" />
-                Настройки
+              <Button 
+                variant="outline"
+                onClick={handleBackToSite}
+              >
+                <Icon name="ArrowLeft" className="h-4 w-4 mr-2" />
+                На сайт
+              </Button>
+              <Button variant="outline" onClick={logout}>
+                <Icon name="LogOut" className="h-4 w-4 mr-2" />
+                Выход
               </Button>
               <Avatar className="h-10 w-10">
                 <AvatarImage src="" />
-                <AvatarFallback>АС</AvatarFallback>
+                <AvatarFallback>
+                  {user?.name.split(' ').map(n => n[0]).join('').slice(0, 2) || 'АД'}
+                </AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -191,12 +157,28 @@ const LawyerDashboard: React.FC = () => {
               newCaseForm={newCaseForm}
               setNewCaseForm={setNewCaseForm}
               handleCreateCase={handleCreateCase}
+              updateCase={updateCase}
+              deleteCase={deleteCase}
             />
           </TabsContent>
 
           {/* Clients Tab */}
           <TabsContent value="clients" className="space-y-6">
-            <ClientManagement clients={clients} />
+            <ClientManagement 
+              clients={clients} 
+              addClient={addClient}
+              updateClient={(id, updates) => {
+                // Обновляем клиента через контекст
+                const { updateClient } = useClients();
+                updateClient(id, updates);
+              }}
+              deleteClient={(id) => {
+                if (confirm('Вы уверены, что хотите удалить этого клиента? Все его дела также будут удалены.')) {
+                  const { deleteClient } = useClients();
+                  deleteClient(id);
+                }
+              }}
+            />
           </TabsContent>
 
           {/* Blog Tab */}

@@ -10,13 +10,12 @@ import Icon from '@/components/ui/icon';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onLogin: (email: string, password: string, role: 'client' | 'lawyer') => void;
-  onRegister: (email: string, password: string, name: string, phone: string, role: 'client' | 'lawyer') => void;
+  onLogin: (email: string, password: string) => void;
+  onRegister: (email: string, password: string, name: string, phone: string) => void;
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegister }) => {
   const [activeTab, setActiveTab] = useState('login');
-  const [userType, setUserType] = useState<'client' | 'lawyer'>('client');
   const [isLoading, setIsLoading] = useState(false);
 
   // Login form state
@@ -39,10 +38,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
     setIsLoading(true);
     
     try {
-      await onLogin(loginData.email, loginData.password, userType);
+      await onLogin(loginData.email, loginData.password);
       onClose();
+      setLoginData({ email: '', password: '' });
     } catch (error) {
-      console.error('Login error:', error);
+      alert('Неверный email или пароль');
     } finally {
       setIsLoading(false);
     }
@@ -56,13 +56,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
       return;
     }
 
+    if (registerData.password.length < 6) {
+      alert('Пароль должен содержать минимум 6 символов');
+      return;
+    }
+
     setIsLoading(true);
     
     try {
-      await onRegister(registerData.email, registerData.password, registerData.name, registerData.phone, userType);
+      await onRegister(registerData.email, registerData.password, registerData.name, registerData.phone);
       onClose();
+      setRegisterData({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: ''
+      });
     } catch (error) {
-      console.error('Register error:', error);
+      alert('Ошибка регистрации. Возможно, пользователь с таким email уже существует');
     } finally {
       setIsLoading(false);
     }
@@ -73,44 +85,23 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-center">
-            Вход в личный кабинет
+            Личный кабинет
           </DialogTitle>
         </DialogHeader>
-
-        {/* User Type Selection */}
-        <div className="flex gap-2 mb-4">
-          <Button
-            type="button"
-            variant={userType === 'client' ? 'default' : 'outline'}
-            onClick={() => setUserType('client')}
-            className="flex-1"
-          >
-            <Icon name="User" className="h-4 w-4 mr-2" />
-            Клиент
-          </Button>
-          <Button
-            type="button"
-            variant={userType === 'lawyer' ? 'default' : 'outline'}
-            onClick={() => setUserType('lawyer')}
-            className="flex-1"
-          >
-            <Icon name="Briefcase" className="h-4 w-4 mr-2" />
-            Юрист
-          </Button>
-        </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Вход</TabsTrigger>
             <TabsTrigger value="register">Регистрация</TabsTrigger>
           </TabsList>
-
-          <TabsContent value="login">
+          
+          {/* Login Tab */}
+          <TabsContent value="login" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Войти в кабинет</CardTitle>
+                <CardTitle className="text-lg">Вход в систему</CardTitle>
                 <CardDescription>
-                  Введите email и пароль для входа
+                  Введите ваш email и пароль для входа
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -122,7 +113,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
                       type="email"
                       placeholder="your@email.com"
                       value={loginData.email}
-                      onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                      onChange={(e) => setLoginData(prev => ({ ...prev, email: e.target.value }))}
                       required
                     />
                   </div>
@@ -134,14 +125,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
                       type="password"
                       placeholder="••••••••"
                       value={loginData.password}
-                      onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                      onChange={(e) => setLoginData(prev => ({ ...prev, password: e.target.value }))}
                       required
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full"
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 text-white"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -159,26 +150,43 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
                 </form>
               </CardContent>
             </Card>
+            
+            {/* Admin Access Info */}
+            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="flex items-start gap-3">
+                <Icon name="Info" className="h-5 w-5 text-blue-600 mt-0.5" />
+                <div className="text-sm">
+                  <p className="font-medium text-blue-800 mb-1">Тестовый доступ</p>
+                  <p className="text-blue-700 mb-2">
+                    Для входа в админ-панель используйте указанные администратором данные
+                  </p>
+                  <p className="text-blue-600">
+                    Клиенты могут зарегистрироваться через форму регистрации
+                  </p>
+                </div>
+              </div>
+            </div>
           </TabsContent>
-
-          <TabsContent value="register">
+          
+          {/* Register Tab */}
+          <TabsContent value="register" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Создать аккаунт</CardTitle>
+                <CardTitle className="text-lg">Регистрация клиента</CardTitle>
                 <CardDescription>
-                  Заполните данные для регистрации
+                  Создайте аккаунт для получения юридических услуг
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleRegister} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="register-name">Имя</Label>
+                    <Label htmlFor="register-name">ФИО</Label>
                     <Input
                       id="register-name"
                       type="text"
-                      placeholder="Иван Иванов"
+                      placeholder="Иванов Иван Иванович"
                       value={registerData.name}
-                      onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
+                      onChange={(e) => setRegisterData(prev => ({ ...prev, name: e.target.value }))}
                       required
                     />
                   </div>
@@ -190,7 +198,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
                       type="email"
                       placeholder="your@email.com"
                       value={registerData.email}
-                      onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                      onChange={(e) => setRegisterData(prev => ({ ...prev, email: e.target.value }))}
                       required
                     />
                   </div>
@@ -202,7 +210,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
                       type="tel"
                       placeholder="+7 (999) 123-45-67"
                       value={registerData.phone}
-                      onChange={(e) => setRegisterData({ ...registerData, phone: e.target.value })}
+                      onChange={(e) => setRegisterData(prev => ({ ...prev, phone: e.target.value }))}
                       required
                     />
                   </div>
@@ -214,8 +222,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
                       type="password"
                       placeholder="••••••••"
                       value={registerData.password}
-                      onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                      onChange={(e) => setRegisterData(prev => ({ ...prev, password: e.target.value }))}
                       required
+                      minLength={6}
                     />
                   </div>
 
@@ -226,14 +235,15 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, onRegis
                       type="password"
                       placeholder="••••••••"
                       value={registerData.confirmPassword}
-                      onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
+                      onChange={(e) => setRegisterData(prev => ({ ...prev, confirmPassword: e.target.value }))}
                       required
+                      minLength={6}
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full"
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 text-white"
                     disabled={isLoading}
                   >
                     {isLoading ? (

@@ -5,15 +5,15 @@ interface User {
   name: string;
   email: string;
   phone: string;
-  role: 'client' | 'lawyer';
+  role: 'client' | 'lawyer' | 'admin';
   registeredAt: string;
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string, role: 'client' | 'lawyer') => Promise<void>;
-  register: (email: string, password: string, name: string, phone: string, role: 'client' | 'lawyer') => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string, phone: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -34,56 +34,82 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = async (email: string, password: string, role: 'client' | 'lawyer'): Promise<void> => {
+  const login = async (email: string, password: string): Promise<void> => {
     // Симуляция API запроса
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Демо пользователи для тестирования
-    const demoUsers: { [key: string]: User } = {
-      'client@demo.com': {
-        id: '1',
-        name: 'Иван Петров',
-        email: 'client@demo.com',
-        phone: '+7 (999) 123-45-67',
-        role: 'client',
-        registeredAt: '2024-07-15'
-      },
-      'lawyer@demo.com': {
-        id: '2',
-        name: 'Анна Сергеева',
-        email: 'lawyer@demo.com',
-        phone: '+7 (999) 234-56-78',
-        role: 'lawyer',
-        registeredAt: '2024-01-15'
-      }
-    };
-
-    const demoUser = demoUsers[email];
-    if (demoUser && demoUser.role === role && password === 'demo123') {
-      setUser(demoUser);
-      localStorage.setItem('user', JSON.stringify(demoUser));
-    } else {
-      throw new Error('Неверный email или пароль');
+    // Главный администратор
+    if (email === 'vituarten@icloud.com' && password === '12011999') {
+      const adminUser: User = {
+        id: 'admin',
+        name: 'Главный администратор',
+        email: 'vituarten@icloud.com',
+        phone: '+7 (999) 000-00-00',
+        role: 'admin',
+        registeredAt: '2024-01-01'
+      };
+      setUser(adminUser);
+      localStorage.setItem('user', JSON.stringify(adminUser));
+      return;
     }
+
+    // Поиск среди зарегистрированных клиентов
+    const savedClients = localStorage.getItem('clients');
+    const clients = savedClients ? JSON.parse(savedClients) : [];
+    
+    const client = clients.find((c: any) => c.email === email);
+    if (client && password === 'client123') { // Временный пароль для клиентов
+      const userData: User = {
+        id: client.id,
+        name: client.name,
+        email: client.email,
+        phone: client.phone,
+        role: client.isLawyer ? 'lawyer' : 'client',
+        registeredAt: client.registeredAt
+      };
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return;
+    }
+
+    throw new Error('Неверный email или пароль');
   };
 
   const register = async (
     email: string, 
     password: string, 
     name: string, 
-    phone: string, 
-    role: 'client' | 'lawyer'
+    phone: string
   ): Promise<void> => {
     // Симуляция API запроса
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const newUser: User = {
+    // Создаем нового клиента
+    const newClient = {
       id: Date.now().toString(),
       name,
       email,
       phone,
-      role,
-      registeredAt: new Date().toISOString().split('T')[0]
+      registeredAt: new Date().toISOString().split('T')[0],
+      totalCases: 0,
+      totalPaid: 0,
+      isLawyer: false
+    };
+
+    // Сохраняем в localStorage
+    const savedClients = localStorage.getItem('clients');
+    const clients = savedClients ? JSON.parse(savedClients) : [];
+    clients.push(newClient);
+    localStorage.setItem('clients', JSON.stringify(clients));
+
+    // Автоматически логиним пользователя
+    const newUser: User = {
+      id: newClient.id,
+      name,
+      email,
+      phone,
+      role: 'client',
+      registeredAt: newClient.registeredAt
     };
 
     setUser(newUser);
