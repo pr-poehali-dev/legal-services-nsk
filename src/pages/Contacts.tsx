@@ -53,13 +53,13 @@ const Contacts = () => {
     {
       icon: "Mail",
       title: "Электронная почта",
-      content: ["info@jurservice-nsk.ru", "consultation@jurservice-nsk.ru"],
-      action: "mailto:info@jurservice-nsk.ru",
+      content: ["vituarten@icloud.com", ""],
+      action: "mailto:vituarten@icloud.com",
     },
     {
       icon: "Clock",
       title: "Режим работы",
-      content: ["Пн-Пт: 9:00 - 19:00", "Сб: 10:00 - 16:00", "Вс: выходной"],
+      content: ["Пн-Пт: 7:00 - 23:00", "Сб: 10:00 - 16:00", "Вс: выходной"],
       action: null,
     },
   ];
