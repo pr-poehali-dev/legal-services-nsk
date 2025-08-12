@@ -1,70 +1,74 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import Icon from '@/components/ui/icon'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import Icon from "@/components/ui/icon";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    service: '',
-    message: ''
-  })
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
+  });
 
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitted(true)
+    e.preventDefault();
+    setIsSubmitted(true);
     // Здесь можно добавить отправку данных на сервер
-  }
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const contactInfo = [
     {
-      icon: 'MapPin',
-      title: 'Адрес',
-      content: ['г. Москва, ул. Тверская, д. 12, офис 345', 'м. Охотный ряд, м. Театральная'],
-      action: null
+      icon: "MapPin",
+      title: "Адрес",
+      content: ["г. Новосибирск, ул. Новосибирск, д. 3, офис 323", "м. Ленина"],
+      action: null,
     },
     {
-      icon: 'Phone',
-      title: 'Телефон',
-      content: ['+7 (495) 123-45-67', '+7 (495) 765-43-21'],
-      action: 'tel:+74951234567'
+      icon: "Phone",
+      title: "Телефон",
+      content: ["+7 (999) 452-35-99", "+7 (999) 452-35-00"],
+      action: "tel:+79994523500",
     },
     {
-      icon: 'Mail',
-      title: 'Email',
-      content: ['info@law-firm.ru', 'consultation@law-firm.ru'],
-      action: 'mailto:info@law-firm.ru'
+      icon: "Mail",
+      title: "Email",
+      content: ["vituarten@icloud.com"],
+      action: "vituartem6397@yandex.ru",
     },
     {
-      icon: 'Clock',
-      title: 'Режим работы',
-      content: ['Пн-Пт: 9:00 - 19:00', 'Сб: 10:00 - 16:00', 'Вс: выходной'],
-      action: null
-    }
-  ]
+      icon: "Clock",
+      title: "Режим работы",
+      content: ["Пн-Пт: 6:00 - 23:00", "Сб: 10:00 - 16:00", "Вс: выходной"],
+      action: null,
+    },
+  ];
 
   const services = [
-    'Корпоративное право',
-    'Договорное право',
-    'Арбитражные споры',
-    'Трудовое право',
-    'Недвижимость',
-    'Интеллектуальная собственность',
-    'Другое'
-  ]
+    "Корпоративное право",
+    "Договорное право",
+    "Арбитражные споры",
+    "Трудовое право",
+    "Недвижимость",
+    "Интеллектуальная собственность",
+    "Другое",
+  ];
 
   if (isSubmitted) {
     return (
@@ -78,10 +82,10 @@ export default function ContactPage() {
               Заявка отправлена!
             </h2>
             <p className="text-slate-600 mb-6">
-              Спасибо за обращение. Наш специалист свяжется с вами в течение 30 минут 
-              для уточнения деталей и назначения консультации.
+              Спасибо за обращение. Наш специалист свяжется с вами в течение 30
+              минут для уточнения деталей и назначения консультации.
             </p>
-            <Button 
+            <Button
               onClick={() => setIsSubmitted(false)}
               variant="outline"
               className="w-full"
@@ -91,7 +95,7 @@ export default function ContactPage() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
@@ -103,8 +107,8 @@ export default function ContactPage() {
             Свяжитесь с нами
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Получите бесплатную консультацию от наших экспертов. 
-            Мы ответим на все вопросы и поможем найти оптимальное решение.
+            Получите бесплатную консультацию от наших экспертов. Мы ответим на
+            все вопросы и поможем найти оптимальное решение.
           </p>
         </div>
 
@@ -195,13 +199,17 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 py-3">
+                <Button
+                  type="submit"
+                  className="w-full bg-blue-600 hover:bg-blue-700 py-3"
+                >
                   <Icon name="Send" size={20} className="mr-2" />
                   Отправить заявку
                 </Button>
 
                 <p className="text-sm text-slate-500 text-center">
-                  Нажимая на кнопку, вы соглашаетесь с обработкой персональных данных
+                  Нажимая на кнопку, вы соглашаетесь с обработкой персональных
+                  данных
                 </p>
               </form>
             </CardContent>
@@ -215,15 +223,21 @@ export default function ContactPage() {
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Icon name={info.icon as any} size={24} className="text-blue-600" />
+                        <Icon
+                          name={info.icon as any}
+                          size={24}
+                          className="text-blue-600"
+                        />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-slate-900 mb-2">{info.title}</h3>
+                        <h3 className="font-semibold text-slate-900 mb-2">
+                          {info.title}
+                        </h3>
                         <div className="space-y-1">
                           {info.content.map((item, idx) => (
                             <div key={idx}>
                               {info.action ? (
-                                <a 
+                                <a
                                   href={info.action}
                                   className="text-slate-600 hover:text-blue-600 transition-colors"
                                 >
@@ -263,9 +277,9 @@ export default function ContactPage() {
                   Нужна срочная консультация?
                 </h3>
                 <p className="text-blue-100 mb-4">
-                  Звоните прямо сейчас, мы работаем до 19:00
+                  Звоните прямо сейчас, мы работаем 24/7
                 </p>
-                <a href="tel:+74951234567">
+                <a href="tel:+79994523500">
                   <Button size="lg" variant="secondary" className="w-full">
                     <Icon name="Phone" size={20} className="mr-2" />
                     +7 (495) 123-45-67
@@ -283,7 +297,7 @@ export default function ContactPage() {
               Как проходит консультация
             </h2>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -294,7 +308,7 @@ export default function ContactPage() {
                 Оставляете заявку на сайте или звоните по телефону
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-blue-600">2</span>
@@ -304,7 +318,7 @@ export default function ContactPage() {
                 Наш специалист связывается с вами в течение 30 минут
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-blue-600">3</span>
@@ -318,5 +332,5 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

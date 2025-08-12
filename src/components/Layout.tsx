@@ -1,22 +1,22 @@
-import { Link, useLocation } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import Icon from '@/components/ui/icon'
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/icon";
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const location = useLocation()
+  const location = useLocation();
 
   const navigation = [
-    { name: 'Главная', href: '/', icon: 'Home' },
-    { name: 'Услуги', href: '/services', icon: 'FileText' },
-    { name: 'О нас', href: '/about', icon: 'Users' },
-    { name: 'Контакты', href: '/contact', icon: 'Phone' }
-  ]
+    { name: "Главная", href: "/", icon: "Home" },
+    { name: "Услуги", href: "/services", icon: "FileText" },
+    { name: "О нас", href: "/about", icon: "Users" },
+    { name: "Контакты", href: "/contact", icon: "Phone" },
+  ];
 
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -43,8 +43,8 @@ export default function Layout({ children }: LayoutProps) {
                   to={item.href}
                   className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive(item.href)
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                   }`}
                 >
                   <Icon name={item.icon as any} size={16} />
@@ -55,7 +55,10 @@ export default function Layout({ children }: LayoutProps) {
 
             {/* CTA Button */}
             <div className="hidden md:flex items-center gap-4">
-              <a href="tel:+74951234567" className="text-sm text-slate-600 hover:text-blue-600">
+              <a
+                href="tel:+79994523500"
+                className="text-sm text-slate-600 hover:text-blue-600"
+              >
                 +7 (495) 123-45-67
               </a>
               <Link to="/contact">
@@ -83,8 +86,8 @@ export default function Layout({ children }: LayoutProps) {
                   to={item.href}
                   className={`flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors ${
                     isActive(item.href)
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                   }`}
                 >
                   <Icon name={item.icon as any} size={18} />
@@ -92,8 +95,8 @@ export default function Layout({ children }: LayoutProps) {
                 </Link>
               ))}
               <div className="mt-4 pt-4 border-t">
-                <a 
-                  href="tel:+74951234567" 
+                <a
+                  href="tel:+79994523500"
                   className="flex items-center gap-3 px-3 py-3 text-sm text-slate-600"
                 >
                   <Icon name="Phone" size={18} />
@@ -112,9 +115,7 @@ export default function Layout({ children }: LayoutProps) {
       </header>
 
       {/* Main Content */}
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
 
       {/* Footer */}
       <footer className="bg-slate-900 text-white">
@@ -128,21 +129,32 @@ export default function Layout({ children }: LayoutProps) {
                 </div>
                 <div>
                   <div className="font-bold text-xl">LawFirm</div>
-                  <div className="text-sm text-slate-400">Юридические услуги</div>
+                  <div className="text-sm text-slate-400">
+                    Юридические услуги
+                  </div>
                 </div>
               </div>
               <p className="text-slate-300 mb-4 max-w-md">
-                Профессиональная команда юристов с опытом более 15 лет. 
+                Профессиональная команда юристов с опытом более 15 лет.
                 Обеспечиваем надежную правовую защиту для бизнеса и частных лиц.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="text-slate-400 hover:text-white transition-colors">
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
                   <Icon name="Mail" size={20} />
                 </a>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors">
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
                   <Icon name="Phone" size={20} />
                 </a>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors">
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
                   <Icon name="MapPin" size={20} />
                 </a>
               </div>
@@ -154,7 +166,7 @@ export default function Layout({ children }: LayoutProps) {
               <ul className="space-y-2">
                 {navigation.map((item) => (
                   <li key={item.name}>
-                    <Link 
+                    <Link
                       to={item.href}
                       className="text-slate-400 hover:text-white transition-colors text-sm"
                     >
@@ -169,11 +181,31 @@ export default function Layout({ children }: LayoutProps) {
             <div>
               <h3 className="font-semibold mb-4">Услуги</h3>
               <ul className="space-y-2 text-sm text-slate-400">
-                <li><a href="#" className="hover:text-white transition-colors">Корпоративное право</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Договорное право</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Арбитражные споры</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Трудовое право</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Недвижимость</a></li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Корпоративное право
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Договорное право
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Арбитражные споры
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Трудовое право
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Недвижимость
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -197,5 +229,5 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </footer>
     </div>
-  )
+  );
 }

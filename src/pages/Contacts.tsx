@@ -12,7 +12,7 @@ const Contacts = () => {
     email: "",
     phone: "",
     service: "",
-    message: ""
+    message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { openModal } = useModal();
@@ -23,10 +23,14 @@ const Contacts = () => {
     // Здесь можно добавить отправку данных
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -36,49 +40,39 @@ const Contacts = () => {
       title: "Адрес офиса",
       content: [
         "г. Новосибирск, ул. Крылова, д. 36, офис 302",
-        "м. Площадь Маркса (5 минут пешком)"
+        "м. Площадь Маркса (5 минут пешком)",
       ],
-      action: null
+      action: null,
     },
     {
-      icon: "Phone", 
+      icon: "Phone",
       title: "Телефоны",
-      content: [
-        "+7 (383) 363-45-67",
-        "+7 (383) 363-45-68"
-      ],
-      action: "tel:+73833634567"
+      content: ["+7 (999) 452-35-00"],
+      action: "tel:+79994523500",
     },
     {
       icon: "Mail",
       title: "Электронная почта",
-      content: [
-        "info@jurservice-nsk.ru",
-        "consultation@jurservice-nsk.ru"  
-      ],
-      action: "mailto:info@jurservice-nsk.ru"
+      content: ["info@jurservice-nsk.ru", "consultation@jurservice-nsk.ru"],
+      action: "mailto:info@jurservice-nsk.ru",
     },
     {
       icon: "Clock",
       title: "Режим работы",
-      content: [
-        "Пн-Пт: 9:00 - 19:00",
-        "Сб: 10:00 - 16:00", 
-        "Вс: выходной"
-      ],
-      action: null
-    }
+      content: ["Пн-Пт: 9:00 - 19:00", "Сб: 10:00 - 16:00", "Вс: выходной"],
+      action: null,
+    },
   ];
 
   const services = [
     "Корпоративное право",
-    "Гражданское право", 
+    "Гражданское право",
     "Семейное право",
     "Уголовное право",
     "Недвижимость",
     "Налоговые споры",
     "Арбитражные дела",
-    "Другое"
+    "Другое",
   ];
 
   if (isSubmitted) {
@@ -94,10 +88,10 @@ const Contacts = () => {
                 Заявка отправлена!
               </h2>
               <p className="text-muted-foreground mb-6">
-                Спасибо за обращение. Наш специалист свяжется с вами в течение 30 минут 
-                для уточнения деталей и назначения консультации.
+                Спасибо за обращение. Наш специалист свяжется с вами в течение
+                30 минут для уточнения деталей и назначения консультации.
               </p>
-              <Button 
+              <Button
                 onClick={() => setIsSubmitted(false)}
                 variant="outline"
                 className="w-full"
@@ -120,11 +114,11 @@ const Contacts = () => {
             Свяжитесь с нами
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Получите бесплатную консультацию от наших экспертов. 
-            Мы ответим на все вопросы и поможем найти оптимальное решение.
+            Получите бесплатную консультацию от наших экспертов. Мы ответим на
+            все вопросы и поможем найти оптимальное решение.
           </p>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="bg-primary hover:bg-primary/90"
             onClick={openModal}
           >
@@ -223,13 +217,17 @@ const Contacts = () => {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-3">
+                  <Button
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary/90 py-3"
+                  >
                     <Icon name="Send" className="h-5 w-5 mr-2" />
                     Отправить заявку
                   </Button>
 
                   <p className="text-sm text-muted-foreground text-center">
-                    Нажимая на кнопку, вы соглашаетесь с обработкой персональных данных
+                    Нажимая на кнопку, вы соглашаетесь с обработкой персональных
+                    данных
                   </p>
                 </form>
               </CardContent>
@@ -244,15 +242,20 @@ const Contacts = () => {
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Icon name={info.icon as any} className="h-6 w-6 text-primary" />
+                        <Icon
+                          name={info.icon as any}
+                          className="h-6 w-6 text-primary"
+                        />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-foreground mb-2">{info.title}</h3>
+                        <h3 className="font-semibold text-foreground mb-2">
+                          {info.title}
+                        </h3>
                         <div className="space-y-1">
                           {info.content.map((item, idx) => (
                             <div key={idx}>
                               {info.action ? (
-                                <a 
+                                <a
                                   href={info.action}
                                   className="text-muted-foreground hover:text-primary transition-colors"
                                 >
@@ -278,7 +281,9 @@ const Contacts = () => {
                   <div className="text-center text-muted-foreground">
                     <Icon name="MapPin" className="h-12 w-12 mx-auto mb-3" />
                     <p className="font-semibold">Интерактивная карта</p>
-                    <p className="text-sm">г. Новосибирск, ул. Крылова, д. 36</p>
+                    <p className="text-sm">
+                      г. Новосибирск, ул. Крылова, д. 36
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -295,7 +300,9 @@ const Contacts = () => {
                   Звоните прямо сейчас, мы работаем до 19:00
                 </p>
                 <a href="tel:+73833634567">
-                  <Button size="lg" variant="secondary" className="w-full">+7 (999) 452-35-00</Button>
+                  <Button size="lg" variant="secondary" className="w-full">
+                    +7 (999) 452-35-00
+                  </Button>
                 </a>
               </CardContent>
             </Card>
@@ -314,7 +321,7 @@ const Contacts = () => {
               Простой и понятный процесс получения юридической помощи
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -322,27 +329,30 @@ const Contacts = () => {
               </div>
               <h3 className="text-lg font-semibold mb-3">Заявка</h3>
               <p className="text-muted-foreground">
-                Оставляете заявку на сайте или звоните по телефону в удобное время
+                Оставляете заявку на сайте или звоните по телефону в удобное
+                время
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-primary">2</span>
               </div>
               <h3 className="text-lg font-semibold mb-3">Обратный звонок</h3>
               <p className="text-muted-foreground">
-                Наш специалист связывается с вами в течение 30 минут для уточнения деталей
+                Наш специалист связывается с вами в течение 30 минут для
+                уточнения деталей
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-primary">3</span>
               </div>
               <h3 className="text-lg font-semibold mb-3">Консультация</h3>
               <p className="text-muted-foreground">
-                Получаете бесплатную консультацию и конкретный план решения вопроса
+                Получаете бесплатную консультацию и конкретный план решения
+                вопроса
               </p>
             </div>
           </div>
