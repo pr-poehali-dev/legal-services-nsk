@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Practice from "@/components/Practice";
@@ -6,7 +5,6 @@ import Cases from "@/components/Cases";
 import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
-import PopupModal from "@/components/PopupModal";
 import SEOHead from "@/components/SEOHead";
 
 const Index = () => {
@@ -14,15 +12,13 @@ const Index = () => {
     <>
       <SEOHead />
       <div className="min-h-screen">
-        <Header />
-      <Hero />
-      <Services />
-      <Practice />
-      <Cases />
-      <Blog />
-      <Contacts />
-      <Footer />
-        <PopupModal />
+        <Hero />
+        <Services />
+        <Practice />
+        <Cases />
+        <Blog />
+        <Contacts />
+        <Footer />
       </div>
     </>
   );
