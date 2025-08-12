@@ -8,6 +8,7 @@ import LawyerOverview from './components/LawyerOverview';
 import CaseManagement from './components/CaseManagement';
 import ClientManagement from './components/ClientManagement';
 import PlaceholderTab from './components/PlaceholderTab';
+import BlogAdmin from '@/components/admin/BlogAdmin';
 
 interface Client {
   id: string;
@@ -168,10 +169,11 @@ const LawyerDashboard: React.FC = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Обзор</TabsTrigger>
             <TabsTrigger value="cases">Дела</TabsTrigger>
             <TabsTrigger value="clients">Клиенты</TabsTrigger>
+            <TabsTrigger value="blog">Блог</TabsTrigger>
             <TabsTrigger value="payments">Платежи</TabsTrigger>
             <TabsTrigger value="reports">Отчеты</TabsTrigger>
           </TabsList>
@@ -195,6 +197,11 @@ const LawyerDashboard: React.FC = () => {
           {/* Clients Tab */}
           <TabsContent value="clients" className="space-y-6">
             <ClientManagement clients={clients} />
+          </TabsContent>
+
+          {/* Blog Tab */}
+          <TabsContent value="blog" className="space-y-6">
+            <BlogAdmin />
           </TabsContent>
 
           {/* Payments Tab */}

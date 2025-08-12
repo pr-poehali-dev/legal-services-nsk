@@ -2,9 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { BlogProvider } from "@/contexts/BlogContext";
 import Navigation from "@/components/Navigation";
 import Home from "@/pages/Index";
 import Services from "@/pages/Services";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import About from "@/pages/About";
 import Contacts from "@/pages/Contacts";
 import Privacy from "@/pages/Privacy";
@@ -40,6 +43,8 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/about" element={<About />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/privacy" element={<Privacy />} />
@@ -65,11 +70,13 @@ function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light">
       <AuthProvider>
-        <ModalProvider>
-          <Router>
-            <AppContent />
-          </Router>
-        </ModalProvider>
+        <BlogProvider>
+          <ModalProvider>
+            <Router>
+              <AppContent />
+            </Router>
+          </ModalProvider>
+        </BlogProvider>
       </AuthProvider>
     </ThemeProvider>
   );

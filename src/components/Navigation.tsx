@@ -26,6 +26,7 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
   const menuItems = [
     { name: "Главная", href: "/" },
     { name: "Услуги", href: "/services" },
+    { name: "Блог", href: "/blog" },
     { name: "О нас", href: "/about" },
     { name: "Контакты", href: "/contacts" },
   ];
