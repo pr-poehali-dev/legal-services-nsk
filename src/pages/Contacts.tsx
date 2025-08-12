@@ -295,10 +295,7 @@ const Contacts = () => {
                   Звоните прямо сейчас, мы работаем до 19:00
                 </p>
                 <a href="tel:+73833634567">
-                  <Button size="lg" variant="secondary" className="w-full">
-                    <Icon name="Phone" className="h-5 w-5 mr-2" />
-                    +7 (383) 363-45-67
-                  </Button>
+                  <Button size="lg" variant="secondary" className="w-full">+7 (999) 452-35-00</Button>
                 </a>
               </CardContent>
             </Card>
