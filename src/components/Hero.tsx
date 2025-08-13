@@ -50,10 +50,8 @@ const Hero = () => {
                 <Icon name="FileText" className="h-5 w-5 mr-2" />
                 <a
                   href="#services"
-                  className="w-full h-full flex items-center justify-center"
-                >
-                  Наши услуги
-                </a>
+                  className="w-full h-full flex items-center justify-center font-bold"
+                >+7 999 452 35 00 - Звоните / пишите</a>
               </Button>
             </div>
 
