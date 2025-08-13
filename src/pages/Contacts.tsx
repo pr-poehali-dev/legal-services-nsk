@@ -297,7 +297,7 @@ const Contacts = () => {
                 <p className="text-primary-foreground/80 mb-4">
                   Звоните прямо сейчас, мы работаем до 19:00
                 </p>
-                <a href="tel:+73833634567">
+                <a href="tel:+79994523500">
                   <Button size="lg" variant="secondary" className="w-full">
                     +7 (999) 452-35-00
                   </Button>
