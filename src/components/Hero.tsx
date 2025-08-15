@@ -43,47 +43,61 @@ const Hero = () => {
                 className="bg-primary hover:bg-primary/90"
                 onClick={openModal}
               >
+                <Icon name="MessageCircle" className="h-5 w-5 mr-2" />
+                БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => window.open('tel:+79994523500', '_self')}
+                className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold"
+              >
                 <Icon name="Phone" className="h-5 w-5 mr-2" />
-                Бесплатная консультация
+                +7 999 452 35 00
               </Button>
-              <Button variant="outline" size="lg">
-                <Icon name="FileText" className="h-5 w-5 mr-2" />
-                <a
-                  href="#services"
-                  className="w-full h-full flex items-center justify-center font-bold"
-                >+7 999 452 35 00 - Звоните / пишите</a>
-              </Button>
+            </div>
+
+            {/* Срочность и гарантии */}
+            <div className="bg-accent/10 border-l-4 border-accent p-4 rounded-r-lg">
+              <div className="flex items-center space-x-2">
+                <Icon name="Clock" className="h-5 w-5 text-accent" />
+                <p className="font-semibold text-accent">СРОЧНЫЕ ДЕЛА — В ТЕЧЕНИЕ ЧАСА</p>
+              </div>
+              <div className="flex items-center space-x-2 mt-2">
+                <Icon name="Shield" className="h-5 w-5 text-accent" />
+                <p className="text-sm text-muted-foreground">Гарантия возврата средств при неудовлетворительном результате</p>
+              </div>
             </div>
 
             {/* Stats */}
             <div
-              className="grid grid-cols-3 gap-6 pt-8"
+              className="grid grid-cols-3 gap-6 pt-6"
               itemScope
               itemType="https://schema.org/Organization"
             >
-              <div className="text-center">
+              <div className="text-center p-3 bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors">
                 <div
                   className="text-2xl font-bold text-primary"
                   itemProp="numberOfEmployees"
                 >
                   500+
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground font-medium">
                   Выигранных дел
                 </div>
               </div>
-              <div className="text-center">
+              <div className="text-center p-3 bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors">
                 <div
                   className="text-2xl font-bold text-primary"
                   itemProp="foundingDate"
                 >
-                  10 +
+                  10+
                 </div>
-                <div className="text-sm text-muted-foreground">лет опыта</div>
+                <div className="text-sm text-muted-foreground font-medium">лет опыта</div>
               </div>
-              <div className="text-center">
+              <div className="text-center p-3 bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors">
                 <div className="text-2xl font-bold text-primary">98%</div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground font-medium">
                   Довольных клиентов
                 </div>
               </div>

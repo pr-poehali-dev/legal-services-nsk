@@ -192,15 +192,27 @@ const Services = () => {
                     onClick={() => consultationModal.open()}
                   >
                     <Icon name="MessageCircle" className="h-4 w-4 mr-2" />
-                    Бесплатная консультацию
+                    ЗАКАЗАТЬ УСЛУГУ
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setSelectedService(service)}
-                  >
-                    Подробнее
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => window.open('tel:+79994523500', '_self')}
+                    >
+                      <Icon name="Phone" className="h-4 w-4 mr-1" />
+                      Позвонить
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => setSelectedService(service)}
+                    >
+                      Подробнее
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -208,14 +220,45 @@ const Services = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button
-            size="lg"
-            className="bg-primary hover:bg-primary/90"
-            onClick={() => consultationModal.open()}
-          >
-            <Icon name="Calendar" className="h-5 w-5 mr-2" />
-            Записаться на консультацию
-          </Button>
+          <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-8 mb-8">
+            <h3 className="text-2xl font-bold mb-4">Нужна срочная помощь?</h3>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button
+                size="lg"
+                className="bg-primary hover:bg-primary/90"
+                onClick={() => consultationModal.open()}
+              >
+                <Icon name="MessageCircle" className="h-5 w-5 mr-2" />
+                БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ
+              </Button>
+              <div className="text-center">
+                <div className="text-sm text-muted-foreground">или звоните прямо сейчас</div>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => window.open('tel:+79994523500', '_self')}
+                  className="border-2 border-accent text-accent hover:bg-accent hover:text-white font-bold"
+                >
+                  <Icon name="Phone" className="h-5 w-5 mr-2" />
+                  +7 999 452 35 00
+                </Button>
+              </div>
+            </div>
+            <div className="flex justify-center items-center gap-6 mt-6 text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Icon name="Clock" className="h-4 w-4 mr-1" />
+                24/7 прием звонков
+              </div>
+              <div className="flex items-center">
+                <Icon name="MapPin" className="h-4 w-4 mr-1" />
+                Выезд в любой район НСК
+              </div>
+              <div className="flex items-center">
+                <Icon name="Shield" className="h-4 w-4 mr-1" />
+                Конфиденциальность
+              </div>
+            </div>
+          </div>
         </div>
 
         <ServiceModal

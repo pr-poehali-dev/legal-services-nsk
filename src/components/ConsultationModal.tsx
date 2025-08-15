@@ -85,12 +85,21 @@ const ConsultationModal = () => {
               <Icon name="Scale" className="h-8 w-8 text-primary" />
             </div>
             <h3 className="text-lg font-semibold">
-              Профессиональная юридическая консультация
+              БЕСПЛАТНАЯ консультация
             </h3>
             <p className="text-muted-foreground text-sm">
-              Оставьте заявку и получите персональную консультацию по вашему
-              вопросу
+              Оставьте заявку — мы перезвоним в течение 15 минут
             </p>
+            <div className="flex items-center justify-center space-x-4 text-xs">
+              <div className="flex items-center text-green-600">
+                <Icon name="Phone" className="h-3 w-3 mr-1" />
+                +7 999 452 35 00
+              </div>
+              <div className="flex items-center text-green-600">
+                <Icon name="Clock" className="h-3 w-3 mr-1" />
+                24/7
+              </div>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -114,15 +123,31 @@ const ConsultationModal = () => {
             />
           </form>
 
-          <Button
-            className="w-full bg-primary hover:bg-primary/90"
-            size="lg"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            <Icon name="Send" className="h-5 w-5 mr-2" />
-            {isSubmitting ? "Отправляем..." : "Отправить заявку"}
-          </Button>
+          <div className="space-y-3">
+            <Button
+              className="w-full bg-primary hover:bg-primary/90"
+              size="lg"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
+              <Icon name="Send" className="h-5 w-5 mr-2" />
+              {isSubmitting ? "Отправляем..." : "ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ"}
+            </Button>
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground mb-2">или звоните прямо сейчас</p>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  window.open('tel:+79994523500', '_self');
+                  consultationModal.close();
+                }}
+                className="border-accent text-accent hover:bg-accent hover:text-white"
+              >
+                <Icon name="Phone" className="h-4 w-4 mr-2" />
+                +7 999 452 35 00
+              </Button>
+            </div>
+          </div>
 
           <div className="text-center text-xs text-muted-foreground">
             Нажимая кнопку, вы соглашаетесь с{" "}

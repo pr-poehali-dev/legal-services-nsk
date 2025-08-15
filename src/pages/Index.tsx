@@ -6,6 +6,7 @@ import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import ContactForm from "@/components/ContactForm";
 
 const Index = () => {
   return (
@@ -16,6 +17,13 @@ const Index = () => {
         <Services />
         <Practice />
         <Cases />
+        <div className="py-16 bg-secondary/20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
         <Blog />
         <Contacts />
         <Footer />

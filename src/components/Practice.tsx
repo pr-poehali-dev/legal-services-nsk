@@ -7,18 +7,24 @@ const Practice = () => {
       title: "Арбитражные споры",
       description: "Представительство в арбитражных судах всех инстанций",
       cases: "200+ дел",
+      price: "от 30 000 ₽",
+      urgent: "срочно — +50%"
     },
     {
       icon: "Scale",
       title: "Гражданские дела",
       description: "Защита гражданских прав в судах общей юрисдикции",
       cases: "180+ дел",
+      price: "от 25 000 ₽",
+      urgent: "консультация — бесплатно"
     },
     {
       icon: "ShieldCheck",
       title: "Административное право",
       description: "Обжалование постановлений, защита от штрафов",
       cases: "150+ дел",
+      price: "от 15 000 ₽",
+      urgent: "без победы — без оплаты"
     },
   ];
 
@@ -36,7 +42,7 @@ const Practice = () => {
 
         <div className="grid lg:grid-cols-3 gap-8">
           {practices.map((practice, index) => (
-            <div key={index} className="text-center space-y-6">
+            <div key={index} className="bg-card border border-border rounded-xl p-6 text-center space-y-6 hover:shadow-lg transition-shadow">
               <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
                 <Icon name={practice.icon} className="h-10 w-10 text-primary" />
               </div>
@@ -45,8 +51,24 @@ const Practice = () => {
                   {practice.title}
                 </h3>
                 <p className="text-muted-foreground">{practice.description}</p>
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-medium">
-                  {practice.cases}
+                <div className="flex flex-col space-y-2">
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-medium mx-auto">
+                    {practice.cases}
+                  </div>
+                  <div className="text-lg font-bold text-primary">
+                    {practice.price}
+                  </div>
+                  <div className="text-xs text-green-600 font-medium">
+                    {practice.urgent}
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <button 
+                    onClick={() => window.open('tel:+79994523500', '_self')}
+                    className="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium"
+                  >
+                    ЗАКАЗАТЬ УСЛУГУ
+                  </button>
                 </div>
               </div>
             </div>
