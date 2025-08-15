@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
+import { toast } from "sonner";
 
 const Contacts = () => {
   const [formData, setFormData] = useState({
@@ -15,12 +16,56 @@ const Contacts = () => {
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { openModal } = useModal();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    // Здесь можно добавить отправку данных
+    
+    if (!formData.name || !formData.phone) {
+      toast.error("Заполните обязательные поля");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Отправляем заявку через Green API в WhatsApp
+      const message = `🆕 Новая заявка со страницы Контакты\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || "Не указан"}\n🛡️ Услуга: ${formData.service || "Не выбрана"}\n💬 Сообщение: ${formData.message || "Не указано"}\n⏰ Время: ${new Date().toLocaleString("ru-RU")}`;
+      
+      const response = await fetch(
+        `https://1103.api.green-api.com/waInstance1103279953/sendMessage/c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chatId: "79994523500@c.us",
+            message: message,
+          }),
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error("Ошибка отправки");
+      }
+      
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: "",
+      });
+      
+      toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время");
+    } catch (error) {
+      toast.error("Ошибка отправки. Попробуйте позвонить по телефону +7 999 452 35 00");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -88,16 +133,24 @@ const Contacts = () => {
                 Заявка отправлена!
               </h2>
               <p className="text-muted-foreground mb-6">
-                Спасибо за обращение. Наш специалист свяжется с вами в течение
-                30 минут для уточнения деталей и назначения консультации.
+                Спасибо за обращение! Ваша заявка отправлена в WhatsApp. Наш специалист свяжется с вами в течение 15 минут.
               </p>
-              <Button
-                onClick={() => setIsSubmitted(false)}
-                variant="outline"
-                className="w-full"
-              >
-                Отправить еще одну заявку
-              </Button>
+              <div className="space-y-3">
+                <Button
+                  onClick={() => window.open('tel:+79994523500', '_self')}
+                  className="w-full bg-primary hover:bg-primary/90"
+                >
+                  <Icon name="Phone" className="h-4 w-4 mr-2" />
+                  Позвонить сейчас: +7 999 452 35 00
+                </Button>
+                <Button
+                  onClick={() => setIsSubmitted(false)}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Отправить еще одну заявку
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -220,15 +273,36 @@ const Contacts = () => {
                   <Button
                     type="submit"
                     className="w-full bg-primary hover:bg-primary/90 py-3"
+                    disabled={isSubmitting}
                   >
-                    <Icon name="Send" className="h-5 w-5 mr-2" />
-                    Отправить заявку
+                    {isSubmitting ? (
+                      <>
+                        <Icon name="Loader2" className="h-5 w-5 mr-2 animate-spin" />
+                        Отправляем в WhatsApp...
+                      </>
+                    ) : (
+                      <>
+                        <Icon name="Send" className="h-5 w-5 mr-2" />
+                        ОТПРАВИТЬ ЗАЯВКУ В WHATSAPP
+                      </>
+                    )}
                   </Button>
 
-                  <p className="text-sm text-muted-foreground text-center">
-                    Нажимая на кнопку, вы соглашаетесь с обработкой персональных
-                    данных
-                  </p>
+                  <div className="text-center space-y-2">
+                    <div className="flex items-center justify-center space-x-4 text-xs text-green-600">
+                      <div className="flex items-center">
+                        <Icon name="MessageCircle" className="h-3 w-3 mr-1" />
+                        WhatsApp уведомление
+                      </div>
+                      <div className="flex items-center">
+                        <Icon name="Clock" className="h-3 w-3 mr-1" />
+                        Ответ в течение 15 мин
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Нажимая на кнопку, вы соглашаетесь с обработкой персональных данных
+                    </p>
+                  </div>
                 </form>
               </CardContent>
             </Card>
