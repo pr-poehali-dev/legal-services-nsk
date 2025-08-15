@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 import { useBlog, type BlogPost } from '@/contexts/BlogContext';
+import { toast } from 'sonner';
 
 const BlogAdmin = () => {
   const { posts, categories, addPost, updatePost, deletePost } = useBlog();
@@ -62,33 +63,50 @@ const BlogAdmin = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!formData.title.trim() || !formData.content.trim() || !formData.excerpt.trim()) {
+      toast.error('Заполните обязательные поля');
+      return;
+    }
+    
     const postData = {
-      title: formData.title,
-      content: formData.content,
-      excerpt: formData.excerpt,
-      author: formData.author,
-      category: formData.category,
+      title: formData.title.trim(),
+      content: formData.content.trim(),
+      excerpt: formData.excerpt.trim(),
+      author: formData.author.trim() || 'Юрист ЮрСервис',
+      category: formData.category || 'Общее',
       tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-      image: formData.image || undefined,
-      videoUrl: formData.videoUrl || undefined,
+      image: formData.image.trim() || undefined,
+      videoUrl: formData.videoUrl.trim() || undefined,
       isPublished: formData.isPublished,
       readTime: formData.readTime,
-      publishDate: new Date().toISOString().split('T')[0]
+      publishDate: editingPost ? editingPost.publishDate : new Date().toISOString().split('T')[0]
     };
 
-    if (editingPost) {
-      updatePost(editingPost.id, postData);
-    } else {
-      addPost(postData);
-    }
+    try {
+      if (editingPost) {
+        updatePost(editingPost.id, postData);
+        toast.success('Статья успешно обновлена!');
+      } else {
+        addPost(postData);
+        toast.success('Новая статья создана!');
+      }
 
-    setIsDialogOpen(false);
-    resetForm();
+      setIsDialogOpen(false);
+      resetForm();
+    } catch (error) {
+      toast.error('Ошибка при сохранении статьи');
+    }
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Вы уверены, что хотите удалить эту статью?')) {
-      deletePost(id);
+    const post = posts.find(p => p.id === id);
+    if (confirm(`Вы уверены, что хотите удалить статью "${post?.title}"?`)) {
+      try {
+        deletePost(id);
+        toast.success('Статья удалена!');
+      } catch (error) {
+        toast.error('Ошибка при удалении статьи');
+      }
     }
   };
 
@@ -331,6 +349,9 @@ const BlogAdmin = () => {
                       <h3 className="font-semibold text-foreground">{post.title}</h3>
                       <Badge variant={post.isPublished ? "default" : "secondary"}>
                         {post.isPublished ? 'Опубликовано' : 'Черновик'}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        ID: {post.id}
                       </Badge>
                       {post.videoUrl && (
                         <Badge variant="outline" className="text-xs">

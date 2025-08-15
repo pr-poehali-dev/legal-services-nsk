@@ -37,8 +37,8 @@ export const useBlog = () => {
   return context;
 };
 
-export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [posts, setPosts] = useState<BlogPost[]>([
+  // Дефолтные статьи
+  const defaultPosts: BlogPost[] = [
     {
       id: '1',
       title: 'Как правильно составить договор купли-продажи недвижимости',
@@ -218,20 +218,40 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
       views: 634,
       readTime: 4
     }
-  ]);
+  ];
+
+export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const categories = ['Все категории', 'Недвижимость', 'Банкротство', 'Трудовое право', 'Семейное право', 'Корпоративное право', 'Уголовное право'];
 
+  // Инициализация постов при первой загрузке
   useEffect(() => {
     const savedPosts = localStorage.getItem('blogPosts');
     if (savedPosts) {
-      setPosts(JSON.parse(savedPosts));
+      try {
+        const parsedPosts = JSON.parse(savedPosts);
+        setPosts(parsedPosts);
+      } catch (error) {
+        console.error('Ошибка при загрузке постов из localStorage:', error);
+        setPosts(defaultPosts);
+        localStorage.setItem('blogPosts', JSON.stringify(defaultPosts));
+      }
+    } else {
+      // Если в localStorage нет постов, используем дефолтные
+      setPosts(defaultPosts);
+      localStorage.setItem('blogPosts', JSON.stringify(defaultPosts));
     }
+    setIsInitialized(true);
   }, []);
 
+  // Сохраняем посты в localStorage только после инициализации
   useEffect(() => {
-    localStorage.setItem('blogPosts', JSON.stringify(posts));
-  }, [posts]);
+    if (isInitialized) {
+      localStorage.setItem('blogPosts', JSON.stringify(posts));
+    }
+  }, [posts, isInitialized]);
 
   const addPost = (postData: Omit<BlogPost, 'id' | 'views'>) => {
     const newPost: BlogPost = {
