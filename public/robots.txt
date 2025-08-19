@@ -23,11 +23,11 @@ Crawl-delay: 1
 # Разрешаем индексацию всех важных разделов
 Allow: /
 Allow: /services
+Allow: /dtp-lawyer
 Allow: /about
-Allow: /contact
-Allow: /consultation
-Allow: /cases
+Allow: /contacts
 Allow: /blog
+Allow: /privacy
 
 # Ограничиваем доступ к служебным и административным областям
 Disallow: /admin/
@@ -38,9 +38,19 @@ Disallow: /src/
 Disallow: /node_modules/
 Disallow: /.git/
 Disallow: /dist/
+Disallow: /build/
 Disallow: /*.js$
 Disallow: /*.css$
 Disallow: /*.json$
+Disallow: /*.env
+Disallow: /*.config.js
+Disallow: /*.config.ts
+
+# Разрешаем доступ к RSS фидам и карте сайта
+Allow: /yandex-services.xml
+Allow: /yandex-legal-services.xml
+Allow: /yandex-dtp-services.xml
+Allow: /sitemap.xml
 
 # Очистка параметров URL для предотвращения дублирования контента
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term

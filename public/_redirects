@@ -1,0 +1,20 @@
+# Redirects for Netlify/Vercel hosting
+# Handle 404 errors properly
+
+# SPA fallback - все неизвестные маршруты идут на index.html с кодом 404
+/*    /index.html   404
+
+# Специальные редиректы для общих ошибок
+/404.html   /   404
+/not-found  /   404
+
+# Редиректы для старых URL (если были)
+/lawyer/*   /services   301
+/legal/*    /services   301
+/consultation/*  /services   301
+
+# Редиректы для файлов, которые не должны быть доступны
+/.env*      /   404
+/config/*   /   404
+/src/*      /   404
+/node_modules/*  /   404
