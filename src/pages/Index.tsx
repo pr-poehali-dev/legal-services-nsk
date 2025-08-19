@@ -7,6 +7,7 @@ import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import ContactForm from "@/components/ContactForm";
+import QuickLinks from "@/components/QuickLinks";
 
 const Index = () => {
   return (
@@ -25,6 +26,7 @@ const Index = () => {
           </div>
         </div>
         <Blog />
+        <QuickLinks />
         <Contacts />
         <Footer />
       </div>
