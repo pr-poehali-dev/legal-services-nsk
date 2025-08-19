@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<yml_catalog date="2025-01-01">
+<yml_catalog date="2025-08-19">
     <shop>
         <name>ЮрСервис НСК</name>
         <company>ЮрСервис НСК</company>
@@ -12,56 +12,94 @@
         </categories>
         <offers>
             <offer id="1">
-                <name>Консультация юриста по гражданским делам</name>
+                <name>Анна Иванова - ЮрСервис НСК</name>
                 <url>https://юридический-сервис.рф/#services</url>
                 <price>2000</price>
                 <currencyId>RUR</currencyId>
                 <categoryId>1</categoryId>
-                <description>Профессиональная консультация юриста по гражданским делам в Новосибирске. Опыт 15 лет.</description>
-                <rating>4.8</rating>
-                <reviews_count>25</reviews_count>
-                <experience>15</experience>
-                <region>Новосибирск</region>
-                <conversion>0.12</conversion>
+                <description>Консультация юриста по гражданским делам</description>
+                <set-ids>legal-consultation-civil</set-ids>
+                <picture>https://юридический-сервис.рф/img/lawyer-anna.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">25</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.12</param>
+                <param name="Годы опыта">15</param>
             </offer>
             <offer id="2">
-                <name>Юрист по семейным делам</name>
+                <name>Сергей Петров - ЮрСервис НСК</name>
                 <url>https://юридический-сервис.рф/#services</url>
                 <price>3000</price>
                 <currencyId>RUR</currencyId>
                 <categoryId>1</categoryId>
-                <description>Помощь юриста в семейных спорах: развод, раздел имущества, алименты. Новосибирск.</description>
-                <rating>4.7</rating>
-                <reviews_count>18</reviews_count>
-                <experience>12</experience>
-                <region>Новосибирск</region>
-                <conversion>0.10</conversion>
+                <description>Юрист по семейным делам</description>
+                <set-ids>family-law-lawyer</set-ids>
+                <picture>https://юридический-сервис.рф/img/lawyer-sergey.jpg</picture>
+                <param name="Рейтинг">4.7</param>
+                <param name="Число отзывов">18</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.10</param>
+                <param name="Годы опыта">12</param>
             </offer>
             <offer id="3">
-                <name>Юрист по жилищным вопросам</name>
+                <name>Елена Смирнова - ЮрСервис НСК</name>
                 <url>https://юридический-сервис.рф/#services</url>
                 <price>4000</price>
                 <currencyId>RUR</currencyId>
                 <categoryId>1</categoryId>
-                <description>Решение жилищных споров, сделки с недвижимостью. Опытный юрист в Новосибирске.</description>
-                <rating>4.9</rating>
-                <reviews_count>30</reviews_count>
-                <experience>17</experience>
-                <region>Новосибирск</region>
-                <conversion>0.15</conversion>
+                <description>Юрист по жилищным вопросам</description>
+                <set-ids>housing-law-specialist</set-ids>
+                <picture>https://юридический-сервис.рф/img/lawyer-elena.jpg</picture>
+                <param name="Рейтинг">4.9</param>
+                <param name="Число отзывов">30</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.15</param>
+                <param name="Годы опыта">17</param>
             </offer>
             <offer id="4">
-                <name>Юрист по трудовым спорам</name>
+                <name>Михаил Козлов - ЮрСервис НСК</name>
                 <url>https://юридический-сервис.рф/#services</url>
                 <price>2500</price>
                 <currencyId>RUR</currencyId>
                 <categoryId>1</categoryId>
-                <description>Защита трудовых прав, взыскание заработной платы. Юридическая помощь в Новосибирске.</description>
-                <rating>4.6</rating>
-                <reviews_count>14</reviews_count>
-                <experience>10</experience>
-                <region>Новосибирск</region>
-                <conversion>0.09</conversion>
+                <description>Юрист по трудовым спорам</description>
+                <set-ids>labor-law-attorney</set-ids>
+                <picture>https://юридический-сервис.рф/img/lawyer-mikhail.jpg</picture>
+                <param name="Рейтинг">4.6</param>
+                <param name="Число отзывов">14</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.09</param>
+                <param name="Годы опыта">10</param>
+            </offer>
+            <offer id="5">
+                <name>Ольга Васильева - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/#services</url>
+                <price>3500</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>1</categoryId>
+                <description>Корпоративный юрист</description>
+                <set-ids>corporate-lawyer</set-ids>
+                <picture>https://юридический-сервис.рф/img/lawyer-olga.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">22</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.13</param>
+                <param name="Годы опыта">14</param>
+            </offer>
+            <offer id="6">
+                <name>Дмитрий Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/#services</url>
+                <price>5000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>1</categoryId>
+                <description>Адвокат по уголовным делам</description>
+                <set-ids>criminal-defense-lawyer</set-ids>
+                <picture>https://юридический-сервис.рф/img/lawyer-dmitry.jpg</picture>
+                <param name="Рейтинг">4.9</param>
+                <param name="Число отзывов">35</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.18</param>
+                <param name="Годы опыта">20</param>
             </offer>
         </offers>
     </shop>
