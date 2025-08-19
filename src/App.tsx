@@ -13,6 +13,7 @@ import About from "@/pages/About";
 import Contacts from "@/pages/Contacts";
 import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
+import DTPLawyer from "@/components/DTPLawyer";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
 import AuthModal from "@/components/auth/AuthModal";
@@ -44,6 +45,7 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/dtp-lawyer" element={<DTPLawyer />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/about" element={<About />} />
