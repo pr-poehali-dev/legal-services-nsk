@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yml_catalog date="2025-08-19">
+    <shop>
+        <name>ЮрСервис НСК - Юрист по ДТП в Новосибирске</name>
+        <company>ЮрСервис НСК</company>
+        <url>https://юридический-сервис.рф/</url>
+        <currencies>
+            <currency id="RUR" rate="1"/>
+        </currencies>
+        <categories>
+            <category id="1">Автоправо и ДТП</category>
+            <category id="2">Страховые споры</category>
+            <category id="3">Взыскание ущерба</category>
+        </categories>
+        <offers>
+            <!-- Консультация по ДТП -->
+            <offer id="dtp-consultation-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>0</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>1</categoryId>
+                <description>Бесплатная консультация юриста по ДТП</description>
+                <set-ids>dtp-free-consultation</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.45</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <!-- Взыскание с ОСАГО -->
+            <offer id="osago-recovery-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>5000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>2</categoryId>
+                <description>Взыскание ущерба с ОСАГО через суд</description>
+                <set-ids>osago-court-recovery</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.28</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <offer id="osago-recovery-002">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>8000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>2</categoryId>
+                <description>Доплата по ОСАГО с неустойкой</description>
+                <set-ids>osago-additional-payment</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.32</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <!-- Взыскание без ОСАГО -->
+            <offer id="no-osago-recovery-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>7000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>3</categoryId>
+                <description>Взыскание ущерба напрямую с виновника ДТП</description>
+                <set-ids>direct-damage-recovery</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.25</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <offer id="no-osago-recovery-002">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>12000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>3</categoryId>
+                <description>Взыскание морального вреда при ДТП</description>
+                <set-ids>moral-damage-recovery</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.22</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <!-- Европротокол -->
+            <offer id="euro-protocol-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>3000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>2</categoryId>
+                <description>Решение споров по европротоколу</description>
+                <set-ids>euro-protocol-disputes</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.18</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <!-- КАСКО споры -->
+            <offer id="kasko-disputes-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>6000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>2</categoryId>
+                <description>Взыскание выплат по КАСКО</description>
+                <set-ids>kasko-payment-recovery</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.26</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <!-- Экспертиза ущерба -->
+            <offer id="damage-expertise-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>15000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>1</categoryId>
+                <description>Независимая оценка ущерба после ДТП</description>
+                <set-ids>independent-damage-assessment</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.35</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <!-- Представительство в суде -->
+            <offer id="court-representation-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>20000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>1</categoryId>
+                <description>Полное представительство в суде по ДТП</description>
+                <set-ids>full-court-representation</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.40</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+            <!-- Защита виновника ДТП -->
+            <offer id="culprit-defense-001">
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+                <url>https://юридический-сервис.рф/dtp-lawyer</url>
+                <price>10000</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>1</categoryId>
+                <description>Защита интересов виновника ДТП</description>
+                <set-ids>culprit-legal-defense</set-ids>
+                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+                <param name="Рейтинг">4.8</param>
+                <param name="Число отзывов">156</param>
+                <param name="Регион">Новосибирск</param>
+                <param name="Конверсия">0.20</param>
+                <param name="Годы опыта">15</param>
+            </offer>
+
+        </offers>
+    </shop>
+</yml_catalog>
