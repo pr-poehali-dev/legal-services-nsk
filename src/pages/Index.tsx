@@ -7,11 +7,14 @@ import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import ContactForm from "@/components/ContactForm";
+import QuickLinks from "@/components/QuickLinks";
+import StructuredData from "@/components/StructuredData";
 
 const Index = () => {
   return (
     <>
       <SEOHead />
+      <StructuredData />
       <div className="min-h-screen">
         <Hero />
         <Services />
@@ -25,6 +28,7 @@ const Index = () => {
           </div>
         </div>
         <Blog />
+        <QuickLinks />
         <Contacts />
         <Footer />
       </div>

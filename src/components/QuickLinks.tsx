@@ -47,8 +47,8 @@ const QuickLinks = () => {
     }
   ];
 
-  const phoneNumber = '+7 (913) 999-99-99';
-  const phoneLink = 'tel:+79139999999';
+  const phoneNumber = '+7 (999) 452-35-00';
+  const phoneLink = 'tel:+79994523500';
 
   return (
     <section className="py-16 bg-gradient-to-br from-slate-50 via-white to-blue-50">
