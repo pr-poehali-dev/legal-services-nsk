@@ -110,7 +110,7 @@ const DTPLawyer = () => {
                   БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ
                 </button>
                 <a
-                  href="tel:+79139999999"
+                  href="tel:+79994523500"
                   className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-blue-900 transition-colors text-center"
                 >
                   +7 (999) 452-35-00
