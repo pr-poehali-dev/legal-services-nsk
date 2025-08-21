@@ -1,66 +1,54 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import Icon from "@/components/ui/icon";
-import { Client } from "@/contexts/ClientContext";
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import Icon from '@/components/ui/icon';
+import { Client } from '@/contexts/ClientContext';
 
 interface ClientManagementProps {
   clients: Client[];
-  addClient: (client: Omit<Client, "id" | "totalCases" | "totalPaid">) => void;
+  addClient: (client: Omit<Client, 'id' | 'totalCases' | 'totalPaid'>) => void;
   updateClient: (id: string, updates: Partial<Client>) => void;
   deleteClient: (id: string) => void;
 }
 
-const ClientManagement: React.FC<ClientManagementProps> = ({
-  clients,
-  addClient,
-  updateClient,
-  deleteClient,
+const ClientManagement: React.FC<ClientManagementProps> = ({ 
+  clients, 
+  addClient, 
+  updateClient, 
+  deleteClient 
 }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    status: "active" as "active" | "inactive",
-    isLawyer: false,
+    name: '',
+    email: '',
+    phone: '',
+    status: 'active' as 'active' | 'inactive',
+    isLawyer: false
   });
 
   const resetForm = () => {
     setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      status: "active",
-      isLawyer: false,
+      name: '',
+      email: '',
+      phone: '',
+      status: 'active',
+      isLawyer: false
     });
     setEditingClient(null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!formData.name || !formData.email || !formData.phone) {
-      alert("Заполните все обязательные поля");
+      alert('Заполните все обязательные поля');
       return;
     }
 
@@ -70,16 +58,16 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
         email: formData.email,
         phone: formData.phone,
         status: formData.status,
-        isLawyer: formData.isLawyer,
+        isLawyer: formData.isLawyer
       });
     } else {
       addClient({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        registeredAt: new Date().toISOString().split("T")[0],
+        registeredAt: new Date().toISOString().split('T')[0],
         status: formData.status,
-        isLawyer: formData.isLawyer,
+        isLawyer: formData.isLawyer
       });
     }
 
@@ -94,17 +82,13 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
       email: client.email,
       phone: client.phone,
       status: client.status,
-      isLawyer: client.isLawyer,
+      isLawyer: client.isLawyer
     });
     setIsAddModalOpen(true);
   };
 
   const handleDelete = (id: string) => {
-    if (
-      confirm(
-        "Вы уверены, что хотите удалить этого клиента? Все его дела также будут удалены.",
-      )
-    ) {
+    if (confirm('Вы уверены, что хотите удалить этого клиента? Все его дела также будут удалены.')) {
       deleteClient(id);
     }
   };
@@ -118,11 +102,9 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold">Управление клиентами</h2>
-          <p className="text-muted-foreground">
-            Добавляйте клиентов и назначайте юристов
-          </p>
+          <p className="text-muted-foreground">Добавляйте клиентов и назначайте юристов</p>
         </div>
-
+        
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => resetForm()}>
@@ -130,23 +112,21 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
               Добавить клиента
             </Button>
           </DialogTrigger>
-
+          
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {editingClient ? "Редактировать клиента" : "Добавить клиента"}
+                {editingClient ? 'Редактировать клиента' : 'Добавить клиента'}
               </DialogTitle>
             </DialogHeader>
-
+            
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">ФИО *</Label>
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, name: e.target.value }))
-                  }
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   placeholder="Иванов Иван Иванович"
                   required
                 />
@@ -158,9 +138,7 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
                   id="email"
                   type="email"
                   value={formData.email}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, email: e.target.value }))
-                  }
+                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   placeholder="client@example.com"
                   required
                 />
@@ -171,24 +149,17 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
                 <Input
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, phone: e.target.value }))
-                  }
-                  placeholder="+7 (999) 452-35-00"
+                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="+7 (999) 123-45-67"
                   required
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="status">Статус</Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      status: value as "active" | "inactive",
-                    }))
-                  }
+                <Select 
+                  value={formData.status} 
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, status: value as 'active' | 'inactive' }))}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -205,27 +176,22 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
                   type="checkbox"
                   id="isLawyer"
                   checked={formData.isLawyer}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      isLawyer: e.target.checked,
-                    }))
-                  }
+                  onChange={(e) => setFormData(prev => ({ ...prev, isLawyer: e.target.checked }))}
                   className="rounded border-gray-300"
                 />
                 <Label htmlFor="isLawyer">Назначить юристом</Label>
               </div>
 
               <div className="flex justify-end gap-2 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
+                <Button 
+                  type="button" 
+                  variant="outline" 
                   onClick={() => setIsAddModalOpen(false)}
                 >
                   Отмена
                 </Button>
                 <Button type="submit">
-                  {editingClient ? "Сохранить" : "Добавить"}
+                  {editingClient ? 'Сохранить' : 'Добавить'}
                 </Button>
               </div>
             </form>
@@ -253,9 +219,7 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
               <Icon name="UserCheck" className="h-5 w-5 text-green-600" />
               <div>
                 <p className="text-sm text-muted-foreground">Активные</p>
-                <p className="text-2xl font-bold">
-                  {clients.filter((c) => c.status === "active").length}
-                </p>
+                <p className="text-2xl font-bold">{clients.filter(c => c.status === 'active').length}</p>
               </div>
             </div>
           </CardContent>
@@ -267,9 +231,7 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
               <Icon name="Briefcase" className="h-5 w-5 text-purple-600" />
               <div>
                 <p className="text-sm text-muted-foreground">Юристы</p>
-                <p className="text-2xl font-bold">
-                  {clients.filter((c) => c.isLawyer).length}
-                </p>
+                <p className="text-2xl font-bold">{clients.filter(c => c.isLawyer).length}</p>
               </div>
             </div>
           </CardContent>
@@ -281,13 +243,8 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
         {clients.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
-              <Icon
-                name="Users"
-                className="h-12 w-12 text-muted-foreground mx-auto mb-4"
-              />
-              <p className="text-muted-foreground">
-                Пока нет клиентов. Добавьте первого!
-              </p>
+              <Icon name="Users" className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground">Пока нет клиентов. Добавьте первого!</p>
             </CardContent>
           </Card>
         ) : (
@@ -298,11 +255,7 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
                   <div className="flex items-center gap-4">
                     <Avatar className="h-12 w-12">
                       <AvatarFallback className="text-lg">
-                        {client.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .slice(0, 2)}
+                        {client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                       </AvatarFallback>
                     </Avatar>
                     <div>
@@ -314,27 +267,18 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
                             Юрист
                           </Badge>
                         )}
-                        <Badge
-                          variant={
-                            client.status === "active" ? "default" : "secondary"
-                          }
-                        >
-                          {client.status === "active"
-                            ? "Активный"
-                            : "Неактивный"}
+                        <Badge variant={client.status === 'active' ? 'default' : 'secondary'}>
+                          {client.status === 'active' ? 'Активный' : 'Неактивный'}
                         </Badge>
                       </div>
                       <p className="text-gray-600">{client.email}</p>
                       <p className="text-gray-600">{client.phone}</p>
                       <p className="text-sm text-gray-500">
-                        Зарегистрирован:{" "}
-                        {new Date(client.registeredAt).toLocaleDateString(
-                          "ru-RU",
-                        )}
+                        Зарегистрирован: {new Date(client.registeredAt).toLocaleDateString('ru-RU')}
                       </p>
                     </div>
                   </div>
-
+                  
                   <div className="text-right">
                     <div className="grid grid-cols-2 gap-4 mb-3">
                       <div>
@@ -343,30 +287,28 @@ const ClientManagement: React.FC<ClientManagementProps> = ({
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Оплачено</p>
-                        <p className="font-semibold">
-                          {client.totalPaid.toLocaleString()} ₽
-                        </p>
+                        <p className="font-semibold">{client.totalPaid.toLocaleString()} ₽</p>
                       </div>
                     </div>
-
+                    
                     <div className="flex gap-2">
-                      <Button
-                        variant="outline"
+                      <Button 
+                        variant="outline" 
                         size="sm"
                         onClick={() => handleEdit(client)}
                       >
                         <Icon name="Edit" className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="outline"
+                      <Button 
+                        variant="outline" 
                         size="sm"
                         onClick={() => toggleLawyerStatus(client)}
-                        className={client.isLawyer ? "bg-purple-50" : ""}
+                        className={client.isLawyer ? 'bg-purple-50' : ''}
                       >
                         <Icon name="Briefcase" className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="outline"
+                      <Button 
+                        variant="outline" 
                         size="sm"
                         onClick={() => handleDelete(client.id)}
                         className="text-red-600 hover:text-red-700"

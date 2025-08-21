@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import Icon from "@/components/ui/icon";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import Icon from '@/components/ui/icon';
 
 interface FormData {
   name: string;
@@ -15,11 +15,11 @@ interface FormData {
 
 const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-    service: "",
+    name: '',
+    phone: '',
+    email: '',
+    message: '',
+    service: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -27,23 +27,19 @@ const ContactForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    
     // Имитация отправки
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
-      setFormData({ name: "", phone: "", email: "", message: "", service: "" });
+      setFormData({ name: '', phone: '', email: '', message: '', service: '' });
     }, 1000);
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -58,14 +54,17 @@ const ContactForm = () => {
           Ваша заявка принята. Мы свяжемся с вами в течение 15 минут.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button
-            onClick={() => window.open("tel:+79994523500", "_self")}
+          <Button 
+            onClick={() => window.open('tel:+79994523500', '_self')}
             className="bg-primary hover:bg-primary/90"
           >
             <Icon name="Phone" className="h-4 w-4 mr-2" />
             Позвонить сейчас
           </Button>
-          <Button variant="outline" onClick={() => setIsSuccess(false)}>
+          <Button 
+            variant="outline"
+            onClick={() => setIsSuccess(false)}
+          >
             Отправить ещё заявку
           </Button>
         </div>
@@ -83,9 +82,7 @@ const ContactForm = () => {
         <div className="flex items-center mt-3 p-3 bg-accent/10 rounded-lg">
           <Icon name="Phone" className="h-5 w-5 text-accent mr-2" />
           <span className="font-semibold text-accent">+7 999 452 35 00</span>
-          <span className="text-sm text-muted-foreground ml-2">
-            — звоните прямо сейчас
-          </span>
+          <span className="text-sm text-muted-foreground ml-2">— звоните прямо сейчас</span>
         </div>
       </div>
 
@@ -110,7 +107,7 @@ const ContactForm = () => {
               type="tel"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="+7 999 452 35 00"
+              placeholder="+7 999 123 45 67"
               required
             />
           </div>
@@ -160,9 +157,9 @@ const ContactForm = () => {
           />
         </div>
 
-        <Button
-          type="submit"
-          className="w-full bg-primary hover:bg-primary/90"
+        <Button 
+          type="submit" 
+          className="w-full bg-primary hover:bg-primary/90" 
           size="lg"
           disabled={isSubmitting}
         >

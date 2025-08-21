@@ -32,7 +32,7 @@
 
             <!-- Взыскание с ОСАГО -->
             <offer id="osago-recovery-001">
-                <name>Витушкин Артем Вячеславович - ЮрСервис НСК</name>
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
                 <url>https://юридический-сервис.рф/dtp-lawyer</url>
                 <price>5000</price>
                 <currencyId>RUR</currencyId>
@@ -48,7 +48,7 @@
             </offer>
 
             <offer id="osago-recovery-002">
-                <name>Артем Вячеславович - ЮрСервис НСК</name>
+                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
                 <url>https://юридический-сервис.рф/dtp-lawyer</url>
                 <price>8000</price>
                 <currencyId>RUR</currencyId>

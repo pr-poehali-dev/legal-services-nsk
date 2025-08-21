@@ -160,7 +160,7 @@ export default function ContactPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+7 (999) 452-35-00"
+                      placeholder="+7 (999) 123-45-67"
                       required
                     />
                   </div>

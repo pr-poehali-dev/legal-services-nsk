@@ -1,23 +1,17 @@
-import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
-import Icon from "@/components/ui/icon";
+import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Progress } from '@/components/ui/progress';
+import Icon from '@/components/ui/icon';
 
 interface Case {
   id: string;
   title: string;
   description: string;
-  status: "pending" | "in_progress" | "completed" | "cancelled";
+  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
   createdAt: string;
   updatedAt: string;
   lawyer: string;
@@ -38,103 +32,72 @@ interface Payment {
   amount: number;
   date: string;
   description: string;
-  status: "paid" | "pending" | "overdue";
+  status: 'paid' | 'pending' | 'overdue';
 }
 
 const ClientDashboard: React.FC = () => {
   const [user] = useState({
-    name: "Иван Петров",
-    email: "ivan@example.com",
-    phone: "+7 (999) 452-35-00",
-    avatar: "",
+    name: 'Иван Петров',
+    email: 'ivan@example.com',
+    phone: '+7 (999) 123-45-67',
+    avatar: ''
   });
 
   const [cases] = useState<Case[]>([
     {
-      id: "1",
-      title: "Развод и раздел имущества",
-      description: "Оформление развода с разделом совместно нажитого имущества",
-      status: "in_progress",
-      createdAt: "2024-07-15",
-      updatedAt: "2024-08-01",
-      lawyer: "Анна Сергеева",
+      id: '1',
+      title: 'Развод и раздел имущества',
+      description: 'Оформление развода с разделом совместно нажитого имущества',
+      status: 'in_progress',
+      createdAt: '2024-07-15',
+      updatedAt: '2024-08-01',
+      lawyer: 'Анна Сергеева',
       price: 25000,
-      progress: 65,
+      progress: 65
     },
     {
-      id: "2",
-      title: "Взыскание алиментов",
-      description:
-        "Подача заявления на взыскание алиментов на несовершеннолетнего ребенка",
-      status: "pending",
-      createdAt: "2024-08-01",
-      updatedAt: "2024-08-01",
-      lawyer: "Анна Сергеева",
+      id: '2',
+      title: 'Взыскание алиментов',
+      description: 'Подача заявления на взыскание алиментов на несовершеннолетнего ребенка',
+      status: 'pending',
+      createdAt: '2024-08-01',
+      updatedAt: '2024-08-01',
+      lawyer: 'Анна Сергеева',
       price: 8000,
-      progress: 20,
-    },
+      progress: 20
+    }
   ]);
 
   const [documents] = useState<Document[]>([
-    {
-      id: "1",
-      name: "Свидетельство о браке.pdf",
-      type: "pdf",
-      uploadedAt: "2024-07-20",
-      size: "2.1 MB",
-    },
-    {
-      id: "2",
-      name: "Справка о доходах.pdf",
-      type: "pdf",
-      uploadedAt: "2024-07-22",
-      size: "1.5 MB",
-    },
-    {
-      id: "3",
-      name: "Документы на квартиру.zip",
-      type: "zip",
-      uploadedAt: "2024-07-25",
-      size: "5.3 MB",
-    },
+    { id: '1', name: 'Свидетельство о браке.pdf', type: 'pdf', uploadedAt: '2024-07-20', size: '2.1 MB' },
+    { id: '2', name: 'Справка о доходах.pdf', type: 'pdf', uploadedAt: '2024-07-22', size: '1.5 MB' },
+    { id: '3', name: 'Документы на квартиру.zip', type: 'zip', uploadedAt: '2024-07-25', size: '5.3 MB' }
   ]);
 
   const [payments] = useState<Payment[]>([
-    {
-      id: "1",
-      amount: 15000,
-      date: "2024-07-15",
-      description: "Первоначальный взнос за ведение дела",
-      status: "paid",
-    },
-    {
-      id: "2",
-      amount: 10000,
-      date: "2024-08-15",
-      description: "Доплата за услуги по разделу имущества",
-      status: "pending",
-    },
+    { id: '1', amount: 15000, date: '2024-07-15', description: 'Первоначальный взнос за ведение дела', status: 'paid' },
+    { id: '2', amount: 10000, date: '2024-08-15', description: 'Доплата за услуги по разделу имущества', status: 'pending' }
   ]);
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      pending: { label: "Ожидает", variant: "secondary" as const },
-      in_progress: { label: "В работе", variant: "default" as const },
-      completed: { label: "Завершено", variant: "success" as const },
-      cancelled: { label: "Отменено", variant: "destructive" as const },
+      pending: { label: 'Ожидает', variant: 'secondary' as const },
+      in_progress: { label: 'В работе', variant: 'default' as const },
+      completed: { label: 'Завершено', variant: 'success' as const },
+      cancelled: { label: 'Отменено', variant: 'destructive' as const }
     };
-
+    
     const config = statusConfig[status as keyof typeof statusConfig];
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
 
   const getPaymentStatusBadge = (status: string) => {
     const statusConfig = {
-      paid: { label: "Оплачено", variant: "success" as const },
-      pending: { label: "Ожидает оплаты", variant: "secondary" as const },
-      overdue: { label: "Просрочено", variant: "destructive" as const },
+      paid: { label: 'Оплачено', variant: 'success' as const },
+      pending: { label: 'Ожидает оплаты', variant: 'secondary' as const },
+      overdue: { label: 'Просрочено', variant: 'destructive' as const }
     };
-
+    
     const config = statusConfig[status as keyof typeof statusConfig];
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
@@ -146,12 +109,8 @@ const ClientDashboard: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Личный кабинет
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Управление вашими делами и документами
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Личный кабинет</h1>
+              <p className="text-gray-600 mt-1">Управление вашими делами и документами</p>
             </div>
             <div className="flex items-center gap-4">
               <Button variant="outline">
@@ -160,12 +119,7 @@ const ClientDashboard: React.FC = () => {
               </Button>
               <Avatar className="h-10 w-10">
                 <AvatarImage src={user.avatar} />
-                <AvatarFallback>
-                  {user.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
+                <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -222,9 +176,7 @@ const ClientDashboard: React.FC = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <CardTitle className="text-lg">{case_.title}</CardTitle>
-                        <CardDescription className="mt-1">
-                          {case_.description}
-                        </CardDescription>
+                        <CardDescription className="mt-1">{case_.description}</CardDescription>
                       </div>
                       {getStatusBadge(case_.status)}
                     </div>
@@ -237,24 +189,18 @@ const ClientDashboard: React.FC = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Стоимость</p>
-                        <p className="font-medium">
-                          {case_.price.toLocaleString()} ₽
-                        </p>
+                        <p className="font-medium">{case_.price.toLocaleString()} ₽</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Создано</p>
-                        <p className="font-medium">
-                          {new Date(case_.createdAt).toLocaleDateString()}
-                        </p>
+                        <p className="font-medium">{new Date(case_.createdAt).toLocaleDateString()}</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Обновлено</p>
-                        <p className="font-medium">
-                          {new Date(case_.updatedAt).toLocaleDateString()}
-                        </p>
+                        <p className="font-medium">{new Date(case_.updatedAt).toLocaleDateString()}</p>
                       </div>
                     </div>
-
+                    
                     <div className="mb-4">
                       <div className="flex justify-between items-center mb-2">
                         <p className="text-sm text-gray-600">Прогресс</p>
@@ -296,17 +242,12 @@ const ClientDashboard: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="p-2 bg-blue-100 rounded-lg">
-                          <Icon
-                            name="FileText"
-                            className="h-5 w-5 text-blue-600"
-                          />
+                          <Icon name="FileText" className="h-5 w-5 text-blue-600" />
                         </div>
                         <div>
                           <p className="font-medium">{doc.name}</p>
                           <p className="text-sm text-gray-600">
-                            Загружен{" "}
-                            {new Date(doc.uploadedAt).toLocaleDateString()} •{" "}
-                            {doc.size}
+                            Загружен {new Date(doc.uploadedAt).toLocaleDateString()} • {doc.size}
                           </p>
                         </div>
                       </div>
@@ -335,9 +276,7 @@ const ClientDashboard: React.FC = () => {
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium text-lg">
-                          {payment.amount.toLocaleString()} ₽
-                        </p>
+                        <p className="font-medium text-lg">{payment.amount.toLocaleString()} ₽</p>
                         <p className="text-gray-600">{payment.description}</p>
                         <p className="text-sm text-gray-500">
                           {new Date(payment.date).toLocaleDateString()}
@@ -345,7 +284,7 @@ const ClientDashboard: React.FC = () => {
                       </div>
                       <div className="text-right">
                         {getPaymentStatusBadge(payment.status)}
-                        {payment.status === "pending" && (
+                        {payment.status === 'pending' && (
                           <Button className="mt-2" size="sm">
                             Оплатить
                           </Button>
@@ -361,13 +300,10 @@ const ClientDashboard: React.FC = () => {
           {/* Messages Tab */}
           <TabsContent value="messages" className="space-y-4">
             <h2 className="text-xl font-semibold">Сообщения</h2>
-
+            
             <Card>
               <CardContent className="p-6 text-center">
-                <Icon
-                  name="MessageCircle"
-                  className="h-12 w-12 text-gray-400 mx-auto mb-4"
-                />
+                <Icon name="MessageCircle" className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-600 mb-4">У вас пока нет сообщений</p>
                 <Button>
                   <Icon name="Plus" className="h-4 w-4 mr-2" />
