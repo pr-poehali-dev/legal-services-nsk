@@ -1,319 +1,308 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <yml_catalog date="2025-08-19">
-    <shop>
-        <name>ЮрСервис НСК - Юридические услуги в Новосибирске</name>
-        <company>ЮрСервис НСК</company>
-        <url>https://юридический-сервис.рф/</url>
-        <currencies>
-            <currency id="RUR" rate="1"/>
-        </currencies>
-        <categories>
-            <category id="1">Гражданское право</category>
-            <category id="2">Семейное право</category>
-            <category id="3">Жилищное право</category>
-            <category id="4">Трудовое право</category>
-            <category id="5">Корпоративное право</category>
-            <category id="6">Уголовное право</category>
-            <category id="7">Автоправо и ДТП</category>
-            <category id="8">Наследственное право</category>
-        </categories>
-        <offers>
-            <!-- Гражданское право -->
-            <offer id="civil-law-001">
-                <name>Анна Владимировна Иванова - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>2000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>1</categoryId>
-                <description>Консультация юриста по гражданским делам</description>
-                <set-ids>civil-law-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.8</param>
-                <param name="Число отзывов">32</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.15</param>
-                <param name="Годы опыта">12</param>
-            </offer>
-            
-            <offer id="civil-law-002">
-                <name>Анна Владимировна Иванова - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>15000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>1</categoryId>
-                <description>Представительство в суде по гражданским делам</description>
-                <set-ids>civil-court-representation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.8</param>
-                <param name="Число отзывов">32</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.22</param>
-                <param name="Годы опыта">12</param>
-            </offer>
+  <shop>
+    <name>ЮрСервис НСК - Юридические услуги в Новосибирске</name>
+    <company>ЮрСервис НСК</company>
+    <url>https://юридический-сервис.рф/</url>
+    <currencies>
+      <currency id="RUB" rate="1"/>
+    </currencies>
+    <categories>
+      <category id="1">Гражданское право</category>
+      <category id="2">Семейное право</category>
+      <category id="3">Жилищное право</category>
+      <category id="4">Трудовое право</category>
+      <category id="5">Корпоративное право</category>
+      <category id="6">Уголовное право</category>
+      <category id="7">Автоправо и ДТП</category>
+      <category id="8">Наследственное право</category>
+    </categories>
+    <offers>
+      <!-- Гражданское право -->
+      <offer id="civil-law-001">
+        <name>Анна Владимировна Иванова - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>2000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>1</categoryId>
+        <description>Консультация юриста по гражданским делам</description>
+        <param name="set-id">civil-law-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.8</param>
+        <param name="Число отзывов">32</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.15</param>
+        <param name="Годы опыта">12</param>
+      </offer>
+      <offer id="civil-law-002">
+        <name>Анна Владимировна Иванова - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>15000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>1</categoryId>
+        <description>Представительство в суде по гражданским делам</description>
+        <param name="set-id">civil-court-representation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.8</param>
+        <param name="Число отзывов">32</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.22</param>
+        <param name="Годы опыта">12</param>
+      </offer>
 
-            <!-- Семейное право -->
-            <offer id="family-law-001">
-                <name>Елена Сергеевна Петрова - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>3000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>2</categoryId>
-                <description>Консультация по семейным спорам</description>
-                <set-ids>family-law-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.9</param>
-                <param name="Число отзывов">28</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.18</param>
-                <param name="Годы опыта">10</param>
-            </offer>
+      <!-- Семейное право -->
+      <offer id="family-law-001">
+        <name>Елена Сергеевна Петрова - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>3000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>2</categoryId>
+        <description>Консультация по семейным спорам</description>
+        <param name="set-id">family-law-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.9</param>
+        <param name="Число отзывов">28</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.18</param>
+        <param name="Годы опыта">10</param>
+      </offer>
+      <offer id="family-law-002">
+        <name>Елена Сергеевна Петрова - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>20000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>2</categoryId>
+        <description>Развод через суд</description>
+        <param name="set-id">divorce-court-service</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.9</param>
+        <param name="Число отзывов">28</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.25</param>
+        <param name="Годы опыта">10</param>
+      </offer>
+      <offer id="family-law-003">
+        <name>Елена Сергеевна Петрова - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>25000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>2</categoryId>
+        <description>Раздел имущества супругов</description>
+        <param name="set-id">property-division-service</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.9</param>
+        <param name="Число отзывов">28</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.20</param>
+        <param name="Годы опыта">10</param>
+      </offer>
 
-            <offer id="family-law-002">
-                <name>Елена Сергеевна Петрова - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>20000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>2</categoryId>
-                <description>Развод через суд</description>
-                <set-ids>divorce-court-service</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.9</param>
-                <param name="Число отзывов">28</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.25</param>
-                <param name="Годы опыта">10</param>
-            </offer>
+      <!-- Жилищное право -->
+      <offer id="housing-law-001">
+        <name>Михаил Алексеевич Смирнов - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>4000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>3</categoryId>
+        <description>Консультация по жилищным вопросам</description>
+        <param name="set-id">housing-law-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.7</param>
+        <param name="Число отзывов">45</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.16</param>
+        <param name="Годы опыта">15</param>
+      </offer>
+      <offer id="housing-law-002">
+        <name>Михаил Алексеевич Смирнов - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>35000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>3</categoryId>
+        <description>Сопровождение сделок с недвижимостью</description>
+        <param name="set-id">real-estate-transaction-support</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.7</param>
+        <param name="Число отзывов">45</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.28</param>
+        <param name="Годы опыта">15</param>
+      </offer>
 
-            <offer id="family-law-003">
-                <name>Елена Сергеевна Петрова - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>25000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>2</categoryId>
-                <description>Раздел имущества супругов</description>
-                <set-ids>property-division-service</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.9</param>
-                <param name="Число отзывов">28</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.20</param>
-                <param name="Годы опыта">10</param>
-            </offer>
+      <!-- Трудовое право -->
+      <offer id="labor-law-001">
+        <name>Ольга Викторовна Козлова - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>2500</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>4</categoryId>
+        <description>Консультация по трудовым спорам</description>
+        <param name="set-id">labor-law-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.6</param>
+        <param name="Число отзывов">38</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.14</param>
+        <param name="Годы опыта">8</param>
+      </offer>
+      <offer id="labor-law-002">
+        <name>Ольга Викторовна Козлова - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>18000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>4</categoryId>
+        <description>Взыскание заработной платы через суд</description>
+        <param name="set-id">salary-recovery-service</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.6</param>
+        <param name="Число отзывов">38</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.24</param>
+        <param name="Годы опыта">8</param>
+      </offer>
 
-            <!-- Жилищное право -->
-            <offer id="housing-law-001">
-                <name>Михаил Алексеевич Смирнов - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>4000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>3</categoryId>
-                <description>Консультация по жилищным вопросам</description>
-                <set-ids>housing-law-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.7</param>
-                <param name="Число отзывов">45</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.16</param>
-                <param name="Годы опыта">15</param>
-            </offer>
+      <!-- Корпоративное право -->
+      <offer id="corporate-law-001">
+        <name>Дмитрий Павлович Васильев - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>5000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>5</categoryId>
+        <description>Корпоративное консультирование</description>
+        <param name="set-id">corporate-law-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.8</param>
+        <param name="Число отзывов">52</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.19</param>
+        <param name="Годы опыта">14</param>
+      </offer>
+      <offer id="corporate-law-002">
+        <name>Дмитрий Павлович Васильев - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>15000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>5</categoryId>
+        <description>Регистрация ООО под ключ</description>
+        <param name="set-id">llc-registration-turnkey</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.8</param>
+        <param name="Число отзывов">52</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.30</param>
+        <param name="Годы опыта">14</param>
+      </offer>
 
-            <offer id="housing-law-002">
-                <name>Михаил Алексеевич Смирнов - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>35000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>3</categoryId>
-                <description>Сопровождение сделок с недвижимостью</description>
-                <set-ids>real-estate-transaction-support</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.7</param>
-                <param name="Число отзывов">45</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.28</param>
-                <param name="Годы опыта">15</param>
-            </offer>
+      <!-- Уголовное право -->
+      <offer id="criminal-law-001">
+        <name>Александр Игоревич Орлов - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>10000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>6</categoryId>
+        <description>Консультация адвоката по уголовным делам</description>
+        <param name="set-id">criminal-law-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.9</param>
+        <param name="Число отзывов">67</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.12</param>
+        <param name="Годы опыта">20</param>
+      </offer>
+      <offer id="criminal-law-002">
+        <name>Александр Игоревич Орлов - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>50000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>6</categoryId>
+        <description>Защита в суде по уголовным делам</description>
+        <param name="set-id">criminal-defense-court</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.9</param>
+        <param name="Число отзывов">67</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.35</param>
+        <param name="Годы опыта">20</param>
+      </offer>
 
-            <!-- Трудовое право -->
-            <offer id="labor-law-001">
-                <name>Ольга Викторовна Козлова - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>2500</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>4</categoryId>
-                <description>Консультация по трудовым спорам</description>
-                <set-ids>labor-law-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.6</param>
-                <param name="Число отзывов">38</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.14</param>
-                <param name="Годы опыта">8</param>
-            </offer>
+      <!-- Автоправо и ДТП -->
+      <offer id="auto-law-001">
+        <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/dtp-lawyer</url>
+        <price>3000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>7</categoryId>
+        <description>Консультация юриста по ДТП</description>
+        <param name="set-id">dtp-lawyer-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.8</param>
+        <param name="Число отзывов">156</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.22</param>
+        <param name="Годы опыта">15</param>
+      </offer>
+      <offer id="auto-law-002">
+        <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/dtp-lawyer</url>
+        <price>5000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>7</categoryId>
+        <description>Взыскание ущерба с ОСАГО</description>
+        <param name="set-id">osago-damage-recovery</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.8</param>
+        <param name="Число отзывов">156</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.28</param>
+        <param name="Годы опыта">15</param>
+      </offer>
+      <offer id="auto-law-003">
+        <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/dtp-lawyer</url>
+        <price>7000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>7</categoryId>
+        <description>Взыскание ущерба без ОСАГО</description>
+        <param name="set-id">no-osago-damage-recovery</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.8</param>
+        <param name="Число отзывов">156</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.25</param>
+        <param name="Годы опыта">15</param>
+      </offer>
 
-            <offer id="labor-law-002">
-                <name>Ольга Викторовна Козлова - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>18000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>4</categoryId>
-                <description>Взыскание заработной платы через суд</description>
-                <set-ids>salary-recovery-service</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.6</param>
-                <param name="Число отзывов">38</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.24</param>
-                <param name="Годы опыта">8</param>
-            </offer>
-
-            <!-- Корпоративное право -->
-            <offer id="corporate-law-001">
-                <name>Дмитрий Павлович Васильев - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>5000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>5</categoryId>
-                <description>Корпоративное консультирование</description>
-                <set-ids>corporate-law-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.8</param>
-                <param name="Число отзывов">52</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.19</param>
-                <param name="Годы опыта">14</param>
-            </offer>
-
-            <offer id="corporate-law-002">
-                <name>Дмитрий Павлович Васильев - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>15000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>5</categoryId>
-                <description>Регистрация ООО под ключ</description>
-                <set-ids>llc-registration-turnkey</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.8</param>
-                <param name="Число отзывов">52</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.30</param>
-                <param name="Годы опыта">14</param>
-            </offer>
-
-            <!-- Уголовное право -->
-            <offer id="criminal-law-001">
-                <name>Александр Игоревич Орлов - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>10000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>6</categoryId>
-                <description>Консультация адвоката по уголовным делам</description>
-                <set-ids>criminal-law-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.9</param>
-                <param name="Число отзывов">67</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.12</param>
-                <param name="Годы опыта">20</param>
-            </offer>
-
-            <offer id="criminal-law-002">
-                <name>Александр Игоревич Орлов - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>50000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>6</categoryId>
-                <description>Защита в суде по уголовным делам</description>
-                <set-ids>criminal-defense-court</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.9</param>
-                <param name="Число отзывов">67</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.35</param>
-                <param name="Годы опыта">20</param>
-            </offer>
-
-            <!-- Автоправо и ДТП -->
-            <offer id="auto-law-001">
-                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/dtp-lawyer</url>
-                <price>3000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>7</categoryId>
-                <description>Консультация юриста по ДТП</description>
-                <set-ids>dtp-lawyer-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.8</param>
-                <param name="Число отзывов">156</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.22</param>
-                <param name="Годы опыта">15</param>
-            </offer>
-
-            <offer id="auto-law-002">
-                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/dtp-lawyer</url>
-                <price>5000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>7</categoryId>
-                <description>Взыскание ущерба с ОСАГО</description>
-                <set-ids>osago-damage-recovery</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.8</param>
-                <param name="Число отзывов">156</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.28</param>
-                <param name="Годы опыта">15</param>
-            </offer>
-
-            <offer id="auto-law-003">
-                <name>Дмитрий Александрович Орлов - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/dtp-lawyer</url>
-                <price>7000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>7</categoryId>
-                <description>Взыскание ущерба без ОСАГО</description>
-                <set-ids>no-osago-damage-recovery</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.8</param>
-                <param name="Число отзывов">156</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.25</param>
-                <param name="Годы опыта">15</param>
-            </offer>
-
-            <!-- Наследственное право -->
-            <offer id="inheritance-law-001">
-                <name>Татьяна Михайловна Лебедева - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>3500</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>8</categoryId>
-                <description>Консультация по наследственным делам</description>
-                <set-ids>inheritance-law-consultation</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.7</param>
-                <param name="Число отзывов">41</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.17</param>
-                <param name="Годы опыта">13</param>
-            </offer>
-
-            <offer id="inheritance-law-002">
-                <name>Татьяна Михайловна Лебедева - ЮрСервис НСК</name>
-                <url>https://юридический-сервис.рф/services</url>
-                <price>25000</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>8</categoryId>
-                <description>Оформление наследства под ключ</description>
-                <set-ids>inheritance-processing-turnkey</set-ids>
-                <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
-                <param name="Рейтинг">4.7</param>
-                <param name="Число отзывов">41</param>
-                <param name="Регион">Новосибирск</param>
-                <param name="Конверсия">0.26</param>
-                <param name="Годы опыта">13</param>
-            </offer>
-
-        </offers>
-    </shop>
+      <!-- Наследственное право -->
+      <offer id="inheritance-law-001">
+        <name>Татьяна Михайловна Лебедева - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>3500</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>8</categoryId>
+        <description>Консультация по наследственным делам</description>
+        <param name="set-id">inheritance-law-consultation</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.7</param>
+        <param name="Число отзывов">41</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.17</param>
+        <param name="Годы опыта">13</param>
+      </offer>
+      <offer id="inheritance-law-002">
+        <name>Татьяна Михайловна Лебедева - ЮрСервис НСК</name>
+        <url>https://юридический-сервис.рф/services</url>
+        <price>25000</price>
+        <currencyId>RUB</currencyId>
+        <categoryId>8</categoryId>
+        <description>Оформление наследства под ключ</description>
+        <param name="set-id">inheritance-processing-turnkey</param>
+        <picture>https://юридический-сервис.рф/img/d1e1ebbb-6221-40f2-8729-0a1683ff4c19.jpg</picture>
+        <param name="Рейтинг">4.7</param>
+        <param name="Число отзывов">41</param>
+        <param name="Регион">Новосибирск</param>
+        <param name="Конверсия">0.26</param>
+        <param name="Годы опыта">13</param>
+      </offer>
+    </offers>
+  </shop>
 </yml_catalog>
