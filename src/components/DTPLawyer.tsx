@@ -8,7 +8,6 @@ const DTPLawyer = () => {
     phone: "",
     situation: "",
   });
-
   // КНОПКА ОТПРАВКИ - отправка заявки в WhatsApp через GreenAPI
   const handleSubmit = async (e) => {
   e.preventDefault();
