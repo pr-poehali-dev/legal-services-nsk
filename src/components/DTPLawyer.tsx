@@ -11,31 +11,42 @@ const DTPLawyer = () => {
 
   // КНОПКА ОТПРАВКИ - отправка заявки в WhatsApp через GreenAPI
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const textMsg = `Заявка с сайта:
-Имя: ${formData.name}
-Телефон: ${formData.phone}
-Ситуация: ${formData.situation}`;
+  const INSTANCE_ID = "1103279953";
+  const API_TOKEN = "c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e";
+  const ADMIN_PHONE = "79994523500";
 
-    const INSTANCE_ID = "1103279953";
-    const API_TOKEN = "c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e";
-    const ADMIN_PHONE = "79994523500";
+  // Тестовое сообщение
+  const textMsg = "Тестовая заявка с сайта";
 
-    try {
-      const res = await fetch(
-        `https://1103.api.green-api.com/waInstance${INSTANCE_ID}/sendMessage/${API_TOKEN}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            chatId: `${ADMIN_PHONE}@c.us`,
-            message: textMsg,
-          }),
+  try {
+    const res = await fetch(
+      `https://1103.api.green-api.com/waInstance${INSTANCE_ID}/sendMessage/${API_TOKEN}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          chatId: `${ADMIN_PHONE}@c.us`,
+          message: textMsg,
+        }),
+      }
+    );
+
+    const json = await res.json();
+    console.log("Результат GREEN API:", json);
+
+    if (res.ok) {
+      alert("Успешно!");
+    } else {
+      alert("Ошибка: " + JSON.stringify(json));
+    }
+  } catch (error) {
+    alert("Ошибка соединения: " + error.toString());
+  }
+};
 
       if (res.ok) {
         alert("Спасибо! Мы свяжемся с вами в течение 15 минут.");
