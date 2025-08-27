@@ -9,39 +9,8 @@ const DTPLawyer = () => {
     situation: "",
   });
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    const messageBody = `
-      🔥 Новая заявка!\n
-      👤 Имя: ${formData.name}\n
-      📞 Телефон: ${formData.phone}\n
-      📝 Описание ситуации: ${formData.situation}`;
-
-    const response = await fetch(`${apiUrl}/waInstance${idInstance}/sendMessage`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiTokenInstance}`,
-      },
-      body: JSON.stringify({
-        chatId: '79994523500@c.us',
-        message: messageBody,
-      }),
-    });
-
-    if (response.ok) {
-      console.log('Сообщение отправлено');
-      alert('Спасибо! Мы свяжемся с вами в течение 15 минут.');
-    } else {
-      throw new Error(`Ошибка отправки сообщения: ${await response.text()}`);
-    }
-  } catch (err) {
-    console.error(err.message);
-    alert('Что-то пошло не так. Попробуйте позже.');
-  }
-};
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     // Здесь будет обработка формы
     console.log("Заявка отправлена:", formData);
     alert("Спасибо! Мы свяжемся с вами в течение 15 минут.");
