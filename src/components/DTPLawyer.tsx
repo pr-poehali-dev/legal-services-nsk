@@ -9,8 +9,44 @@ const DTPLawyer = () => {
     situation: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const textMsg = `Заявка с сайта:
+Имя: ${formData.name}
+Телефон: ${formData.phone}
+Ситуация: ${formData.situation}`;
+
+  const INSTANCE_ID = "1103279953";
+  const API_TOKEN = "c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e";
+  const ADMIN_PHONE = "79994523500";
+
+  try {
+    const res = await fetch(
+      `https://1103.api.green-api.com/waInstance${INSTANCE_ID}/sendMessage/${API_TOKEN}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chatId: `${ADMIN_PHONE}@c.us`,
+          message: textMsg,
+        }),
+      }
+    );
+
+    if (res.ok) {
+      alert("Спасибо! Мы свяжемся с вами в течение 15 минут.");
+      setShowForm(false);
+      setFormData({ name: "", phone: "", situation: "" });
+    } else {
+      alert("Ошибка отправки. Попробуйте позже.");
+    }
+  } catch (error) {
+    alert("Ошибка соединения. Попробуйте позже.");
+  }
+};
     // Здесь будет обработка формы
     console.log("Заявка отправлена:", formData);
     alert("Спасибо! Мы свяжемся с вами в течение 15 минут.");
