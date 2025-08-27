@@ -1,4 +1,4 @@
-Это мой сайт, у него не работает форма обратной связи Настрой ее через  API GREEN import React, { useState } from "react";
+GREEN import React, { useState } from "react";
 import Icon from "@/components/ui/icon";
 
 const DTPLawyer = () => {
