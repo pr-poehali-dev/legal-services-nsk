@@ -7,28 +7,38 @@ import { useState } from "react";
 
 const Contacts = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    subject: '',
-    message: '',
-    consent: false
+    name: "",
+    phone: "",
+    email: "",
+    subject: "",
+    message: "",
+    consent: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value, type } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+      [name]:
+        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     }));
   };
 
   const sendToWhatsApp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.phone || !formData.message || !formData.consent) {
-      alert('Пожалуйста, заполните все обязательные поля и дайте согласие на обработку данных');
+
+    if (
+      !formData.name ||
+      !formData.phone ||
+      !formData.message ||
+      !formData.consent
+    ) {
+      alert(
+        "Пожалуйста, заполните все обязательные поля и дайте согласие на обработку данных",
+      );
       return;
     }
 
@@ -36,49 +46,57 @@ const Contacts = () => {
 
     try {
       // Green API настройки
-      const idInstance = '1103279953';
-      const apiTokenInstance = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e';
-      const chatId = '79994523500@c.us'; // Номер получателя
+      const idInstance = "1103279953";
+      const apiTokenInstance =
+        "c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e";
+      const chatId = "7993190500@c.us"; // Номер получателя
 
       const message = `🆕 Новое обращение с сайта:
 
 👤 Имя: ${formData.name}
 📞 Телефон: ${formData.phone}
-${formData.email ? `📧 Email: ${formData.email}` : ''}
-${formData.subject ? `📋 Тема: ${formData.subject}` : ''}
+${formData.email ? `📧 Email: ${formData.email}` : ""}
+${formData.subject ? `📋 Тема: ${formData.subject}` : ""}
 
 💬 Сообщение:
 ${formData.message}
 
-⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+⏰ Время: ${new Date().toLocaleString("ru-RU")}`;
 
-      const response = await fetch(`https://1103.api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://1103.api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chatId: chatId,
+            message: message,
+          }),
         },
-        body: JSON.stringify({
-          chatId: chatId,
-          message: message
-        })
-      });
+      );
 
       if (response.ok) {
-        alert('Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.');
+        alert(
+          "Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.",
+        );
         setFormData({
-          name: '',
-          phone: '',
-          email: '',
-          subject: '',
-          message: '',
-          consent: false
+          name: "",
+          phone: "",
+          email: "",
+          subject: "",
+          message: "",
+          consent: false,
         });
       } else {
-        throw new Error('Ошибка при отправке');
+        throw new Error("Ошибка при отправке");
       }
     } catch (error) {
-      console.error('Ошибка отправки:', error);
-      alert('Произошла ошибка при отправке сообщения. Попробуйте позвонить нам напрямую.');
+      console.error("Ошибка отправки:", error);
+      alert(
+        "Произошла ошибка при отправке сообщения. Попробуйте позвонить нам напрямую.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -88,8 +106,8 @@ ${formData.message}
     {
       icon: "Phone",
       title: "Телефон",
-      value: "+7 (999) 452 35 00",
-      link: "tel:+79994523500",
+      value: "+7 (993) 190 35 00",
+      link: "tel:+79931903500",
     },
     {
       icon: "Mail",
@@ -169,7 +187,7 @@ ${formData.message}
                     width="100%"
                     height="100%"
                     frameBorder="0"
-                    style={{ minHeight: '300px' }}
+                    style={{ minHeight: "300px" }}
                     title="Карта офиса в Новосибирске"
                     loading="lazy"
                     allowFullScreen
@@ -192,21 +210,21 @@ ${formData.message}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Имя *</label>
-                    <Input 
+                    <Input
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      placeholder="Ваше имя" 
+                      placeholder="Ваше имя"
                       required
                     />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Телефон *</label>
-                    <Input 
+                    <Input
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      placeholder="+7 (___) ___-__-__" 
+                      placeholder="+7 (___) ___-__-__"
                       required
                     />
                   </div>
@@ -214,22 +232,22 @@ ${formData.message}
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Email</label>
-                  <Input 
+                  <Input
                     name="email"
-                    type="email" 
+                    type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="your@email.com" 
+                    placeholder="your@email.com"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Тема обращения</label>
-                  <Input 
+                  <Input
                     name="subject"
                     value={formData.subject}
                     onChange={handleInputChange}
-                    placeholder="Кратко опишите тему вопроса" 
+                    placeholder="Кратко опишите тему вопроса"
                   />
                 </div>
 
@@ -246,13 +264,13 @@ ${formData.message}
                 </div>
 
                 <div className="flex items-start space-x-2">
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     name="consent"
                     checked={formData.consent}
                     onChange={handleInputChange}
-                    className="mt-1" 
-                    id="consent" 
+                    className="mt-1"
+                    id="consent"
                     required
                   />
                   <label
@@ -260,8 +278,8 @@ ${formData.message}
                     className="text-sm text-muted-foreground"
                   >
                     Я согласен на обработку персональных данных в соответствии с{" "}
-                    <a 
-                      href="/privacy" 
+                    <a
+                      href="/privacy"
                       target="_blank"
                       className="text-primary hover:underline"
                     >
@@ -278,7 +296,10 @@ ${formData.message}
                 >
                   {isSubmitting ? (
                     <>
-                      <Icon name="Loader2" className="h-5 w-5 mr-2 animate-spin" />
+                      <Icon
+                        name="Loader2"
+                        className="h-5 w-5 mr-2 animate-spin"
+                      />
                       Отправляем...
                     </>
                   ) : (
