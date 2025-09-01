@@ -8,7 +8,7 @@ const Practice = () => {
       description: "Представительство в арбитражных судах всех инстанций",
       cases: "200+ дел",
       price: "от 30 000 ₽",
-      urgent: "срочно — +50%",
+      urgent: "срочно — +50%"
     },
     {
       icon: "Scale",
@@ -16,7 +16,7 @@ const Practice = () => {
       description: "Защита гражданских прав в судах общей юрисдикции",
       cases: "180+ дел",
       price: "от 25 000 ₽",
-      urgent: "консультация — бесплатно",
+      urgent: "консультация — бесплатно"
     },
     {
       icon: "ShieldCheck",
@@ -24,7 +24,7 @@ const Practice = () => {
       description: "Обжалование постановлений, защита от штрафов",
       cases: "150+ дел",
       price: "от 15 000 ₽",
-      urgent: "без победы — без оплаты",
+      urgent: "без победы — без оплаты"
     },
   ];
 
@@ -42,10 +42,7 @@ const Practice = () => {
 
         <div className="grid lg:grid-cols-3 gap-8">
           {practices.map((practice, index) => (
-            <div
-              key={index}
-              className="bg-card border border-border rounded-xl p-6 text-center space-y-6 hover:shadow-lg transition-shadow"
-            >
+            <div key={index} className="bg-card border border-border rounded-xl p-6 text-center space-y-6 hover:shadow-lg transition-shadow">
               <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
                 <Icon name={practice.icon} className="h-10 w-10 text-primary" />
               </div>
@@ -66,8 +63,8 @@ const Practice = () => {
                   </div>
                 </div>
                 <div className="pt-2">
-                  <button
-                    onClick={() => window.open("tel:+79931903500", "_self")}
+                  <button 
+                    onClick={() => window.open('tel:+79994523500', '_self')}
                     className="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium"
                   >
                     ЗАКАЗАТЬ УСЛУГУ
@@ -92,9 +89,7 @@ const Practice = () => {
                   />
                   <div>
                     <div className="font-semibold">Многолетний опыт</div>
-                    <div className="text-sm text-muted-foreground">
-                      Более 10 лет успешной практики
-                    </div>
+                    <div className="text-sm text-muted-foreground">Более 10 лет успешной практики</div>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
