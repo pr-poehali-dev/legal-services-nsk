@@ -8,7 +8,7 @@ const StructuredData = () => {
     "url": "https://юридический-сервис.рф",
     "logo": "https://юридический-сервис.рф/logo.png",
     "image": "https://юридический-сервис.рф/og-image.jpg",
-    "telephone": "+79994523500",
+    "telephone": "+7 (999) 452-35-00",
     "email": "info@юридический-сервис.рф",
     "address": {
       "@type": "PostalAddress",
@@ -55,7 +55,8 @@ const StructuredData = () => {
             "@type": "Service",
             "name": "Семейные споры",
             "description": "Развод, алименты, раздел имущества"
-          }
+          },
+          "url": "https://юридический-сервис.рф/services#family"
         },
         {
           "@type": "Offer",
@@ -63,7 +64,8 @@ const StructuredData = () => {
             "@type": "Service", 
             "name": "Трудовые споры",
             "description": "Увольнение, заработная плата, трудовые права"
-          }
+          },
+          "url": "https://юридический-сервис.рф/services#labor"
         },
         {
           "@type": "Offer",
@@ -71,7 +73,8 @@ const StructuredData = () => {
             "@type": "Service",
             "name": "ДТП и страховые споры",
             "description": "ОСАГО, возмещение ущерба, восстановление после ДТП"
-          }
+          },
+          "url": "https://юридический-сервис.рф/dtp-lawyer"
         },
         {
           "@type": "Offer",
@@ -79,7 +82,8 @@ const StructuredData = () => {
             "@type": "Service",
             "name": "Гражданские споры", 
             "description": "Договоры, взыскание долгов, защита прав"
-          }
+          },
+          "url": "https://юридический-сервис.рф/services#civil"
         },
         {
           "@type": "Offer",
@@ -87,7 +91,8 @@ const StructuredData = () => {
             "@type": "Service",
             "name": "Недвижимость",
             "description": "Покупка, продажа, оформление права собственности"
-          }
+          },
+          "url": "https://юридический-сервис.рф/services#realestate"
         },
         {
           "@type": "Offer",
@@ -95,14 +100,15 @@ const StructuredData = () => {
             "@type": "Service",
             "name": "Уголовные дела",
             "description": "Защита в суде, консультации по уголовным делам"
-          }
+          },
+          "url": "https://юридический-сервис.рф/services#criminal"
         }
       ]
     },
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "telephone": "+79994523500",
+        "telephone": "+7 (999) 452-35-00",
         "contactType": "customer service",
         "availableLanguage": "Russian",
         "hoursAvailable": {

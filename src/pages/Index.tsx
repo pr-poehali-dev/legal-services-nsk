@@ -9,12 +9,14 @@ import SEOHead from "@/components/SEOHead";
 import ContactForm from "@/components/ContactForm";
 import QuickLinks from "@/components/QuickLinks";
 import StructuredData from "@/components/StructuredData";
+import YandexQuickLinks from "@/components/YandexQuickLinks";
 
 const Index = () => {
   return (
     <>
       <SEOHead />
       <StructuredData />
+      <YandexQuickLinks />
       <div className="min-h-screen">
         <Hero />
         <Services />

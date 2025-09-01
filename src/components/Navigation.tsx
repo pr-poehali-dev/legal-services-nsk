@@ -39,6 +39,8 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
         isScrolled ? 'bg-background/95 shadow-lg' : 'bg-background/70'
       }`}
       role="banner"
+      itemScope 
+      itemType="https://schema.org/SiteNavigationElement"
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
