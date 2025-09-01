@@ -42,7 +42,7 @@ const ConsultationModal = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            chatId: "79994523500@c.us",
+            chatId: "79931903500@c.us",
             message: message,
           }),
         },
@@ -84,9 +84,7 @@ const ConsultationModal = () => {
             <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
               <Icon name="Scale" className="h-8 w-8 text-primary" />
             </div>
-            <h3 className="text-lg font-semibold">
-              БЕСПЛАТНАЯ консультация
-            </h3>
+            <h3 className="text-lg font-semibold">БЕСПЛАТНАЯ консультация</h3>
             <p className="text-muted-foreground text-sm">
               Оставьте заявку — мы перезвоним в течение 15 минут
             </p>
@@ -134,11 +132,13 @@ const ConsultationModal = () => {
               {isSubmitting ? "Отправляем..." : "ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ"}
             </Button>
             <div className="text-center">
-              <p className="text-xs text-muted-foreground mb-2">или звоните прямо сейчас</p>
+              <p className="text-xs text-muted-foreground mb-2">
+                или звоните прямо сейчас
+              </p>
               <Button
                 variant="outline"
                 onClick={() => {
-                  window.open('tel:+79994523500', '_self');
+                  window.open("tel:+79931903500", "_self");
                   consultationModal.close();
                 }}
                 className="border-accent text-accent hover:bg-accent hover:text-white"
@@ -151,8 +151,8 @@ const ConsultationModal = () => {
 
           <div className="text-center text-xs text-muted-foreground">
             Нажимая кнопку, вы соглашаетесь с{" "}
-            <a 
-              href="/privacy" 
+            <a
+              href="/privacy"
               target="_blank"
               className="text-primary hover:underline"
             >
