@@ -91,7 +91,7 @@ const ConsultationModal = () => {
             <div className="flex items-center justify-center space-x-4 text-xs">
               <div className="flex items-center text-green-600">
                 <Icon name="Phone" className="h-3 w-3 mr-1" />
-                +7 999 452 35 00
+                +7 993 190 35 00
               </div>
               <div className="flex items-center text-green-600">
                 <Icon name="Clock" className="h-3 w-3 mr-1" />
@@ -144,7 +144,7 @@ const ConsultationModal = () => {
                 className="border-accent text-accent hover:bg-accent hover:text-white"
               >
                 <Icon name="Phone" className="h-4 w-4 mr-2" />
-                +7 999 452 35 00
+                +7 993 190 35 00
               </Button>
             </div>
           </div>

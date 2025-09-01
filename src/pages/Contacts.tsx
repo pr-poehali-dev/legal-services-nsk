@@ -63,7 +63,7 @@ const Contacts = () => {
       toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время");
     } catch (error) {
       toast.error(
-        "Ошибка отправки. Попробуйте позвонить по телефону +7 999 452 35 00",
+        "Ошибка отправки. Попробуйте позвонить по телефону +7 993 190 35 00",
       );
     } finally {
       setIsSubmitting(false);
@@ -94,7 +94,7 @@ const Contacts = () => {
     {
       icon: "Phone",
       title: "Телефоны",
-      content: ["+7 (999) 452-35-00"],
+      content: ["+7 (993) 190-35-00"],
       action: "tel:+79931903500",
     },
     {
@@ -144,7 +144,7 @@ const Contacts = () => {
                   className="w-full bg-primary hover:bg-primary/90"
                 >
                   <Icon name="Phone" className="h-4 w-4 mr-2" />
-                  Позвонить сейчас: +7 999 452 35 00
+                  Позвонить сейчас: +7 993 190 35 00
                 </Button>
                 <Button
                   onClick={() => setIsSubmitted(false)}
@@ -234,7 +234,7 @@ const Contacts = () => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+7 (999) 452-35-00"
+                        placeholder="+7 (993) 190-35-00"
                         required
                       />
                     </div>
@@ -380,7 +380,7 @@ const Contacts = () => {
                 </p>
                 <a href="tel:+79931903500">
                   <Button size="lg" variant="secondary" className="w-full">
-                    +7 (999) 452-35-00
+                    +7 (993) 190-35-00
                   </Button>
                 </a>
               </CardContent>

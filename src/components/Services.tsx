@@ -242,7 +242,7 @@ const Services = () => {
                   className="border-2 border-accent text-accent hover:bg-accent hover:text-white font-bold"
                 >
                   <Icon name="Phone" className="h-5 w-5 mr-2" />
-                  +7 999 452 35 00
+                  +7 993 190 35 00
                 </Button>
               </div>
             </div>

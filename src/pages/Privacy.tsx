@@ -134,7 +134,7 @@ const Privacy = () => {
                     href="tel:+79931903500"
                     className="text-primary hover:underline"
                   >
-                    +7 (999) 190-35-00
+                    +7 (993) 190-35-00
                   </a>
                 </p>
                 <p className="mb-2">

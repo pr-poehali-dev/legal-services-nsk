@@ -145,7 +145,7 @@ const DTPLawyer = () => {
                   href="tel:+79931903500"
                   className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-blue-900 transition-colors text-center"
                 >
-                  +7 (999) 452-35-00
+                  +7 (993) 190-35-00
                 </a>
               </div>
 
@@ -369,7 +369,7 @@ const DTPLawyer = () => {
               ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ
             </button>
             <div className="text-blue-900">
-              <div className="font-bold text-2xl">+7 (999) 452-35-00</div>
+              <div className="font-bold text-2xl">+7 (993) 190-35-00</div>
               <div className="text-sm">Работаем 24/7</div>
             </div>
           </div>

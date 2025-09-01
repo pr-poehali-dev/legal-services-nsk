@@ -82,7 +82,7 @@ const ContactForm = () => {
         </p>
         <div className="flex items-center mt-3 p-3 bg-accent/10 rounded-lg">
           <Icon name="Phone" className="h-5 w-5 text-accent mr-2" />
-          <span className="font-semibold text-accent">+7 999 452 35 00</span>
+          <span className="font-semibold text-accent">+7 993 190 35 00</span>
           <span className="text-sm text-muted-foreground ml-2">
             — звоните прямо сейчас
           </span>
