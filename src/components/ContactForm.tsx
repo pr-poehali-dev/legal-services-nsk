@@ -110,7 +110,7 @@ const ContactForm = () => {
               type="tel"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="+7 999 123 45 67"
+              placeholder="+7 993 190 35 00"
               required
             />
           </div>
