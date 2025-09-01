@@ -56,7 +56,7 @@ export default function Layout({ children }: LayoutProps) {
             {/* CTA Button */}
             <div className="hidden md:flex items-center gap-4">
               <a
-                href="tel:+79931903500"
+                href="tel:+79994523500"
                 className="text-sm text-slate-600 hover:text-blue-600"
               >
                 +7 (495) 123-45-67
@@ -96,7 +96,7 @@ export default function Layout({ children }: LayoutProps) {
               ))}
               <div className="mt-4 pt-4 border-t">
                 <a
-                  href="tel:+79931903500"
+                  href="tel:+79994523500"
                   className="flex items-center gap-3 px-3 py-3 text-sm text-slate-600"
                 >
                   <Icon name="Phone" size={18} />

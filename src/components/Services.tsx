@@ -199,7 +199,7 @@ const Services = () => {
                       variant="outline"
                       size="sm"
                       className="flex-1"
-                      onClick={() => window.open("tel:+79931903500", "_self")}
+                      onClick={() => window.open('tel:+79994523500', '_self')}
                     >
                       <Icon name="Phone" className="h-4 w-4 mr-1" />
                       Позвонить
@@ -232,17 +232,15 @@ const Services = () => {
                 БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ
               </Button>
               <div className="text-center">
-                <div className="text-sm text-muted-foreground">
-                  или звоните прямо сейчас
-                </div>
+                <div className="text-sm text-muted-foreground">или звоните прямо сейчас</div>
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => window.open("tel:+79931903500", "_self")}
+                  onClick={() => window.open('tel:+79994523500', '_self')}
                   className="border-2 border-accent text-accent hover:bg-accent hover:text-white font-bold"
                 >
                   <Icon name="Phone" className="h-5 w-5 mr-2" />
-                  +7 993 190 35 00
+                  +7 999 452 35 00
                 </Button>
               </div>
             </div>

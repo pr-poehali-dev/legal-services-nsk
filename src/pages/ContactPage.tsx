@@ -43,8 +43,8 @@ export default function ContactPage() {
     {
       icon: "Phone",
       title: "Телефон",
-      content: ["+7 (993) 190-35-00", "+7 (999) 452-35-00"],
-      action: "tel:+79931903500",
+      content: ["+7 (999) 452-35-99", "+7 (999) 452-35-00"],
+      action: "tel:+79994523500",
     },
     {
       icon: "Mail",
@@ -279,7 +279,7 @@ export default function ContactPage() {
                 <p className="text-blue-100 mb-4">
                   Звоните прямо сейчас, мы работаем 24/7
                 </p>
-                <a href="tel:+79931903500">
+                <a href="tel:+79994523500">
                   <Button size="lg" variant="secondary" className="w-full">
                     <Icon name="Phone" size={20} className="mr-2" />
                     +7 (495) 123-45-67
