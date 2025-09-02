@@ -4,7 +4,7 @@ const StructuredData = () => {
     "@type": "LegalService",
     "name": "ЮрСервис НСК",
     "alternateName": "Юридическая компания ЮрСервис НСК",
-    "description": "Профессиональные юридические услуги в Новосибирске: семейное право, трудовые споры, ДТП, недвижимость, гражданские и уголовные дела. Бесплатная консультация.",
+    "description": "Профессиональные юридические услуги в Новосибирске: семейное право, наследство, жилищные споры, земельные дела, арбитраж, банкротство, трудовые споры, автоюрист, медицинские и кредитные споры. Цены от 1 рубля. Бесплатная консультация.",
     "url": "https://юридический-сервис.рф",
     "logo": "https://юридический-сервис.рф/logo.png",
     "image": "https://юридический-сервис.рф/og-image.jpg",
@@ -53,55 +53,91 @@ const StructuredData = () => {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Семейные споры",
-            "description": "Развод, алименты, раздел имущества"
+            "name": "Общие юридические услуги",
+            "description": "Консультации, составление документов, судебная защита",
+            "priceRange": "1-12000 RUB"
           },
-          "url": "https://юридический-сервис.рф/services#family"
+          "url": "https://юридический-сервис.рф/pricing#general"
         },
         {
           "@type": "Offer",
           "itemOffered": {
-            "@type": "Service", 
+            "@type": "Service",
+            "name": "Семейное право",
+            "description": "Развод, алименты, раздел имущества, опека",
+            "priceRange": "4000-15000 RUB"
+          },
+          "url": "https://юридический-сервис.рф/pricing#family"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Наследственные дела",
+            "description": "Оформление наследства, завещания, споры",
+            "priceRange": "800-25000 RUB"
+          },
+          "url": "https://юридический-сервис.рф/pricing#inheritance"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Автоюристы",
+            "description": "ДТП, ОСАГО, КАСКО, возврат прав",
+            "priceRange": "1500-50000 RUB"
+          },
+          "url": "https://юридический-сервис.рф/pricing#auto"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Жилищные вопросы",
+            "description": "Сделки с недвижимостью, споры, выселение",
+            "priceRange": "2500-12500 RUB"
+          },
+          "url": "https://юридический-сервис.рф/pricing#housing"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Земельные дела",
+            "description": "Право собственности на землю, споры, межевание",
+            "priceRange": "8000-25000 RUB"
+          },
+          "url": "https://юридический-сервис.рф/pricing#land"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
             "name": "Трудовые споры",
-            "description": "Увольнение, заработная плата, трудовые права"
+            "description": "Увольнение, зарплата, восстановление на работе",
+            "priceRange": "8000-30000 RUB"
           },
-          "url": "https://юридический-сервис.рф/services#labor"
+          "url": "https://юридический-сервис.рф/pricing#labor"
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "ДТП и страховые споры",
-            "description": "ОСАГО, возмещение ущерба, восстановление после ДТП"
+            "name": "Банкротство",
+            "description": "Процедура банкротства, реструктуризация долгов",
+            "priceRange": "2000-8000 RUB"
           },
-          "url": "https://юридический-сервис.рф/dtp-lawyer"
+          "url": "https://юридический-сервис.рф/pricing#bankruptcy"
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Гражданские споры", 
-            "description": "Договоры, взыскание долгов, защита прав"
+            "name": "Арбитражные споры",
+            "description": "Корпоративные споры, налоговые дела",
+            "priceRange": "25000-100000 RUB"
           },
-          "url": "https://юридический-сервис.рф/services#civil"
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Недвижимость",
-            "description": "Покупка, продажа, оформление права собственности"
-          },
-          "url": "https://юридический-сервис.рф/services#realestate"
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Уголовные дела",
-            "description": "Защита в суде, консультации по уголовным делам"
-          },
-          "url": "https://юридический-сервис.рф/services#criminal"
+          "url": "https://юридический-сервис.рф/pricing#arbitration"
         }
       ]
     },
@@ -186,7 +222,7 @@ const StructuredData = () => {
         "name": "Сколько стоит консультация юриста?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Первичная консультация предоставляется бесплатно. Стоимость дальнейших услуг зависит от сложности дела и обсуждается индивидуально."
+          "text": "Устная консультация от 1 рубля, письменная консультация от 2800 рублей. Первичная консультация по телефону бесплатно. Подробные цены на все услуги смотрите на странице тарифов."
         }
       },
       {

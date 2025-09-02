@@ -7,6 +7,7 @@ import { ClientProvider } from "@/contexts/ClientContext";
 import Navigation from "@/components/Navigation";
 import Home from "@/pages/Index";
 import Services from "@/pages/Services";
+import Pricing from "@/pages/Pricing";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import About from "@/pages/About";
@@ -45,6 +46,7 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/dtp-lawyer" element={<DTPLawyer />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
