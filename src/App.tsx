@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
@@ -73,19 +74,21 @@ const AppContent = () => {
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
-      <AuthProvider>
-        <ClientProvider>
-          <BlogProvider>
-            <ModalProvider>
-              <Router>
-                <AppContent />
-              </Router>
-            </ModalProvider>
-          </BlogProvider>
-        </ClientProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider attribute="class" defaultTheme="light">
+        <AuthProvider>
+          <ClientProvider>
+            <BlogProvider>
+              <ModalProvider>
+                <Router>
+                  <AppContent />
+                </Router>
+              </ModalProvider>
+            </BlogProvider>
+          </ClientProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
