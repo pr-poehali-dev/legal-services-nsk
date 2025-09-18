@@ -50,6 +50,8 @@ interface CaseManagementProps {
     status: string;
   }>>;
   handleCreateCase: (e: React.FormEvent) => void;
+  updateCase: (id: string, updates: Partial<Case>) => void;
+  deleteCase: (id: string) => void;
 }
 
 const CaseManagement: React.FC<CaseManagementProps> = ({
@@ -57,7 +59,9 @@ const CaseManagement: React.FC<CaseManagementProps> = ({
   clients,
   newCaseForm,
   setNewCaseForm,
-  handleCreateCase
+  handleCreateCase,
+  updateCase,
+  deleteCase
 }) => {
   const getStatusBadge = (status: string) => {
     const statusConfig = {
@@ -187,17 +191,39 @@ const CaseManagement: React.FC<CaseManagementProps> = ({
               </div>
 
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    const newStatus = case_.status === 'pending' ? 'in_progress' :
+                                     case_.status === 'in_progress' ? 'completed' : 'pending';
+                    updateCase(case_.id, { status: newStatus });
+                  }}
+                >
                   <Icon name="Edit" className="h-4 w-4 mr-2" />
-                  Редактировать
+                  Изменить статус
                 </Button>
-                <Button variant="outline" size="sm">
-                  <Icon name="MessageCircle" className="h-4 w-4 mr-2" />
-                  Написать клиенту
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    updateCase(case_.id, { progress: Math.min(100, case_.progress + 25) });
+                  }}
+                >
+                  <Icon name="TrendingUp" className="h-4 w-4 mr-2" />
+                  +25% прогресс
                 </Button>
-                <Button variant="outline" size="sm">
-                  <Icon name="FileText" className="h-4 w-4 mr-2" />
-                  Документы
+                <Button 
+                  variant="destructive" 
+                  size="sm"
+                  onClick={() => {
+                    if (confirm('Вы уверены, что хотите удалить это дело?')) {
+                      deleteCase(case_.id);
+                    }
+                  }}
+                >
+                  <Icon name="Trash2" className="h-4 w-4 mr-2" />
+                  Удалить
                 </Button>
               </div>
             </CardContent>

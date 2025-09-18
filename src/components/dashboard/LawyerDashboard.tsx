@@ -10,7 +10,7 @@ import ClientManagement from './components/ClientManagement';
 import PlaceholderTab from './components/PlaceholderTab';
 import BlogAdmin from '@/components/admin/BlogAdmin';
 import { useAuth } from '@/contexts/AuthContext';
-import { useClients } from '@/contexts/ClientContext';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface Stats {
   totalClients: number;
@@ -23,7 +23,7 @@ interface Stats {
 const LawyerDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const { user, logout } = useAuth();
-  const { clients, cases, addClient, addCase, updateCase, deleteCase } = useClients();
+  const { clients, cases, loading, error, createCase, updateCase, deleteCase } = useAdmin();
   
   const [newCaseForm, setNewCaseForm] = useState({
     clientId: '',
@@ -46,45 +46,41 @@ const LawyerDashboard: React.FC = () => {
     pendingPayments: cases.filter(c => c.status === 'pending').length
   };
 
-  const handleCreateCase = (e: React.FormEvent) => {
+  const handleCreateCase = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newCaseForm.clientId || !newCaseForm.title || !newCaseForm.description) {
       alert('Заполните все обязательные поля');
       return;
     }
 
-    const client = clients.find(c => c.id === newCaseForm.clientId);
-    if (!client) {
-      alert('Клиент не найден');
-      return;
+    try {
+      await createCase({
+        title: newCaseForm.title,
+        description: newCaseForm.description,
+        status: newCaseForm.status as any,
+        priority: newCaseForm.priority as any,
+        clientId: newCaseForm.clientId,
+        price: parseInt(newCaseForm.price) || 0,
+        progress: 0,
+        category: newCaseForm.category,
+        notes: ''
+      });
+
+      // Reset form
+      setNewCaseForm({
+        clientId: '',
+        title: '',
+        description: '',
+        price: '',
+        status: 'pending',
+        priority: 'medium',
+        category: ''
+      });
+
+      alert('Дело успешно создано!');
+    } catch (err) {
+      alert('Ошибка создания дела');
     }
-
-    addCase({
-      title: newCaseForm.title,
-      description: newCaseForm.description,
-      status: newCaseForm.status as any,
-      priority: newCaseForm.priority as any,
-      clientId: newCaseForm.clientId,
-      clientName: client.name,
-      price: parseInt(newCaseForm.price) || 0,
-      progress: 0,
-      category: newCaseForm.category,
-      documents: [],
-      notes: ''
-    });
-
-    // Reset form
-    setNewCaseForm({
-      clientId: '',
-      title: '',
-      description: '',
-      price: '',
-      status: 'pending',
-      priority: 'medium',
-      category: ''
-    });
-
-    alert('Дело успешно создано!');
   };
 
   const handleBackToSite = () => {
@@ -166,18 +162,9 @@ const LawyerDashboard: React.FC = () => {
           <TabsContent value="clients" className="space-y-6">
             <ClientManagement 
               clients={clients} 
-              addClient={addClient}
-              updateClient={(id, updates) => {
-                // Обновляем клиента через контекст
-                const { updateClient } = useClients();
-                updateClient(id, updates);
-              }}
-              deleteClient={(id) => {
-                if (confirm('Вы уверены, что хотите удалить этого клиента? Все его дела также будут удалены.')) {
-                  const { deleteClient } = useClients();
-                  deleteClient(id);
-                }
-              }}
+              addClient={() => {}}
+              updateClient={() => {}}
+              deleteClient={() => {}}
             />
           </TabsContent>
 

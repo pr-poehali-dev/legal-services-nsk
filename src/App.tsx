@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { BlogProvider } from "@/contexts/BlogContext";
 import { ClientProvider } from "@/contexts/ClientContext";
+import { AdminProvider } from "@/contexts/AdminContext";
 import Navigation from "@/components/Navigation";
 import Home from "@/pages/Index";
 import Services from "@/pages/Services";
@@ -78,13 +79,15 @@ function App() {
       <ThemeProvider attribute="class" defaultTheme="light">
         <AuthProvider>
           <ClientProvider>
-            <BlogProvider>
-              <ModalProvider>
-                <Router>
-                  <AppContent />
-                </Router>
-              </ModalProvider>
-            </BlogProvider>
+            <AdminProvider>
+              <BlogProvider>
+                <ModalProvider>
+                  <Router>
+                    <AppContent />
+                  </Router>
+                </ModalProvider>
+              </BlogProvider>
+            </AdminProvider>
           </ClientProvider>
         </AuthProvider>
       </ThemeProvider>
