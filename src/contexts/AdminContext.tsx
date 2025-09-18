@@ -51,8 +51,7 @@ export const useAdmin = () => {
 };
 
 const API_BASE = 'https://functions.poehali.dev';
-const USERS_API = `${API_BASE}/3143739f-1514-4a87-85e4-8c38b3b8a286`;
-const CASES_API = `${API_BASE}/5cca756c-d193-47a0-950c-db566991bc19`;
+const ADMIN_API = `${API_BASE}/08d77f75-4910-46f5-8d70-eb523cb523cc`;
 
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [clients, setClients] = useState<AdminClient[]>([]);
@@ -65,26 +64,20 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setError(null);
     
     try {
-      // Load users
-      const usersResponse = await fetch(USERS_API);
-      if (usersResponse.ok) {
-        const usersData = await usersResponse.json();
-        setClients(usersData.users || []);
+      const response = await fetch(ADMIN_API);
+      if (response.ok) {
+        const data = await response.json();
+        setClients(data.users || []);
+        setCases(data.cases || []);
+        if (data.demo_mode) {
+          console.log('Работаем в demo режиме');
+        }
       } else {
-        console.error('Failed to load users:', usersResponse.status);
-      }
-
-      // Load cases  
-      const casesResponse = await fetch(CASES_API);
-      if (casesResponse.ok) {
-        const casesData = await casesResponse.json();
-        setCases(casesData.cases || []);
-      } else {
-        console.error('Failed to load cases:', casesResponse.status);
+        setError('Ошибка загрузки данных');
       }
     } catch (err) {
       console.error('Error loading data:', err);
-      setError('Ошибка загрузки данных');
+      setError('Ошибка соединения');
     } finally {
       setLoading(false);
     }
@@ -92,14 +85,19 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const createCase = async (caseData: Partial<AdminCase>) => {
     try {
-      const response = await fetch(CASES_API, {
+      const response = await fetch(ADMIN_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(caseData)
       });
 
       if (response.ok) {
-        await loadData(); // Reload data
+        const result = await response.json();
+        if (result.success) {
+          await loadData(); // Reload data
+        } else {
+          throw new Error(result.error || 'Failed to create case');
+        }
       } else {
         throw new Error('Failed to create case');
       }
@@ -111,17 +109,22 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const updateCase = async (id: string, updates: Partial<AdminCase>) => {
     try {
-      const response = await fetch(`${CASES_API}?id=${id}`, {
+      const response = await fetch(`${ADMIN_API}?id=${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)
       });
 
       if (response.ok) {
-        // Update local state
-        setCases(prev => prev.map(c => 
-          c.id === id ? { ...c, ...updates } : c
-        ));
+        const result = await response.json();
+        if (result.success) {
+          // Update local state immediately for better UX
+          setCases(prev => prev.map(c => 
+            c.id === id ? { ...c, ...updates } : c
+          ));
+        } else {
+          throw new Error(result.error || 'Failed to update case');
+        }
       } else {
         throw new Error('Failed to update case');
       }
@@ -133,12 +136,17 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const deleteCase = async (id: string) => {
     try {
-      const response = await fetch(`${CASES_API}?id=${id}`, {
+      const response = await fetch(`${ADMIN_API}?id=${id}`, {
         method: 'DELETE'
       });
 
       if (response.ok) {
-        setCases(prev => prev.filter(c => c.id !== id));
+        const result = await response.json();
+        if (result.success) {
+          setCases(prev => prev.filter(c => c.id !== id));
+        } else {
+          throw new Error(result.error || 'Failed to delete case');
+        }
       } else {
         throw new Error('Failed to delete case');
       }
