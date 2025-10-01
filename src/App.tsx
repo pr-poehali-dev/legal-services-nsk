@@ -14,6 +14,7 @@ import Contacts from "@/pages/Contacts";
 import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
 import DTPLawyer from "@/components/DTPLawyer";
+import AdminPanel from "@/pages/AdminPanel";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
 
@@ -41,6 +42,7 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/contacts" element={<Contacts />} />
                     <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/admin" element={<AdminPanel />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

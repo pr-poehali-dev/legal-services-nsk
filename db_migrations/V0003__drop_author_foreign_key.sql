@@ -1,0 +1,1 @@
+ALTER TABLE blog_posts DROP CONSTRAINT blog_posts_author_id_fkey;
