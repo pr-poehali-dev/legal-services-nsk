@@ -73,13 +73,6 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-2">
             <Button
-              variant="outline"
-              onClick={onLoginClick}
-            >
-              <Icon name="LogIn" className="h-4 w-4 mr-2" />
-              Войти
-            </Button>
-            <Button
               className="bg-primary hover:bg-primary/90"
               onClick={openModal}
             >
@@ -116,17 +109,6 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
                   {item.name}
                 </Link>
               ))}
-              <Button
-                variant="outline"
-                className="mt-2 w-full"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  onLoginClick?.();
-                }}
-              >
-                <Icon name="LogIn" className="h-4 w-4 mr-2" />
-                Войти
-              </Button>
               <Button
                 className="mt-2 w-full bg-primary hover:bg-primary/90"
                 onClick={openModal}
