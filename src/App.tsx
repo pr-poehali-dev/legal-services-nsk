@@ -16,9 +16,7 @@ import NotFound from "@/pages/NotFound";
 import DTPLawyer from "@/components/DTPLawyer";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
-import ClientDashboard from "@/pages/ClientDashboard";
-import LawyerDashboard from "@/pages/LawyerDashboard";
-import AdminDashboard from "@/pages/AdminDashboard";
+
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "@/components/ui/sonner";
@@ -43,12 +41,6 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/contacts" element={<Contacts />} />
                     <Route path="/privacy" element={<Privacy />} />
-                    
-                    {/* Личные кабинеты */}
-                    <Route path="/client" element={<ClientDashboard />} />
-                    <Route path="/lawyer" element={<LawyerDashboard />} />
-                    <Route path="/admin" element={<AdminDashboard />} />
-                    
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

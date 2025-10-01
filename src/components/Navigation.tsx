@@ -74,24 +74,16 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
           <div className="hidden md:flex items-center gap-2">
             <Button
               variant="outline"
-              onClick={() => window.location.href = '/client'}
+              onClick={onLoginClick}
             >
-              <Icon name="User" className="h-4 w-4 mr-2" />
-              Клиент
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => window.location.href = '/lawyer'}
-            >
-              <Icon name="Briefcase" className="h-4 w-4 mr-2" />
-              Юрист
+              <Icon name="LogIn" className="h-4 w-4 mr-2" />
+              Войти
             </Button>
             <Button
               className="bg-primary hover:bg-primary/90"
-              onClick={() => window.location.href = '/admin'}
+              onClick={openModal}
             >
-              <Icon name="Settings" className="h-4 w-4 mr-2" />
-              Админ
+              Консультация
             </Button>
           </div>
 
@@ -129,32 +121,17 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
                 className="mt-2 w-full"
                 onClick={() => {
                   setIsMenuOpen(false);
-                  window.location.href = '/client';
+                  onLoginClick?.();
                 }}
               >
-                <Icon name="User" className="h-4 w-4 mr-2" />
-                Клиент
-              </Button>
-              <Button
-                variant="outline"
-                className="mt-2 w-full"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  window.location.href = '/lawyer';
-                }}
-              >
-                <Icon name="Briefcase" className="h-4 w-4 mr-2" />
-                Юрист
+                <Icon name="LogIn" className="h-4 w-4 mr-2" />
+                Войти
               </Button>
               <Button
                 className="mt-2 w-full bg-primary hover:bg-primary/90"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  window.location.href = '/admin';
-                }}
+                onClick={openModal}
               >
-                <Icon name="Settings" className="h-4 w-4 mr-2" />
-                Админ
+                Консультация
               </Button>
             </nav>
           </div>
