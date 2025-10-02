@@ -15,7 +15,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string, phone: string) => Promise<void>;
+  register: (email: string, password: string, name: string, phone?: string, role?: 'client' | 'lawyer') => Promise<void>;
   logout: () => void;
   updateProfile: (data: { name?: string; phone?: string }) => Promise<void>;
 }
@@ -89,7 +89,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     email: string, 
     password: string, 
     name: string, 
-    phone?: string
+    phone?: string,
+    role: 'client' | 'lawyer' = 'client'
   ): Promise<void> => {
     setIsLoading(true);
     try {
@@ -102,7 +103,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           action: 'register',
           email,
           password,
-          name
+          name,
+          role
         })
       });
 

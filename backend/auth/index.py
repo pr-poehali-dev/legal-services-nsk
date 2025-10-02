@@ -126,6 +126,7 @@ def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
     email = body.get('email', '').strip().lower()
     password = body.get('password', '')
     name = body.get('name', '').strip()
+    role = body.get('role', 'client')
     
     if not email or not password or not name:
         return {
@@ -178,10 +179,10 @@ def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
     cursor.execute(
         """
         INSERT INTO t_p52877782_legal_services_nsk.users (id, email, password_hash, name, role)
-        VALUES (%s, %s, %s, %s, 'lawyer')
+        VALUES (%s, %s, %s, %s, %s)
         RETURNING id, email, name, role
         """,
-        (user_id, email, password_hash, name)
+        (user_id, email, password_hash, name, role)
     )
     
     new_user = cursor.fetchone()

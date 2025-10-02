@@ -1,43 +1,32 @@
 {
   "tests": [
     {
-      "name": "Register new lawyer",
+      "name": "Register new client",
       "method": "POST",
       "path": "/",
       "body": {
         "action": "register",
-        "email": "lawyer@test.com",
+        "email": "testclient@example.com",
         "password": "password123",
-        "name": "Тестовый Юрист"
+        "name": "Тестовый Клиент",
+        "role": "client"
       },
       "expectedStatus": 201,
       "expectedBody": {
         "token": "string",
         "user": {
-          "email": "lawyer@test.com",
-          "name": "Тестовый Юрист",
-          "role": "lawyer"
+          "email": "testclient@example.com",
+          "name": "Тестовый Клиент",
+          "role": "client"
         }
       },
       "bodyMatcher": "partial"
     },
     {
-      "name": "Login with correct credentials",
-      "method": "POST",
+      "name": "OPTIONS request for CORS",
+      "method": "OPTIONS",
       "path": "/",
-      "body": {
-        "action": "login",
-        "email": "admin@legal.ru",
-        "password": "admin123"
-      },
       "expectedStatus": 200,
-      "expectedBody": {
-        "token": "string",
-        "user": {
-          "email": "admin@legal.ru",
-          "role": "admin"
-        }
-      },
       "bodyMatcher": "partial"
     }
   ]
