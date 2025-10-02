@@ -77,6 +77,66 @@ const LawyerDashboard = () => {
     }
   };
 
+  const handleAssignCase = async (caseId: string) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      
+      const response = await fetch(API_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Auth-Token': token || ''
+        },
+        body: JSON.stringify({
+          case_id: caseId,
+          action: 'assign'
+        })
+      });
+
+      if (response.ok) {
+        toast.success('Вы назначены на это дело');
+        loadData();
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.error || 'Ошибка назначения');
+      }
+    } catch (error) {
+      console.error('Error assigning case:', error);
+      toast.error('Ошибка назначения на дело');
+    }
+  };
+
+  const handleUpdateStatus = async (caseId: string, status: string, progress?: number) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      
+      const response = await fetch(API_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Auth-Token': token || ''
+        },
+        body: JSON.stringify({
+          case_id: caseId,
+          action: 'update_status',
+          status,
+          progress
+        })
+      });
+
+      if (response.ok) {
+        toast.success('Статус обновлён');
+        loadData();
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.error || 'Ошибка обновления');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      toast.error('Ошибка обновления статуса');
+    }
+  };
+
   if (!isAuthenticated || (user?.role !== 'lawyer' && user?.role !== 'admin')) {
     return <Navigate to="/" replace />;
   }
@@ -245,17 +305,45 @@ const LawyerDashboard = () => {
                           </div>
                         </div>
                         <div className="flex gap-2 pt-2">
-                          <Button size="sm" variant="default" className="flex-1">
-                            <Icon name="Edit" className="h-4 w-4 mr-1" />
-                            Редактировать
-                          </Button>
+                          {caseItem.status === 'new' || caseItem.status === 'pending' ? (
+                            <Button 
+                              size="sm" 
+                              variant="default" 
+                              className="flex-1"
+                              onClick={() => handleAssignCase(caseItem.id)}
+                            >
+                              <Icon name="UserPlus" className="h-4 w-4 mr-1" />
+                              Взять в работу
+                            </Button>
+                          ) : (
+                            <>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => handleUpdateStatus(caseItem.id, 'completed', 100)}
+                                disabled={caseItem.status === 'completed'}
+                              >
+                                <Icon name="CheckCircle" className="h-4 w-4 mr-1" />
+                                Завершить
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  const newProgress = prompt('Введите прогресс (0-100):', String(caseItem.progress));
+                                  if (newProgress !== null) {
+                                    handleUpdateStatus(caseItem.id, caseItem.status, parseInt(newProgress));
+                                  }
+                                }}
+                              >
+                                <Icon name="TrendingUp" className="h-4 w-4 mr-1" />
+                                Прогресс
+                              </Button>
+                            </>
+                          )}
                           <Button size="sm" variant="outline">
                             <Icon name="MessageCircle" className="h-4 w-4 mr-1" />
                             Чат
-                          </Button>
-                          <Button size="sm" variant="outline">
-                            <Icon name="FileText" className="h-4 w-4 mr-1" />
-                            Документы
                           </Button>
                         </div>
                       </div>
