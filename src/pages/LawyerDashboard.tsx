@@ -39,15 +39,10 @@ const LawyerDashboard = () => {
   const [cases, setCases] = useState<Case[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
-  const [demoMode, setDemoMode] = useState(false);
 
   useEffect(() => {
-    const adminId = '13ac661c-d029-44e3-aca9-97f45cea7f00';
     if (isAuthenticated && (user?.role === 'lawyer' || user?.role === 'admin')) {
       loadData();
-    } else {
-      setDemoMode(true);
-      loadDataDemo(adminId);
     }
   }, [isAuthenticated, user]);
 
@@ -81,35 +76,8 @@ const LawyerDashboard = () => {
     }
   };
 
-  const loadDataDemo = async (adminId: string) => {
-    try {
-      const [casesRes, clientsRes] = await Promise.all([
-        fetch(`${API_URL}?type=cases`, {
-          headers: { 'X-Auth-Token': adminId }
-        }),
-        fetch(`${API_URL}?type=clients`, {
-          headers: { 'X-Auth-Token': adminId }
-        })
-      ]);
-
-      if (casesRes.ok) {
-        const casesData = await casesRes.json();
-        setCases(Array.isArray(casesData) ? casesData : []);
-      }
-
-      if (clientsRes.ok) {
-        const clientsData = await clientsRes.json();
-        setClients(Array.isArray(clientsData) ? clientsData : []);
-      }
-    } catch (error) {
-      console.error('Ошибка загрузки данных:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (!demoMode && (!isAuthenticated || (user?.role !== 'lawyer' && user?.role !== 'admin'))) {
-    return <Navigate to="/login" replace />;
+  if (!isAuthenticated || (user?.role !== 'lawyer' && user?.role !== 'admin')) {
+    return <Navigate to="/" replace />;
   }
 
   const getStatusBadge = (status: string) => {
@@ -151,16 +119,12 @@ const LawyerDashboard = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Панель юриста</h1>
-            <p className="text-muted-foreground mt-1">
-              {demoMode ? 'Режим просмотра (без авторизации)' : `Добро пожаловать, ${user?.name}`}
-            </p>
+            <p className="text-muted-foreground mt-1">Добро пожаловать, {user.name}</p>
           </div>
-          {!demoMode && (
-            <Button variant="outline" onClick={logout}>
-              <Icon name="LogOut" className="h-4 w-4 mr-2" />
-              Выйти
-            </Button>
-          )}
+          <Button variant="outline" onClick={logout}>
+            <Icon name="LogOut" className="h-4 w-4 mr-2" />
+            Выйти
+          </Button>
         </div>
 
         <div className="grid md:grid-cols-4 gap-6 mb-8">
