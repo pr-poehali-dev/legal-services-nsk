@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -178,20 +177,10 @@ const AdminPanel = () => {
     <div className="min-h-screen pt-20 pb-12 bg-background">
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">Панель управления блогом</h1>
-              <p className="text-muted-foreground">
-                RSS-лента доступна по адресу: <a href="https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba" target="_blank" rel="noopener" className="text-primary underline">https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba</a>
-              </p>
-            </div>
-            <Button asChild variant="outline" size="lg">
-              <Link to="/lawyer">
-                <Icon name="Briefcase" className="h-5 w-5 mr-2" />
-                CRM Юриста
-              </Link>
-            </Button>
-          </div>
+          <h1 className="text-4xl font-bold mb-2">Панель управления блогом</h1>
+          <p className="text-muted-foreground">
+            RSS-лента доступна по адресу: <a href="https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba" target="_blank" rel="noopener" className="text-primary underline">https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba</a>
+          </p>
         </div>
 
         <div className="mb-6">

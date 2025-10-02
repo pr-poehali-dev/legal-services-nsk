@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface NavigationProps {
   onLoginClick?: () => void;
@@ -13,7 +12,6 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { openModal } = useModal();
-  const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -80,26 +78,6 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
             >
               Консультация
             </Button>
-            {isAuthenticated ? (
-              <>
-                <Button asChild variant="outline">
-                  <Link to={user?.role === 'client' ? '/cabinet' : '/lawyer'}>
-                    <Icon name="User" className="h-4 w-4 mr-2" />
-                    {user?.name}
-                  </Link>
-                </Button>
-                <Button variant="ghost" size="icon" onClick={logout}>
-                  <Icon name="LogOut" className="h-4 w-4" />
-                </Button>
-              </>
-            ) : (
-              <Button asChild variant="outline">
-                <Link to="/login">
-                  <Icon name="LogIn" className="h-4 w-4 mr-2" />
-                  Войти
-                </Link>
-              </Button>
-            )}
           </div>
 
           {/* Mobile Menu Button */}
