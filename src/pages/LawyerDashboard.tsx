@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
+import BlogManager from '@/components/BlogManager';
 
 interface Case {
   id: string;
@@ -177,6 +178,7 @@ const LawyerDashboard = () => {
           <TabsList>
             <TabsTrigger value="cases">Дела</TabsTrigger>
             <TabsTrigger value="clients">Клиенты</TabsTrigger>
+            <TabsTrigger value="blog">Блог</TabsTrigger>
           </TabsList>
 
           <TabsContent value="cases" className="space-y-4">
@@ -316,6 +318,10 @@ const LawyerDashboard = () => {
                 ))}
               </div>
             )}
+          </TabsContent>
+
+          <TabsContent value="blog">
+            <BlogManager />
           </TabsContent>
         </Tabs>
       </div>
