@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NavigationProps {
   onLoginClick?: () => void;
@@ -12,6 +13,7 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { openModal } = useModal();
+  const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -72,6 +74,21 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-2">
+            {isAuthenticated ? (
+              <Link to={user?.role === 'client' ? '/client/cabinet' : '/lawyer'}>
+                <Button variant="outline">
+                  <Icon name="User" className="h-4 w-4 mr-2" />
+                  {user?.name}
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/client/login">
+                <Button variant="outline">
+                  <Icon name="LogIn" className="h-4 w-4 mr-2" />
+                  Вход
+                </Button>
+              </Link>
+            )}
             <Button
               className="bg-primary hover:bg-primary/90"
               onClick={openModal}
@@ -109,6 +126,24 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
                   {item.name}
                 </Link>
               ))}
+              {isAuthenticated ? (
+                <Link 
+                  to={user?.role === 'client' ? '/client/cabinet' : '/lawyer'}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Button variant="outline" className="w-full">
+                    <Icon name="User" className="h-4 w-4 mr-2" />
+                    {user?.name}
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/client/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" className="w-full">
+                    <Icon name="LogIn" className="h-4 w-4 mr-2" />
+                    Вход
+                  </Button>
+                </Link>
+              )}
               <Button
                 className="mt-2 w-full bg-primary hover:bg-primary/90"
                 onClick={openModal}
