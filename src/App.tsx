@@ -3,6 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
 import { BlogProvider } from "@/contexts/BlogContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Navigation from "@/components/Navigation";
 import Home from "@/pages/Index";
 import Services from "@/pages/Services";
@@ -15,6 +16,9 @@ import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
 import DTPLawyer from "@/components/DTPLawyer";
 import AdminPanel from "@/pages/AdminPanel";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import LawyerDashboard from "@/pages/LawyerDashboard";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
 
@@ -26,35 +30,40 @@ function App() {
   return (
     <HelmetProvider>
       <ThemeProvider attribute="class" defaultTheme="light">
-        <BlogProvider>
-          <ModalProvider>
-            <Router>
-              <div className="min-h-screen bg-background">
-                <Navigation />
-                <main>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/services" element={<Services />} />
-                    <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/dtp-lawyer" element={<DTPLawyer />} />
-                    <Route path="/blog" element={<Blog />} />
-                    <Route path="/blog/:id" element={<BlogPost />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contacts" element={<Contacts />} />
-                    <Route path="/privacy" element={<Privacy />} />
-                    <Route path="/admin" element={<AdminPanel />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </main>
-                <PopupModal />
-                <ConsultationModal />
-                <ScrollToTop />
-                <SmoothScroll />
-                <Toaster />
-              </div>
-            </Router>
-          </ModalProvider>
-        </BlogProvider>
+        <AuthProvider>
+          <BlogProvider>
+            <ModalProvider>
+              <Router>
+                <div className="min-h-screen bg-background">
+                  <Navigation />
+                  <main>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/services" element={<Services />} />
+                      <Route path="/pricing" element={<Pricing />} />
+                      <Route path="/dtp-lawyer" element={<DTPLawyer />} />
+                      <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog/:id" element={<BlogPost />} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/contacts" element={<Contacts />} />
+                      <Route path="/privacy" element={<Privacy />} />
+                      <Route path="/admin" element={<AdminPanel />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      <Route path="/lawyer" element={<LawyerDashboard />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </main>
+                  <PopupModal />
+                  <ConsultationModal />
+                  <ScrollToTop />
+                  <SmoothScroll />
+                  <Toaster />
+                </div>
+              </Router>
+            </ModalProvider>
+          </BlogProvider>
+        </AuthProvider>
       </ThemeProvider>
     </HelmetProvider>
   );

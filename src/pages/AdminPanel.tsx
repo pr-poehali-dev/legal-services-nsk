@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -25,10 +27,18 @@ interface BlogPost {
 const API_URL = 'https://functions.poehali.dev/1d4361c6-c539-45fe-b3bd-af4b53bce6c9';
 
 const AdminPanel = () => {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    if (!isAuthenticated || user?.role !== 'admin') {
+      navigate('/login');
+    }
+  }, [isAuthenticated, user, navigate]);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -176,11 +186,17 @@ const AdminPanel = () => {
   return (
     <div className="min-h-screen pt-20 pb-12 bg-background">
       <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Панель управления блогом</h1>
-          <p className="text-muted-foreground">
-            RSS-лента доступна по адресу: <a href="https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba" target="_blank" rel="noopener" className="text-primary underline">https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba</a>
-          </p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Панель управления блогом</h1>
+            <p className="text-muted-foreground">
+              RSS-лента доступна по адресу: <a href="https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba" target="_blank" rel="noopener" className="text-primary underline">https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba</a>
+            </p>
+          </div>
+          <Button variant="outline" onClick={logout}>
+            <Icon name="LogOut" className="h-4 w-4 mr-2" />
+            Выйти
+          </Button>
         </div>
 
         <div className="mb-6">

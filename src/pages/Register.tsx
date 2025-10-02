@@ -8,29 +8,35 @@ import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !password) {
+    if (!email || !password || !name) {
       toast.error('Заполните все поля');
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error('Пароль должен быть минимум 6 символов');
       return;
     }
 
     setLoading(true);
 
     try {
-      await login(email, password);
-      toast.success('Вход выполнен успешно!');
+      await register(email, password, name);
+      toast.success('Регистрация успешна!');
       navigate('/lawyer');
     } catch (error: any) {
-      toast.error(error.message || 'Ошибка входа');
+      toast.error(error.message || 'Ошибка регистрации');
     } finally {
       setLoading(false);
     }
@@ -41,15 +47,28 @@ export default function Login() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
-            <Icon name="Scale" className="h-12 w-12 text-primary" />
+            <Icon name="UserPlus" className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle className="text-2xl text-center">Вход в систему</CardTitle>
+          <CardTitle className="text-2xl text-center">Регистрация юриста</CardTitle>
           <CardDescription className="text-center">
-            Введите email и пароль для входа
+            Создайте аккаунт для работы в системе
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">ФИО</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Иван Иванов"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={loading}
+                required
+              />
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -68,7 +87,7 @@ export default function Login() {
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder="Минимум 6 символов"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
@@ -80,26 +99,23 @@ export default function Login() {
               {loading ? (
                 <>
                   <Icon name="Loader2" className="mr-2 h-4 w-4 animate-spin" />
-                  Вход...
+                  Регистрация...
                 </>
               ) : (
                 <>
-                  <Icon name="LogIn" className="mr-2 h-4 w-4" />
-                  Войти
+                  <Icon name="UserPlus" className="mr-2 h-4 w-4" />
+                  Зарегистрироваться
                 </>
               )}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm">
-            <p className="text-muted-foreground mb-2">
-              Нет аккаунта?{' '}
-              <Link to="/register" className="text-primary hover:underline font-medium">
-                Зарегистрироваться как юрист
+            <p className="text-muted-foreground">
+              Уже есть аккаунт?{' '}
+              <Link to="/login" className="text-primary hover:underline font-medium">
+                Войти
               </Link>
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Для входа админа используйте: admin@legal.ru / admin123
             </p>
           </div>
         </CardContent>
