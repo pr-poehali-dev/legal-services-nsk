@@ -23,7 +23,7 @@ interface BlogPost {
   published_at: string | null;
 }
 
-const API_URL = 'https://functions.poehali.dev/1d4361c6-c539-45fe-b3bd-af4b53bce6c9';
+const API_URL = 'https://functions.poehali.dev/5f51a5f5-c821-46dc-80eb-996d07934d5a';
 
 export default function BlogManager() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -50,10 +50,10 @@ export default function BlogManager() {
 
   const loadPosts = async () => {
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(`${API_URL}?published=false`);
       if (response.ok) {
         const data = await response.json();
-        setPosts(data);
+        setPosts(Array.isArray(data) ? data : []);
       }
     } catch (error) {
       console.error('Error loading posts:', error);
@@ -67,18 +67,17 @@ export default function BlogManager() {
     e.preventDefault();
     
     try {
-      const url = editingPost 
-        ? `${API_URL}/${editingPost.id}`
-        : API_URL;
-      
       const method = editingPost ? 'PUT' : 'POST';
+      const body = editingPost 
+        ? { ...formData, id: editingPost.id }
+        : formData;
       
-      const response = await fetch(url, {
+      const response = await fetch(API_URL, {
         method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(body),
       });
 
       if (response.ok) {
@@ -86,7 +85,8 @@ export default function BlogManager() {
         loadPosts();
         resetForm();
       } else {
-        toast.error('Ошибка сохранения');
+        const errorData = await response.json();
+        toast.error(errorData.error || 'Ошибка сохранения');
       }
     } catch (error) {
       console.error('Error saving post:', error);
@@ -112,18 +112,19 @@ export default function BlogManager() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Удалить этот пост?')) return;
+    if (!confirm('Снять с публикации этот пост?')) return;
     
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}?id=${id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        toast.success('Пост удалён');
+        toast.success('Пост снят с публикации');
         loadPosts();
       } else {
-        toast.error('Ошибка удаления');
+        const errorData = await response.json();
+        toast.error(errorData.error || 'Ошибка удаления');
       }
     } catch (error) {
       console.error('Error deleting post:', error);
@@ -180,7 +181,7 @@ export default function BlogManager() {
         <div>
           <h2 className="text-2xl font-bold">Управление блогом</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            RSS: <a href="https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba" target="_blank" rel="noopener" className="text-primary underline">feed</a>
+            RSS: <a href="https://functions.poehali.dev/23ab26b5-f1a2-4b59-9c6d-dae8bfb8be0f" target="_blank" rel="noopener" className="text-primary underline">feed</a>
           </p>
         </div>
         <Button onClick={() => setShowForm(!showForm)}>
