@@ -64,7 +64,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const userData = await response.json();
       
-      // Преобразуем данные к нужному формату
       const user: User = {
         id: userData.id,
         name: userData.name,
@@ -72,12 +71,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         phone: userData.phone || '',
         role: userData.role,
         created_at: new Date().toISOString(),
-        token: userData.token
+        token: userData.id
       };
 
       setUser(user);
       localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('auth_token', userData.token);
+      localStorage.setItem('auth_token', userData.id);
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -115,7 +114,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const userData = await response.json();
       
-      // Преобразуем данные к нужному формату
       const user: User = {
         id: userData.id,
         name: userData.name,
@@ -123,12 +121,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         phone: userData.phone || '',
         role: userData.role,
         created_at: new Date().toISOString(),
-        token: userData.token
+        token: userData.id
       };
 
       setUser(user);
       localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('auth_token', userData.token);
+      localStorage.setItem('auth_token', userData.id);
     } catch (error) {
       console.error('Registration error:', error);
       throw error;
