@@ -19,6 +19,8 @@ import AdminPanel from "@/pages/AdminPanel";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import LawyerDashboard from "@/pages/LawyerDashboard";
+import ClientLogin from "@/pages/ClientLogin";
+import ClientDashboard from "@/pages/ClientDashboard";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
 
@@ -51,6 +53,8 @@ function App() {
                       <Route path="/login" element={<Login />} />
                       <Route path="/register" element={<Register />} />
                       <Route path="/lawyer" element={<LawyerDashboard />} />
+                      <Route path="/client/login" element={<ClientLogin />} />
+                      <Route path="/client/cabinet" element={<ClientDashboard />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

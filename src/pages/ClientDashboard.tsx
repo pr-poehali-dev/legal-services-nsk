@@ -73,7 +73,7 @@ const ClientDashboard = () => {
   };
 
   if (!isAuthenticated || user?.role !== 'client') {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/client/login" replace />;
   }
 
   const getStatusBadge = (status: string) => {
