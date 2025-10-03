@@ -60,7 +60,7 @@ const Hero = () => {
                 className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold"
               >
                 <Icon name="Phone" className="h-5 w-5 mr-2" />
-                Показать телефон
+                +7 993 190 ●● ●●
               </Button>
             </div>
 

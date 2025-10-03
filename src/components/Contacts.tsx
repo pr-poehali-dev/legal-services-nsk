@@ -88,7 +88,7 @@ ${formData.message}
     {
       icon: "Phone",
       title: "Телефон",
-      value: "+7 993 190 35 00",
+      value: "+7 993 190 ●● ●●",
       link: "tel:+79931903500",
     },
     {
