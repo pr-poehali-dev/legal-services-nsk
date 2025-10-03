@@ -47,7 +47,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         cur.execute("""
             SELECT id, title, slug, content, description, author, category, 
                    image_url, video_url, thumbnail_url, published_at, created_at
-            FROM blog_posts 
+            FROM t_p52877782_legal_services_nsk.blog_posts 
             WHERE published = true 
             ORDER BY published_at DESC 
             LIMIT 50
