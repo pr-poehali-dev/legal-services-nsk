@@ -142,12 +142,30 @@ ${formData.message}
                           {info.title}
                         </div>
                         {info.link !== "#" ? (
-                          <a
-                            href={info.link}
-                            className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                          >
-                            {info.value}
-                          </a>
+                          info.title === "Телефон" ? (
+                            <button
+                              onClick={(e) => {
+                                const target = e.currentTarget;
+                                const hidden = target.querySelector('.phone-hidden');
+                                if (hidden) {
+                                  (hidden as HTMLElement).style.filter = 'blur(0px)';
+                                  (hidden as HTMLElement).style.opacity = '1';
+                                  hidden.textContent = '35 00';
+                                  setTimeout(() => window.open(info.link, '_self'), 300);
+                                }
+                              }}
+                              className="text-muted-foreground hover:text-primary transition-colors duration-200 text-left"
+                            >
+                              +7 993 190 <span className="phone-hidden" style={{filter: 'blur(5px)', opacity: 0.6, transition: 'all 0.3s ease'}}>XX XX</span>
+                            </button>
+                          ) : (
+                            <a
+                              href={info.link}
+                              className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                            >
+                              {info.value}
+                            </a>
+                          )
                         ) : (
                           <div className="text-muted-foreground text-sm">
                             {info.value}

@@ -93,10 +93,21 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground">Контакты</h3>
             <div className="space-y-2 text-muted-foreground">
-              <div className="flex items-center space-x-2">
+              <button 
+                onClick={(e) => {
+                  const hidden = e.currentTarget.querySelector('.phone-hidden');
+                  if (hidden) {
+                    (hidden as HTMLElement).style.filter = 'blur(0px)';
+                    (hidden as HTMLElement).style.opacity = '1';
+                    hidden.textContent = '35 00';
+                    setTimeout(() => window.open('tel:+79931903500', '_self'), 300);
+                  }
+                }}
+                className="flex items-center space-x-2 hover:text-primary transition-colors"
+              >
                 <Icon name="Phone" className="h-4 w-4" />
-                <span>+7 993 190 ●● ●●</span>
-              </div>
+                <span>+7 993 190 <span className="phone-hidden" style={{filter: 'blur(5px)', opacity: 0.6, transition: 'all 0.3s ease'}}>XX XX</span></span>
+              </button>
               <div className="flex items-center space-x-2">
                 <Icon name="Mail" className="h-4 w-4" />
                 <span>vituarten@icloud.com</span>
