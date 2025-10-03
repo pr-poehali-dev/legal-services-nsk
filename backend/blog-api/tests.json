@@ -1,17 +1,39 @@
 {
   "tests": [
     {
-      "name": "Get published blog posts",
+      "name": "Get all published posts",
       "method": "GET",
-      "path": "/",
+      "path": "/?published=true",
       "expectedStatus": 200,
       "bodyMatcher": "partial"
     },
     {
-      "name": "OPTIONS request for CORS",
-      "method": "OPTIONS",
+      "name": "Get all posts including drafts",
+      "method": "GET",
+      "path": "/?published=false",
+      "expectedStatus": 200,
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Create new blog post",
+      "method": "POST",
       "path": "/",
-      "expectedStatus": 200
+      "body": {
+        "title": "Test Post",
+        "slug": "test-post",
+        "content": "Test content",
+        "description": "Test description",
+        "author": "Admin",
+        "category": "Test",
+        "published": false
+      },
+      "expectedStatus": 201,
+      "expectedBody": {
+        "id": "number",
+        "title": "Test Post",
+        "slug": "test-post"
+      },
+      "bodyMatcher": "partial"
     }
   ]
 }

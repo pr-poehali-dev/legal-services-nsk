@@ -4,72 +4,26 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
-
-interface BlogPost {
-  id: number;
-  title: string;
-  slug: string;
-  content: string;
-  description: string;
-  author: string;
-  category: string;
-  image_url: string;
-  video_url: string;
-  thumbnail_url: string;
-  published: boolean;
-  created_at: string;
-  published_at: string;
-  views?: number;
-}
-
-const API_URL = 'https://functions.poehali.dev/1d4361c6-c539-45fe-b3bd-af4b53bce6c9';
+import { useBlog } from '@/contexts/BlogContext';
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { getPost, incrementViews, getPublishedPosts } = useBlog();
+  const [post, setPost] = useState(getPost(id || ''));
 
   useEffect(() => {
     if (id) {
-      loadPost(id);
-    }
-  }, [id]);
-
-  const loadPost = async (slug: string) => {
-    try {
-      const response = await fetch(`${API_URL}?slug=${slug}&published=true`);
-      const data = await response.json();
-      
-      if (data && data.published) {
-        setPost(data);
-        loadRelatedPosts(data.category, data.id);
-      } else {
-        setPost(null);
+      const foundPost = getPost(id);
+      if (foundPost && foundPost.isPublished) {
+        setPost(foundPost);
+        incrementViews(id);
       }
-    } catch (error) {
-      console.error('Ошибка загрузки поста:', error);
-      setPost(null);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [id, getPost, incrementViews]);
 
-  const loadRelatedPosts = async (category: string, currentId: number) => {
-    try {
-      const response = await fetch(`${API_URL}?published=true`);
-      const data = await response.json();
-      
-      if (Array.isArray(data)) {
-        const related = data
-          .filter((p: BlogPost) => p.category === category && p.id !== currentId)
-          .slice(0, 3);
-        setRelatedPosts(related);
-      }
-    } catch (error) {
-      console.error('Ошибка загрузки похожих постов:', error);
-    }
-  };
+  if (!post || !post.isPublished) {
+    return <Navigate to="/blog" replace />;
+  }
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ru-RU', {
@@ -79,11 +33,9 @@ const BlogPost = () => {
     });
   };
 
-  const getReadTime = (content: string) => {
-    const wordsPerMinute = 200;
-    const wordCount = content.split(/\s+/).length;
-    return Math.ceil(wordCount / wordsPerMinute);
-  };
+  const relatedPosts = getPublishedPosts()
+    .filter(p => p.id !== post.id && p.category === post.category)
+    .slice(0, 3);
 
   const renderContent = (content: string) => {
     return content.split('\n').map((line, index) => {
@@ -133,24 +85,10 @@ const BlogPost = () => {
     });
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen pt-20 flex items-center justify-center">
-        <div className="text-center">
-          <Icon name="Loader2" className="h-8 w-8 animate-spin mx-auto mb-2" />
-          <p>Загрузка поста...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!post) {
-    return <Navigate to="/blog" replace />;
-  }
-
   return (
     <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-8">
+        {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
           <Link to="/" className="hover:text-primary">Главная</Link>
           <Icon name="ChevronRight" className="h-4 w-4" />
@@ -160,10 +98,11 @@ const BlogPost = () => {
         </nav>
 
         <div className="max-w-4xl mx-auto">
+          {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-4">
-              {post.category && <Badge variant="secondary">{post.category}</Badge>}
-              {post.video_url && (
+              <Badge variant="secondary">{post.category}</Badge>
+              {post.videoUrl && (
                 <Badge variant="outline">
                   <Icon name="Video" className="h-3 w-3 mr-1" />
                   Видео
@@ -182,32 +121,32 @@ const BlogPost = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Icon name="Calendar" className="h-4 w-4" />
-                <span>{formatDate(post.published_at || post.created_at)}</span>
+                <span>{formatDate(post.publishDate)}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Icon name="Clock" className="h-4 w-4" />
-                <span>{getReadTime(post.content)} мин чтения</span>
+                <span>{post.readTime} мин чтения</span>
               </div>
-              {post.views !== undefined && (
-                <div className="flex items-center gap-2">
-                  <Icon name="Eye" className="h-4 w-4" />
-                  <span>{post.views} просмотров</span>
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                <Icon name="Eye" className="h-4 w-4" />
+                <span>{post.views} просмотров</span>
+              </div>
             </div>
           </div>
 
-          {post.image_url && (
+          {/* Featured Image */}
+          {post.image && (
             <div className="mb-8 rounded-lg overflow-hidden">
               <img 
-                src={post.image_url} 
+                src={post.image} 
                 alt={post.title}
                 className="w-full h-64 md:h-96 object-cover"
               />
             </div>
           )}
 
-          {post.video_url && (
+          {/* Video */}
+          {post.videoUrl && (
             <div className="mb-8">
               <Card>
                 <CardContent className="p-6">
@@ -220,7 +159,7 @@ const BlogPost = () => {
                       <Icon name="Play" className="h-12 w-12 text-primary mx-auto" />
                       <p className="text-muted-foreground">Видео материал</p>
                       <Button asChild>
-                        <a href={post.video_url} target="_blank" rel="noopener noreferrer">
+                        <a href={post.videoUrl} target="_blank" rel="noopener noreferrer">
                           <Icon name="ExternalLink" className="h-4 w-4 mr-2" />
                           Смотреть видео
                         </a>
@@ -232,10 +171,24 @@ const BlogPost = () => {
             </div>
           )}
 
+          {/* Content */}
           <div className="prose prose-lg max-w-none mb-8">
             {renderContent(post.content)}
           </div>
 
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {post.tags.map((tag) => (
+              <span 
+                key={tag}
+                className="text-sm px-3 py-1 bg-primary/10 text-primary rounded-full"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA Section */}
           <Card className="mb-8">
             <CardContent className="p-6">
               <div className="text-center space-y-4">
@@ -253,6 +206,7 @@ const BlogPost = () => {
             </CardContent>
           </Card>
 
+          {/* Related Posts */}
           {relatedPosts.length > 0 && (
             <div>
               <h3 className="text-2xl font-bold text-foreground mb-6">
@@ -261,10 +215,10 @@ const BlogPost = () => {
               <div className="grid md:grid-cols-3 gap-6">
                 {relatedPosts.map((relatedPost) => (
                   <Card key={relatedPost.id} className="group hover:shadow-lg transition-all duration-300">
-                    {relatedPost.image_url && (
+                    {relatedPost.image && (
                       <div className="aspect-video bg-muted overflow-hidden">
                         <img 
-                          src={relatedPost.image_url} 
+                          src={relatedPost.image} 
                           alt={relatedPost.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -272,26 +226,24 @@ const BlogPost = () => {
                     )}
                     
                     <CardContent className="p-4 space-y-3">
-                      {relatedPost.category && (
-                        <Badge variant="secondary" className="text-xs">
-                          {relatedPost.category}
-                        </Badge>
-                      )}
+                      <Badge variant="secondary" className="text-xs">
+                        {relatedPost.category}
+                      </Badge>
                       
                       <h4 className="font-semibold leading-tight group-hover:text-primary transition-colors">
-                        <Link to={`/blog/${relatedPost.slug}`}>
+                        <Link to={`/blog/${relatedPost.id}`}>
                           {relatedPost.title}
                         </Link>
                       </h4>
                       
                       <p className="text-sm text-muted-foreground line-clamp-2">
-                        {relatedPost.description || relatedPost.content.substring(0, 100) + '...'}
+                        {relatedPost.excerpt}
                       </p>
                       
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span>{formatDate(relatedPost.published_at || relatedPost.created_at)}</span>
+                        <span>{formatDate(relatedPost.publishDate)}</span>
                         <span>•</span>
-                        <span>{getReadTime(relatedPost.content)} мин</span>
+                        <span>{relatedPost.readTime} мин</span>
                       </div>
                     </CardContent>
                   </Card>
