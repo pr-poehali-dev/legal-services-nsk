@@ -62,15 +62,15 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         channel = ET.SubElement(rss, 'channel')
         ET.SubElement(channel, 'title').text = 'ЮрСервис НСК - Блог'
-        ET.SubElement(channel, 'link').text = 'https://legal-services-nsk.ru/'
+        ET.SubElement(channel, 'link').text = 'https://юридический-сервис.рф/'
         ET.SubElement(channel, 'description').text = 'Юридические услуги и консультации в Новосибирске'
         
         for post in posts:
             item = ET.SubElement(channel, 'item')
             
             ET.SubElement(item, 'title').text = post['title'] or ''
-            ET.SubElement(item, 'link').text = f"https://legal-services-nsk.ru/blog/{post['slug']}"
-            ET.SubElement(item, 'pdalink').text = f"https://legal-services-nsk.ru/blog/{post['slug']}"
+            ET.SubElement(item, 'link').text = f"https://юридический-сервис.рф/blog/{post['slug']}"
+            ET.SubElement(item, 'pdalink').text = f"https://юридический-сервис.рф/blog/{post['slug']}"
             
             if post['description']:
                 ET.SubElement(item, 'description').text = post['description']
