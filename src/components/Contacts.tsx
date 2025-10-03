@@ -38,7 +38,7 @@ const Contacts = () => {
       // Green API настройки
       const idInstance = '1103279953';
       const apiTokenInstance = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e';
-      const chatId = '79994523500@c.us'; // Номер получателя
+      const chatId = '79931903500@c.us'; // Номер получателя
 
       const message = `🆕 Новое обращение с сайта:
 
@@ -88,8 +88,8 @@ ${formData.message}
     {
       icon: "Phone",
       title: "Телефон",
-      value: "+7 (999) 452 35 00",
-      link: "tel:+79994523500",
+      value: "+7 993 190 35 00",
+      link: "tel:+79931903500",
     },
     {
       icon: "Mail",
