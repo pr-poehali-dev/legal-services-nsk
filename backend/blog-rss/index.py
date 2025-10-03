@@ -97,8 +97,11 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             if pub_date:
                 if isinstance(pub_date, str):
                     pub_date = datetime.fromisoformat(pub_date.replace('Z', '+00:00'))
-                formatted_date = pub_date.strftime('%a, %d %b %Y %H:%M:%S %z')
+                formatted_date = pub_date.strftime('%a, %d %b %Y %H:%M:%S GMT')
                 ET.SubElement(item, 'pubDate').text = formatted_date
+            else:
+                default_date = datetime.now().strftime('%a, %d %b %Y %H:%M:%S GMT')
+                ET.SubElement(item, 'pubDate').text = default_date
             
             ET.SubElement(item, 'yandex:genre').text = 'message'
             
