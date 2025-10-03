@@ -41,20 +41,20 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             if post_id:
                 cur.execute(
-                    "SELECT * FROM t_p52877782_legal_services_nsk.blog_posts WHERE id = %s",
+                    "SELECT * FROM blog_posts WHERE id = %s",
                     (int(post_id),)
                 )
                 post = cur.fetchone()
                 result = dict(post) if post else None
             elif slug:
                 cur.execute(
-                    "SELECT * FROM t_p52877782_legal_services_nsk.blog_posts WHERE slug = %s",
+                    "SELECT * FROM blog_posts WHERE slug = %s",
                     (slug,)
                 )
                 post = cur.fetchone()
                 result = dict(post) if post else None
             else:
-                query = "SELECT * FROM t_p52877782_legal_services_nsk.blog_posts"
+                query = "SELECT * FROM blog_posts"
                 if published_only:
                     query += " WHERE published = true"
                 query += " ORDER BY created_at DESC"
@@ -101,7 +101,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             published_at = datetime.now() if published else None
             
             cur.execute(
-                """INSERT INTO t_p52877782_legal_services_nsk.blog_posts 
+                """INSERT INTO blog_posts 
                 (title, slug, content, description, author, category, image_url, 
                 video_url, thumbnail_url, published, published_at, created_at, updated_at, author_id)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW(), gen_random_uuid())
@@ -176,7 +176,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             fields.append('updated_at = NOW()')
             values.append(int(post_id))
             
-            query = f"UPDATE t_p52877782_legal_services_nsk.blog_posts SET {', '.join(fields)} WHERE id = %s RETURNING *"
+            query = f"UPDATE blog_posts SET {', '.join(fields)} WHERE id = %s RETURNING *"
             cur.execute(query, tuple(values))
             conn.commit()
             result = dict(cur.fetchone())
@@ -206,19 +206,18 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'isBase64Encoded': False
                 }
             
-            cur.execute("SELECT id FROM t_p52877782_legal_services_nsk.blog_posts WHERE id = %s", (int(post_id),))
-            existing = cur.fetchone()
+            cur.execute("DELETE FROM blog_posts WHERE id = %s RETURNING id", (int(post_id),))
+            conn.commit()
+            deleted = cur.fetchone()
             
-            if existing:
-                cur.execute("UPDATE t_p52877782_legal_services_nsk.blog_posts SET published = false WHERE id = %s", (int(post_id),))
-                conn.commit()
+            if deleted:
                 return {
                     'statusCode': 200,
                     'headers': {
                         'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin': '*'
                     },
-                    'body': json.dumps({'message': 'Post unpublished successfully'}),
+                    'body': json.dumps({'message': 'Post deleted successfully'}),
                     'isBase64Encoded': False
                 }
             else:

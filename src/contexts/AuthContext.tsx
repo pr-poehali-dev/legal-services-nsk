@@ -15,7 +15,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string, phone?: string, role?: 'client' | 'lawyer') => Promise<void>;
+  register: (email: string, password: string, name: string, phone: string) => Promise<void>;
   logout: () => void;
   updateProfile: (data: { name?: string; phone?: string }) => Promise<void>;
 }
@@ -35,7 +35,7 @@ interface AuthProviderProps {
 }
 
 // URL бэкенд функций (будут обновлены после деплоя)
-const AUTH_API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
+const AUTH_API_URL = 'https://functions.poehali.dev/9b1b3903-27ee-46f6-be65-bfcaf9b86f2f';
 const PROFILE_API_URL = 'https://functions.poehali.dev/6d737c07-5eb6-4ce4-b92e-d455d785a16d';
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -62,21 +62,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error(errorData.error || 'Ошибка авторизации');
       }
 
-      const data = await response.json();
+      const userData = await response.json();
       
-      const loggedUser: User = {
-        id: data.user.id,
-        name: data.user.name,
-        email: data.user.email,
-        phone: '',
-        role: data.user.role,
+      // Преобразуем данные к нужному формату
+      const user: User = {
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        phone: userData.phone || '',
+        role: userData.role,
         created_at: new Date().toISOString(),
-        token: data.token
+        token: userData.token
       };
 
-      setUser(loggedUser);
-      localStorage.setItem('user', JSON.stringify(loggedUser));
-      localStorage.setItem('auth_token', data.token);
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('auth_token', userData.token);
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -89,8 +90,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     email: string, 
     password: string, 
     name: string, 
-    phone?: string,
-    role: 'client' | 'lawyer' = 'client'
+    phone: string
   ): Promise<void> => {
     setIsLoading(true);
     try {
@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           email,
           password,
           name,
-          role
+          phone
         })
       });
 
@@ -113,21 +113,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error(errorData.error || 'Ошибка регистрации');
       }
 
-      const data = await response.json();
+      const userData = await response.json();
       
-      const newUser: User = {
-        id: data.user.id,
-        name: data.user.name,
-        email: data.user.email,
-        phone: phone || '',
-        role: data.user.role,
+      // Преобразуем данные к нужному формату
+      const user: User = {
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        phone: userData.phone || '',
+        role: userData.role,
         created_at: new Date().toISOString(),
-        token: data.token
+        token: userData.token
       };
 
-      setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
-      localStorage.setItem('auth_token', data.token);
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('auth_token', userData.token);
     } catch (error) {
       console.error('Registration error:', error);
       throw error;
