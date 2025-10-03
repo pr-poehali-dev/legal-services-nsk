@@ -6,148 +6,96 @@
   
   <!-- Главная страница -->
   <url>
-    <loc>https://XN----DTBEEBOBBDGJ1EJIEE4G0F.XN--P1AI/</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://юридический-сервис.рф/</loc>
+    <lastmod>2025-10-03</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Услуги -->
   <url>
-    <loc>https://юридический-сервис.рф/#services</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- О нас -->
-  <url>
-    <loc>https://юридический-сервис.рф/#about</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Контакты -->
-  <url>
-    <loc>https://юридический-сервис.рф/#contacts</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Консультация -->
-  <url>
-    <loc>https://юридический-сервис.рф/#consultation</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://юридический-сервис.рф/services</loc>
+    <lastmod>2025-10-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <!-- Блог -->
   <url>
     <loc>https://юридический-сервис.рф/blog</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-10-03</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
-  </url>
-  
-  <!-- Страница услуг -->
-  <url>
-    <loc>https://юридический-сервис.рф/services</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- О компании -->
-  <url>
-    <loc>https://юридический-сервис.рф/about</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Контакты -->
-  <url>
-    <loc>https://юридический-сервис.рф/contacts</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Политика конфиденциальности -->
-  <url>
-    <loc>https://юридический-сервис.рф/privacy</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  
-  <!-- Статьи блога -->
-  <url>
-    <loc>https://юридический-сервис.рф/blog/1</loc>
-    <lastmod>2024-08-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://юридический-сервис.рф/blog/2</loc>
-    <lastmod>2024-08-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://юридический-сервис.рф/blog/3</loc>
-    <lastmod>2024-08-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
   </url>
   
   <!-- ДТП Юрист -->
   <url>
     <loc>https://юридический-сервис.рф/dtp-lawyer</loc>
-    <lastmod>2025-08-19</lastmod>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
-  <!-- Специализированные страницы услуг -->
+  <!-- Контакты -->
   <url>
-    <loc>https://юридический-сервис.рф/services/family</loc>
-    <lastmod>2025-08-19</lastmod>
+    <loc>https://юридический-сервис.рф/contacts</loc>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
+  <!-- Цены -->
   <url>
-    <loc>https://юридический-сервис.рф/services/labor</loc>
-    <lastmod>2025-08-19</lastmod>
+    <loc>https://юридический-сервис.рф/pricing</loc>
+    <lastmod>2025-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Политика конфиденциальности -->
+  <url>
+    <loc>https://юридический-сервис.рф/privacy</loc>
+    <lastmod>2025-10-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- Личный кабинет клиента -->
+  <url>
+    <loc>https://юридический-сервис.рф/client/login</loc>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
+  </url>
+  
+  <!-- Личный кабинет юриста -->
+  <url>
+    <loc>https://юридический-сервис.рф/lawyer/login</loc>
+    <lastmod>2025-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  
+  <!-- Статьи блога (актуальные) -->
+  <url>
+    <loc>https://юридический-сервис.рф/blog/test</loc>
+    <lastmod>2025-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://юридический-сервис.рф/services/civil</loc>
-    <lastmod>2025-08-19</lastmod>
+    <loc>https://юридический-сервис.рф/blog/semeynoe-pravo</loc>
+    <lastmod>2025-10-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://юридический-сервис.рф/services/real-estate</loc>
-    <lastmod>2025-08-19</lastmod>
+    <loc>https://юридический-сервис.рф/blog/trudovye-spory</loc>
+    <lastmod>2025-10-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://юридический-сервис.рф/services/criminal</loc>
-    <lastmod>2025-08-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
 
 </urlset>
