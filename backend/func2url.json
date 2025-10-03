@@ -1,4 +1,7 @@
 {
-  "blog-rss": "https://functions.poehali.dev/627660df-b4e0-49ad-ada6-176876eafbba",
-  "blog-api": "https://functions.poehali.dev/1d4361c6-c539-45fe-b3bd-af4b53bce6c9"
+  "blog-rss": "https://functions.poehali.dev/23ab26b5-f1a2-4b59-9c6d-dae8bfb8be0f",
+  "blog-api": "https://functions.poehali.dev/5f51a5f5-c821-46dc-80eb-996d07934d5a",
+  "auth": "https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7",
+  "crm-lawyer": "https://functions.poehali.dev/9fdb025a-0913-42ac-8528-3f1959eb4fb0",
+  "crm-client": "https://functions.poehali.dev/bbe69fb4-2a9a-478e-9b6c-efbfdb5ab40b"
 }

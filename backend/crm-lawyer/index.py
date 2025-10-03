@@ -5,8 +5,8 @@ from typing import Dict, Any, List
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
     Business: API для панели юриста/администратора
-    Args: event с httpMethod, headers, queryStringParameters, body
-    Returns: Список дел и клиентов для юриста, назначение на дела
+    Args: event с httpMethod, headers, queryStringParameters
+    Returns: Список дел и клиентов для юриста
     '''
     method: str = event.get('httpMethod', 'GET')
     
@@ -19,8 +19,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'Access-Control-Allow-Headers': 'Content-Type, X-Auth-Token',
                 'Access-Control-Max-Age': '86400'
             },
-            'body': '',
-            'isBase64Encoded': False
+            'body': ''
         }
     
     headers = event.get('headers', {})
@@ -128,143 +127,11 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             return {
                 'statusCode': 200,
                 'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': json.dumps(clients),
-                'isBase64Encoded': False
+                'body': json.dumps(clients)
             }
-    
-    elif method == 'PUT':
-        import psycopg2
-        
-        dsn = os.environ.get('DATABASE_URL')
-        if not dsn:
-            return {
-                'statusCode': 500,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': json.dumps({'error': 'DATABASE_URL не настроен'}),
-                'isBase64Encoded': False
-            }
-        
-        conn = psycopg2.connect(dsn)
-        cur = conn.cursor()
-        
-        cur.execute("SELECT id, role FROM t_p52877782_legal_services_nsk.users WHERE id::text = %s", (token,))
-        user_row = cur.fetchone()
-        
-        if not user_row or (user_row[1] != 'lawyer' and user_row[1] != 'admin'):
-            cur.close()
-            conn.close()
-            return {
-                'statusCode': 403,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': json.dumps({'error': 'Доступ запрещён'}),
-                'isBase64Encoded': False
-            }
-        
-        lawyer_id = user_row[0]
-        body_data = json.loads(event.get('body', '{}'))
-        
-        case_id = body_data.get('case_id')
-        action = body_data.get('action')
-        
-        if not case_id:
-            cur.close()
-            conn.close()
-            return {
-                'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': json.dumps({'error': 'case_id обязателен'}),
-                'isBase64Encoded': False
-            }
-        
-        if action == 'assign':
-            cur.execute(
-                """
-                UPDATE t_p52877782_legal_services_nsk.cases 
-                SET lawyer_id = %s, status = 'in_progress', updated_at = CURRENT_TIMESTAMP
-                WHERE id = %s
-                RETURNING id, title, status
-                """,
-                (lawyer_id, case_id)
-            )
-            
-            updated_case = cur.fetchone()
-            
-            if not updated_case:
-                cur.close()
-                conn.close()
-                return {
-                    'statusCode': 404,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                    'body': json.dumps({'error': 'Дело не найдено'}),
-                    'isBase64Encoded': False
-                }
-            
-            conn.commit()
-            cur.close()
-            conn.close()
-            
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': json.dumps({
-                    'id': str(updated_case[0]),
-                    'title': updated_case[1],
-                    'status': updated_case[2],
-                    'message': 'Вы назначены на это дело'
-                }),
-                'isBase64Encoded': False
-            }
-        
-        elif action == 'update_status':
-            new_status = body_data.get('status')
-            new_progress = body_data.get('progress')
-            
-            fields = ['updated_at = CURRENT_TIMESTAMP']
-            values = []
-            
-            if new_status:
-                fields.append('status = %s')
-                values.append(new_status)
-            
-            if new_progress is not None:
-                fields.append('progress = %s')
-                values.append(new_progress)
-            
-            values.append(case_id)
-            
-            cur.execute(
-                f"UPDATE t_p52877782_legal_services_nsk.cases SET {', '.join(fields)} WHERE id = %s RETURNING id, status, progress",
-                tuple(values)
-            )
-            
-            updated_case = cur.fetchone()
-            conn.commit()
-            cur.close()
-            conn.close()
-            
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': json.dumps({
-                    'id': str(updated_case[0]),
-                    'status': updated_case[1],
-                    'progress': updated_case[2]
-                }),
-                'isBase64Encoded': False
-            }
-        
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Неизвестное действие'}),
-            'isBase64Encoded': False
-        }
     
     return {
         'statusCode': 405,
         'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'error': 'Метод не поддерживается'}),
-        'isBase64Encoded': False
+        'body': json.dumps({'error': 'Метод не поддерживается'})
     }
