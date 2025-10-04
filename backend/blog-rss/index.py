@@ -44,14 +44,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         conn = psycopg2.connect(database_url)
         cur = conn.cursor(cursor_factory=RealDictCursor)
         
-        cur.execute("""
-            SELECT id, title, slug, content, description, author, category, 
+        query = """SELECT id, title, slug, content, description, author, category, 
                    image_url, video_url, thumbnail_url, published_at, created_at
             FROM t_p52877782_legal_services_nsk.blog_posts 
             WHERE published = true 
             ORDER BY published_at DESC 
-            LIMIT 50
-        """)
+            LIMIT 50"""
+        cur.execute(query)
         posts = cur.fetchall()
         
         rss = ET.Element('rss', {
