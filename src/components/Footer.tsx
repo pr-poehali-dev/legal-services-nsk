@@ -2,60 +2,49 @@ import Icon from "@/components/ui/icon";
 
 const Footer = () => {
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-4 gap-8">
+    <footer className="bg-gradient-to-b from-background to-secondary/10 border-t border-border/50">
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Company Info */}
-          <div className="space-y-4">
+          <div className="lg:col-span-1 space-y-5">
             <div className="flex items-center space-x-2">
-              <Icon name="Scale" className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">
+              <Icon name="Scale" className="h-9 w-9 text-primary" />
+              <span className="text-2xl font-bold text-foreground">
                 ЮрСервис НСК
               </span>
             </div>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground leading-relaxed text-sm">
               Профессиональные юридические услуги в Новосибирске. Защищаем ваши
               права и интересы с 2024 года.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-muted-foreground hover:text-primary">
-                <Icon name="Phone" className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary">
-                <Icon name="Mail" className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary">
-                <Icon name="MessageCircle" className="h-5 w-5" />
-              </a>
-            </div>
           </div>
 
           {/* Services */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Услуги</h3>
-            <ul className="space-y-2 text-muted-foreground">
+            <h3 className="font-semibold text-foreground text-lg">Услуги</h3>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                   Корпоративное право
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                   Семейное право
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                   Недвижимость
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                   Трудовое право
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                   Уголовная защита
                 </a>
               </li>
@@ -64,25 +53,25 @@ const Footer = () => {
 
           {/* Practice Areas */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Практика</h3>
-            <ul className="space-y-2 text-muted-foreground">
+            <h3 className="font-semibold text-foreground text-lg">Практика</h3>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#practice" className="text-muted-foreground hover:text-primary transition-colors">
                   Арбитражные споры
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#practice" className="text-muted-foreground hover:text-primary transition-colors">
                   Гражданские дела
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#practice" className="text-muted-foreground hover:text-primary transition-colors">
                   Административное право
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <a href="/#practice" className="text-muted-foreground hover:text-primary transition-colors">
                   Банкротство
                 </a>
               </li>
@@ -91,8 +80,8 @@ const Footer = () => {
 
           {/* Contact */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Контакты</h3>
-            <div className="space-y-2 text-muted-foreground">
+            <h3 className="font-semibold text-foreground text-lg">Контакты</h3>
+            <div className="space-y-3 text-sm">
               <button 
                 onClick={(e) => {
                   const hidden = e.currentTarget.querySelector('.phone-hidden');
@@ -103,48 +92,51 @@ const Footer = () => {
                     setTimeout(() => window.open('tel:+79931903500', '_self'), 300);
                   }
                 }}
-                className="flex items-center space-x-2 hover:text-primary transition-colors"
+                className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors group"
               >
-                <Icon name="Phone" className="h-4 w-4" />
+                <Icon name="Phone" className="h-4 w-4 group-hover:scale-110 transition-transform" />
                 <span>+7 993 190 <span className="phone-hidden" style={{filter: 'blur(5px)', opacity: 0.6, transition: 'all 0.3s ease'}}>XX XX</span></span>
               </button>
-              <div className="flex items-center space-x-2">
-                <Icon name="Mail" className="h-4 w-4" />
+              <a href="mailto:vituarten@icloud.com" className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors group">
+                <Icon name="Mail" className="h-4 w-4 group-hover:scale-110 transition-transform" />
                 <span>vituarten@icloud.com</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <Icon name="MapPin" className="h-4 w-4 mt-0.5" />
-                <span className="text-sm">
-                  г. Новосибирск, ул. Ленина, д.3, офис 323
+              </a>
+              <div className="flex items-start space-x-2 text-muted-foreground">
+                <Icon name="MapPin" className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <span className="leading-relaxed">
+                  г. Новосибирск, ул. Ленина, д. 3, офис 323
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8">
-          {/* Верхняя часть подвала - компания и реквизиты */}
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">
+        {/* Разделитель */}
+        <div className="mt-16 mb-10">
+          <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+        </div>
+
+        {/* Нижняя часть - реквизиты и мета */}
+        <div className="space-y-8">
+          {/* Реквизиты */}
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-foreground/90">
                 © 2024 ЮрСервис НСК. Все права защищены.
               </p>
-              <div className="text-sm text-muted-foreground space-y-1">
-                <p>ИП Витушкин Артем Вячеславович</p>
-                <p>ИНН: 421210273345 | ОГРНИП: 323547600197695</p>
-                <p className="flex items-start gap-2">
-                  <Icon name="MapPin" className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span>г. Новосибирск, ул. Ленина, д. 3, офис 323</span>
-                </p>
+              <div className="text-xs text-muted-foreground space-y-1.5 leading-relaxed">
+                <p className="font-medium text-foreground/70">ИП Витушкин Артем Вячеславович</p>
+                <p>ИНН: 421210273345</p>
+                <p>ОГРНИП: 323547600197695</p>
               </div>
             </div>
 
-            <div className="flex flex-col md:items-end space-y-4">
+            <div className="flex justify-start md:justify-end">
               <a
                 href="https://webmaster.yandex.ru/siteinfo/?site=https://юридический-сервис.рф"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="opacity-80 hover:opacity-100 transition-opacity inline-block"
+                className="opacity-70 hover:opacity-100 transition-opacity"
                 title="Яндекс.Метрика"
               >
                 <img
@@ -152,24 +144,24 @@ const Footer = () => {
                   height="31"
                   alt="Яндекс.Метрика"
                   src="https://yandex.ru/cycounter?https://юридический-сервис.рф&theme=light&lang=ru"
-                  className="rounded-lg"
+                  className="rounded"
                 />
               </a>
             </div>
           </div>
 
-          {/* Нижняя часть подвала - ссылки */}
-          <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              <a href="/privacy" className="hover:text-primary transition-colors">
+          {/* Ссылки и ID */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-muted-foreground">
+              <a href="/privacy" className="hover:text-primary transition-colors hover:underline">
                 Политика конфиденциальности
               </a>
-              <a href="/privacy#terms" className="hover:text-primary transition-colors">
+              <a href="/privacy#terms" className="hover:text-primary transition-colors hover:underline">
                 Условия использования
               </a>
             </div>
             
-            <div className="text-xs text-muted-foreground/60">
+            <div className="text-muted-foreground/40 font-mono">
               8iae5arcsy0odhf5
             </div>
           </div>
