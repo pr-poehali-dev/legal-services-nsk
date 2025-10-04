@@ -1,17 +1,46 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogModal from "./BlogModal";
-import { useBlog } from "@/contexts/BlogContext";
 import { Link } from "react-router-dom";
+
+interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  description: string;
+  author: string;
+  category: string;
+  image_url: string;
+  published_at: string;
+}
+
+const API_URL = 'https://functions.poehali.dev/1d4361c6-c539-45fe-b3bd-af4b53bce6c9';
 
 const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
-  const { getPublishedPosts } = useBlog();
-  
-  // Получаем опубликованные статьи из контекста, берем только последние 3
-  const posts = getPublishedPosts().slice(0, 3);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  const loadPosts = async () => {
+    try {
+      const response = await fetch(`${API_URL}?published=true`);
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(Array.isArray(data) ? data.slice(0, 3) : []);
+      }
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ru-RU', {
@@ -35,7 +64,12 @@ const Blog = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 mb-12">
-          {posts.length === 0 ? (
+          {loading ? (
+            <div className="col-span-3 text-center py-12">
+              <Icon name="Loader2" className="h-16 w-16 mx-auto text-muted-foreground mb-4 animate-spin" />
+              <p className="text-muted-foreground text-lg">Загрузка статей...</p>
+            </div>
+          ) : posts.length === 0 ? (
             <div className="col-span-3 text-center py-12">
               <Icon name="BookOpen" className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground text-lg">Пока нет опубликованных статей</p>
@@ -51,42 +85,34 @@ const Blog = () => {
                     <span className="bg-primary/20 text-primary px-2 py-1 rounded text-xs font-medium">
                       {post.category}
                     </span>
-                    <div className="flex items-center space-x-2">
-                      <Icon name="Clock" className="h-4 w-4" />
-                      <span>{post.readTime} мин</span>
-                    </div>
                   </div>
                   <CardTitle className="text-lg hover:text-primary transition-colors duration-200">
-                    <Link to={`/blog/${post.id}`} className="block">
+                    <Link to={`/blog/${post.slug}`} className="block">
                       {post.title}
                     </Link>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {post.image && (
+                  {post.image_url && (
                     <div className="aspect-video rounded-lg overflow-hidden">
                       <img 
-                        src={post.image} 
+                        src={post.image_url} 
                         alt={post.title}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   )}
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    {post.excerpt}
+                    {post.description}
                   </p>
                   <div className="flex items-center justify-between pt-2">
                     <div className="flex items-center space-x-3 text-sm text-muted-foreground">
                       <div className="flex items-center space-x-1">
                         <Icon name="Calendar" className="h-4 w-4" />
-                        <span>{formatDate(post.publishDate)}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Icon name="Eye" className="h-4 w-4" />
-                        <span>{post.views}</span>
+                        <span>{formatDate(post.published_at)}</span>
                       </div>
                     </div>
-                    <Link to={`/blog/${post.id}`}>
+                    <Link to={`/blog/${post.slug}`}>
                       <Button
                         variant="ghost"
                         size="sm"
