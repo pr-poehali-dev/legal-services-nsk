@@ -26,27 +26,6 @@ const Cases = () => {
     },
   ];
 
-  const testimonials = [
-    {
-      name: "Анна Петрова",
-      role: "Директор ООО",
-      text: "Профессиональный подход, четкая стратегия и отличный результат. Рекомендую!",
-      rating: 5,
-    },
-    {
-      name: "Михаил Иванов",
-      role: "Частный клиент",
-      text: "Помогли решить сложную семейную ситуацию. Спасибо за поддержку и понимание.",
-      rating: 5,
-    },
-    {
-      name: "ООО 'ТехСервис'",
-      role: "Корпоративный клиент",
-      text: "Постоянно сотрудничаем уже 3 года. Всегда качественно и в срок.",
-      rating: 5,
-    },
-  ];
-
   return (
     <section id="cases" className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -90,41 +69,25 @@ const Cases = () => {
           ))}
         </div>
 
-        {/* Testimonials */}
-        <div className="text-center space-y-4 mb-12">
-          <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
-            Отзывы клиентов
-          </h3>
-          <p className="text-muted-foreground">Что говорят о нашей работе</p>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-border">
-              <CardContent className="p-6 space-y-4">
-                <div className="flex space-x-1">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Icon
-                      key={i}
-                      name="Star"
-                      className="h-5 w-5 text-accent fill-current"
-                    />
-                  ))}
-                </div>
-                <p className="text-muted-foreground italic">
-                  "{testimonial.text}"
-                </p>
-                <div className="space-y-1">
-                  <div className="font-semibold text-foreground">
-                    {testimonial.name}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {testimonial.role}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Yandex Reviews */}
+        <div className="text-center space-y-6">
+          <div className="space-y-4">
+            <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
+              Отзывы клиентов
+            </h3>
+            <p className="text-muted-foreground">Что говорят о нашей работе</p>
+          </div>
+          
+          <div className="flex justify-center">
+            <iframe 
+              src="https://yandex.ru/sprav/widget/rating-badge/58646277444?type=rating" 
+              width="150" 
+              height="50" 
+              frameBorder="0"
+              title="Рейтинг на Яндекс Картах"
+              className="rounded-lg"
+            />
+          </div>
         </div>
       </div>
     </section>
