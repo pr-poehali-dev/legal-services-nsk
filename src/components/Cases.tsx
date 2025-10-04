@@ -78,7 +78,7 @@ const Cases = () => {
             <p className="text-muted-foreground">Что говорят о нашей работе</p>
           </div>
           
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center gap-4">
             <iframe 
               src="https://yandex.ru/sprav/widget/rating-badge/58646277444?type=rating" 
               width="150" 
@@ -87,6 +87,17 @@ const Cases = () => {
               title="Рейтинг на Яндекс Картах"
               className="rounded-lg"
             />
+            
+            <a
+              href="https://yandex.ru/maps/org/yurservis_nsk/58646277444/reviews/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium"
+            >
+              <Icon name="MessageSquare" className="h-5 w-5" />
+              Читать отзывы
+              <Icon name="ExternalLink" className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </div>
