@@ -52,7 +52,7 @@ export default function BlogManager() {
 
   const loadPosts = async () => {
     try {
-      const response = await fetch(`${API_URL}?published=false`);
+      const response = await fetch(API_URL);
       if (response.ok) {
         const data = await response.json();
         setPosts(Array.isArray(data) ? data : []);

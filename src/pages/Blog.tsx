@@ -23,7 +23,7 @@ interface BlogPost {
   views?: number;
 }
 
-const API_URL = 'https://functions.poehali.dev/1d4361c6-c539-45fe-b3bd-af4b53bce6c9';
+const API_URL = 'https://functions.poehali.dev/5f51a5f5-c821-46dc-80eb-996d07934d5a';
 
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);

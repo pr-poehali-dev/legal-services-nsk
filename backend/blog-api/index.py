@@ -37,26 +37,25 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             params = event.get('queryStringParameters') or {}
             post_id = params.get('id')
             slug = params.get('slug')
-            published_only = params.get('published', 'true') == 'true'
+            published_param = params.get('published')
             
             if post_id:
-                cur.execute(
-                    "SELECT * FROM t_p52877782_legal_services_nsk.blog_posts WHERE id = %s",
-                    (int(post_id),)
-                )
+                query = f"SELECT * FROM t_p52877782_legal_services_nsk.blog_posts WHERE id = {int(post_id)}"
+                cur.execute(query)
                 post = cur.fetchone()
                 result = dict(post) if post else None
             elif slug:
-                cur.execute(
-                    "SELECT * FROM t_p52877782_legal_services_nsk.blog_posts WHERE slug = %s",
-                    (slug,)
-                )
+                safe_slug = slug.replace("'", "''")
+                query = f"SELECT * FROM t_p52877782_legal_services_nsk.blog_posts WHERE slug = '{safe_slug}'"
+                cur.execute(query)
                 post = cur.fetchone()
                 result = dict(post) if post else None
             else:
                 query = "SELECT * FROM t_p52877782_legal_services_nsk.blog_posts"
-                if published_only:
+                if published_param == 'true':
                     query += " WHERE published = true"
+                elif published_param == 'false':
+                    query += " WHERE published = false"
                 query += " ORDER BY created_at DESC"
                 
                 cur.execute(query)
@@ -76,9 +75,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         elif method == 'POST':
             body_data = json.loads(event.get('body', '{}'))
             
-            title = body_data.get('title')
-            slug = body_data.get('slug')
-            content = body_data.get('content')
+            title = body_data.get('title', '')
+            slug = body_data.get('slug', '')
+            content = body_data.get('content', '')
             description = body_data.get('description', '')
             author = body_data.get('author', 'Администратор')
             category = body_data.get('category', 'Новости')
@@ -98,17 +97,28 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'isBase64Encoded': False
                 }
             
-            published_at = datetime.now() if published else None
+            safe_title = title.replace("'", "''")
+            safe_slug = slug.replace("'", "''")
+            safe_content = content.replace("'", "''")
+            safe_description = description.replace("'", "''")
+            safe_author = author.replace("'", "''")
+            safe_category = category.replace("'", "''")
+            safe_image_url = image_url.replace("'", "''")
+            safe_video_url = video_url.replace("'", "''")
+            safe_thumbnail_url = thumbnail_url.replace("'", "''")
             
-            cur.execute(
-                """INSERT INTO t_p52877782_legal_services_nsk.blog_posts 
-                (title, slug, content, description, author, category, image_url, 
-                video_url, thumbnail_url, published, published_at, created_at, updated_at, author_id)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW(), gen_random_uuid())
-                RETURNING id, title, slug, created_at""",
-                (title, slug, content, description, author, category, image_url,
-                 video_url, thumbnail_url, published, published_at)
-            )
+            published_str = 'true' if published else 'false'
+            published_at_str = 'NOW()' if published else 'NULL'
+            
+            query = f"""INSERT INTO t_p52877782_legal_services_nsk.blog_posts 
+            (title, slug, content, description, author, category, image_url, 
+            video_url, thumbnail_url, published, published_at, created_at, updated_at, author_id)
+            VALUES ('{safe_title}', '{safe_slug}', '{safe_content}', '{safe_description}', 
+            '{safe_author}', '{safe_category}', '{safe_image_url}', '{safe_video_url}', 
+            '{safe_thumbnail_url}', {published_str}, {published_at_str}, NOW(), NOW(), gen_random_uuid())
+            RETURNING id, title, slug, created_at"""
+            
+            cur.execute(query)
             conn.commit()
             result = dict(cur.fetchone())
             
@@ -138,46 +148,44 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 }
             
             fields = []
-            values = []
             
             if 'title' in body_data:
-                fields.append('title = %s')
-                values.append(body_data['title'])
+                safe_title = body_data['title'].replace("'", "''")
+                fields.append(f"title = '{safe_title}'")
             if 'slug' in body_data:
-                fields.append('slug = %s')
-                values.append(body_data['slug'])
+                safe_slug = body_data['slug'].replace("'", "''")
+                fields.append(f"slug = '{safe_slug}'")
             if 'content' in body_data:
-                fields.append('content = %s')
-                values.append(body_data['content'])
+                safe_content = body_data['content'].replace("'", "''")
+                fields.append(f"content = '{safe_content}'")
             if 'description' in body_data:
-                fields.append('description = %s')
-                values.append(body_data['description'])
+                safe_desc = body_data['description'].replace("'", "''")
+                fields.append(f"description = '{safe_desc}'")
             if 'author' in body_data:
-                fields.append('author = %s')
-                values.append(body_data['author'])
+                safe_author = body_data['author'].replace("'", "''")
+                fields.append(f"author = '{safe_author}'")
             if 'category' in body_data:
-                fields.append('category = %s')
-                values.append(body_data['category'])
+                safe_cat = body_data['category'].replace("'", "''")
+                fields.append(f"category = '{safe_cat}'")
             if 'image_url' in body_data:
-                fields.append('image_url = %s')
-                values.append(body_data['image_url'])
+                safe_img = body_data['image_url'].replace("'", "''")
+                fields.append(f"image_url = '{safe_img}'")
             if 'video_url' in body_data:
-                fields.append('video_url = %s')
-                values.append(body_data['video_url'])
+                safe_vid = body_data['video_url'].replace("'", "''")
+                fields.append(f"video_url = '{safe_vid}'")
             if 'thumbnail_url' in body_data:
-                fields.append('thumbnail_url = %s')
-                values.append(body_data['thumbnail_url'])
+                safe_thumb = body_data['thumbnail_url'].replace("'", "''")
+                fields.append(f"thumbnail_url = '{safe_thumb}'")
             if 'published' in body_data:
-                fields.append('published = %s')
-                values.append(body_data['published'])
+                pub_str = 'true' if body_data['published'] else 'false'
+                fields.append(f"published = {pub_str}")
                 if body_data['published']:
                     fields.append('published_at = NOW()')
             
             fields.append('updated_at = NOW()')
-            values.append(int(post_id))
             
-            query = f"UPDATE t_p52877782_legal_services_nsk.blog_posts SET {', '.join(fields)} WHERE id = %s RETURNING *"
-            cur.execute(query, tuple(values))
+            query = f"UPDATE t_p52877782_legal_services_nsk.blog_posts SET {', '.join(fields)} WHERE id = {int(post_id)} RETURNING *"
+            cur.execute(query)
             conn.commit()
             result = dict(cur.fetchone())
             
@@ -206,11 +214,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'isBase64Encoded': False
                 }
             
-            cur.execute("SELECT id FROM t_p52877782_legal_services_nsk.blog_posts WHERE id = %s", (int(post_id),))
+            query = f"SELECT id FROM t_p52877782_legal_services_nsk.blog_posts WHERE id = {int(post_id)}"
+            cur.execute(query)
             existing = cur.fetchone()
             
             if existing:
-                cur.execute("UPDATE t_p52877782_legal_services_nsk.blog_posts SET published = false WHERE id = %s", (int(post_id),))
+                query = f"UPDATE t_p52877782_legal_services_nsk.blog_posts SET published = false WHERE id = {int(post_id)}"
+                cur.execute(query)
                 conn.commit()
                 return {
                     'statusCode': 200,
