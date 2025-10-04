@@ -5,6 +5,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 interface BlogPost {
   id: number;
@@ -232,11 +234,26 @@ export default function BlogManager() {
 
               <div>
                 <label className="block text-sm font-medium mb-1">Содержимое</label>
-                <Textarea
+                <ReactQuill
+                  theme="snow"
                   value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  rows={10}
-                  required
+                  onChange={(value) => setFormData({ ...formData, content: value })}
+                  modules={{
+                    toolbar: [
+                      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                      [{ 'font': [] }],
+                      [{ 'size': ['small', false, 'large', 'huge'] }],
+                      ['bold', 'italic', 'underline', 'strike'],
+                      [{ 'color': [] }, { 'background': [] }],
+                      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                      [{ 'indent': '-1'}, { 'indent': '+1' }],
+                      [{ 'align': [] }],
+                      ['link', 'image', 'video'],
+                      ['clean']
+                    ]
+                  }}
+                  className="bg-white rounded-md border"
+                  style={{ minHeight: '300px' }}
                 />
               </div>
 

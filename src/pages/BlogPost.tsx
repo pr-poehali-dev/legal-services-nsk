@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import 'react-quill/dist/quill.snow.css';
 
 interface BlogPost {
   id: number;
@@ -86,51 +87,7 @@ const BlogPost = () => {
   };
 
   const renderContent = (content: string) => {
-    return content.split('\n').map((line, index) => {
-      if (line.startsWith('# ')) {
-        return (
-          <h1 key={index} className="text-3xl font-bold text-foreground mt-8 mb-4">
-            {line.replace('# ', '')}
-          </h1>
-        );
-      }
-      if (line.startsWith('## ')) {
-        return (
-          <h2 key={index} className="text-2xl font-semibold text-foreground mt-6 mb-3">
-            {line.replace('## ', '')}
-          </h2>
-        );
-      }
-      if (line.startsWith('### ')) {
-        return (
-          <h3 key={index} className="text-xl font-semibold text-foreground mt-4 mb-2">
-            {line.replace('### ', '')}
-          </h3>
-        );
-      }
-      if (line.startsWith('**') && line.endsWith('**')) {
-        return (
-          <p key={index} className="font-semibold text-foreground mb-2">
-            {line.replace(/\*\*/g, '')}
-          </p>
-        );
-      }
-      if (line.startsWith('- ')) {
-        return (
-          <li key={index} className="text-muted-foreground mb-1 ml-4">
-            {line.replace('- ', '')}
-          </li>
-        );
-      }
-      if (line.trim() === '') {
-        return <br key={index} />;
-      }
-      return (
-        <p key={index} className="text-muted-foreground leading-relaxed mb-4">
-          {line}
-        </p>
-      );
-    });
+    return <div dangerouslySetInnerHTML={{ __html: content }} />;
   };
 
   if (loading) {
@@ -232,7 +189,7 @@ const BlogPost = () => {
             </div>
           )}
 
-          <div className="prose prose-lg max-w-none mb-8">
+          <div className="prose prose-lg max-w-none mb-8 ql-editor">
             {renderContent(post.content)}
           </div>
 
