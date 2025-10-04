@@ -54,6 +54,7 @@ const PopupModal = () => {
 
       toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время");
       setFormData({ name: "", phone: "", question: "" });
+      localStorage.setItem('popupShown', 'true');
       closeModal();
     } catch (error) {
       toast.error("Ошибка отправки. Попробуйте еще раз.");
@@ -67,15 +68,28 @@ const PopupModal = () => {
   };
 
   useEffect(() => {
+    // Проверяем, был ли попап уже показан или закрыт
+    const wasShown = localStorage.getItem('popupShown');
+    
+    if (wasShown) {
+      return; // Не показываем, если уже показывали
+    }
+
     const timer = setTimeout(() => {
       openModal();
-    }, 80000); // 30 seconds
+      localStorage.setItem('popupShown', 'true');
+    }, 120000); // 2 минуты (120000 мс)
 
     return () => clearTimeout(timer);
   }, [openModal]);
 
+  const handleClose = () => {
+    localStorage.setItem('popupShown', 'true');
+    closeModal();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={closeModal}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">

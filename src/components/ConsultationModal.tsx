@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -54,6 +54,7 @@ const ConsultationModal = () => {
 
       toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время");
       setFormData({ name: "", phone: "", question: "" });
+      localStorage.setItem('consultationShown', 'true');
       consultationModal.close();
     } catch (error) {
       toast.error("Ошибка отправки. Попробуйте еще раз.");
@@ -66,10 +67,31 @@ const ConsultationModal = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  useEffect(() => {
+    // Проверяем, было ли уведомление уже показано или закрыто
+    const wasShown = localStorage.getItem('consultationShown');
+    
+    if (wasShown) {
+      return; // Не показываем, если уже показывали
+    }
+
+    const timer = setTimeout(() => {
+      consultationModal.open();
+      localStorage.setItem('consultationShown', 'true');
+    }, 90000); // 1.5 минуты (90000 мс)
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleClose = () => {
+    localStorage.setItem('consultationShown', 'true');
+    consultationModal.close();
+  };
+
   return (
     <Dialog
       open={consultationModal.isOpen}
-      onOpenChange={consultationModal.close}
+      onOpenChange={handleClose}
     >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
