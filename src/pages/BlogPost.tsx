@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
 
 interface BlogPost {
@@ -21,6 +22,9 @@ interface BlogPost {
   created_at: string;
   published_at: string;
   views?: number;
+  seo_title?: string;
+  seo_description?: string;
+  seo_h1?: string;
 }
 
 const API_URL = 'https://functions.poehali.dev/5f51a5f5-c821-46dc-80eb-996d07934d5a';
@@ -106,8 +110,19 @@ const BlogPost = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="container mx-auto px-4 py-8">
+    <>
+      <Helmet>
+        <title>{post.seo_title || post.title} | ЮрСервис НСК</title>
+        <meta name="description" content={post.seo_description || post.description} />
+        <meta property="og:title" content={post.seo_title || post.title} />
+        <meta property="og:description" content={post.seo_description || post.description} />
+        {post.image_url && <meta property="og:image" content={post.image_url} />}
+        <meta property="og:type" content="article" />
+        <link rel="canonical" href={`https://юридический-сервис.рф/blog/${post.slug}`} />
+      </Helmet>
+      
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-8">
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
           <Link to="/" className="hover:text-primary">Главная</Link>
           <Icon name="ChevronRight" className="h-4 w-4" />
@@ -129,7 +144,7 @@ const BlogPost = () => {
             </div>
 
             <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 leading-tight">
-              {post.title}
+              {post.seo_h1 || post.title}
             </h1>
 
             <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
@@ -258,7 +273,7 @@ const BlogPost = () => {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

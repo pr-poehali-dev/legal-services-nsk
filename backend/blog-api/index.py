@@ -85,6 +85,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             video_url = body_data.get('video_url', '')
             thumbnail_url = body_data.get('thumbnail_url', '')
             published = body_data.get('published', False)
+            seo_title = body_data.get('seo_title', '')
+            seo_description = body_data.get('seo_description', '')
+            seo_h1 = body_data.get('seo_h1', '')
             
             if not all([title, slug, content]):
                 return {
@@ -106,16 +109,21 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             safe_image_url = image_url.replace("'", "''")
             safe_video_url = video_url.replace("'", "''")
             safe_thumbnail_url = thumbnail_url.replace("'", "''")
+            safe_seo_title = seo_title.replace("'", "''")
+            safe_seo_description = seo_description.replace("'", "''")
+            safe_seo_h1 = seo_h1.replace("'", "''")
             
             published_str = 'true' if published else 'false'
             published_at_str = 'NOW()' if published else 'NULL'
             
             query = f"""INSERT INTO t_p52877782_legal_services_nsk.blog_posts 
             (title, slug, content, description, author, category, image_url, 
-            video_url, thumbnail_url, published, published_at, created_at, updated_at, author_id)
+            video_url, thumbnail_url, published, published_at, created_at, updated_at, author_id,
+            seo_title, seo_description, seo_h1)
             VALUES ('{safe_title}', '{safe_slug}', '{safe_content}', '{safe_description}', 
             '{safe_author}', '{safe_category}', '{safe_image_url}', '{safe_video_url}', 
-            '{safe_thumbnail_url}', {published_str}, {published_at_str}, NOW(), NOW(), gen_random_uuid())
+            '{safe_thumbnail_url}', {published_str}, {published_at_str}, NOW(), NOW(), gen_random_uuid(),
+            '{safe_seo_title}', '{safe_seo_description}', '{safe_seo_h1}')
             RETURNING id, title, slug, created_at"""
             
             cur.execute(query)
@@ -176,6 +184,15 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             if 'thumbnail_url' in body_data:
                 safe_thumb = body_data['thumbnail_url'].replace("'", "''")
                 fields.append(f"thumbnail_url = '{safe_thumb}'")
+            if 'seo_title' in body_data:
+                safe_seo_title = body_data['seo_title'].replace("'", "''")
+                fields.append(f"seo_title = '{safe_seo_title}'")
+            if 'seo_description' in body_data:
+                safe_seo_desc = body_data['seo_description'].replace("'", "''")
+                fields.append(f"seo_description = '{safe_seo_desc}'")
+            if 'seo_h1' in body_data:
+                safe_seo_h1 = body_data['seo_h1'].replace("'", "''")
+                fields.append(f"seo_h1 = '{safe_seo_h1}'")
             if 'published' in body_data:
                 pub_str = 'true' if body_data['published'] else 'false'
                 fields.append(f"published = {pub_str}")

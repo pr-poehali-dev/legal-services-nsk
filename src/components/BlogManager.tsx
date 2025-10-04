@@ -7,6 +7,7 @@ import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { downloadSitemap } from '@/utils/generateSitemap';
 
 interface BlogPost {
   id: number;
@@ -23,6 +24,9 @@ interface BlogPost {
   created_at: string;
   updated_at: string;
   published_at: string | null;
+  seo_title?: string;
+  seo_description?: string;
+  seo_h1?: string;
 }
 
 const API_URL = 'https://functions.poehali.dev/5f51a5f5-c821-46dc-80eb-996d07934d5a';
@@ -43,7 +47,10 @@ export default function BlogManager() {
     image_url: '',
     video_url: '',
     thumbnail_url: '',
-    published: false
+    published: false,
+    seo_title: '',
+    seo_description: '',
+    seo_h1: ''
   });
 
   useEffect(() => {
@@ -108,7 +115,10 @@ export default function BlogManager() {
       image_url: post.image_url,
       video_url: post.video_url,
       thumbnail_url: post.thumbnail_url,
-      published: post.published
+      published: post.published,
+      seo_title: post.seo_title || '',
+      seo_description: post.seo_description || '',
+      seo_h1: post.seo_h1 || ''
     });
     setShowForm(true);
   };
@@ -145,7 +155,10 @@ export default function BlogManager() {
       image_url: '',
       video_url: '',
       thumbnail_url: '',
-      published: false
+      published: false,
+      seo_title: '',
+      seo_description: '',
+      seo_h1: ''
     });
     setEditingPost(null);
     setShowForm(false);
@@ -186,10 +199,26 @@ export default function BlogManager() {
             RSS: <a href="https://functions.poehali.dev/23ab26b5-f1a2-4b59-9c6d-dae8bfb8be0f" target="_blank" rel="noopener" className="text-primary underline">feed</a>
           </p>
         </div>
-        <Button onClick={() => setShowForm(!showForm)}>
-          <Icon name={showForm ? "X" : "Plus"} className="h-4 w-4 mr-2" />
-          {showForm ? 'Отменить' : 'Создать пост'}
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={async () => {
+              try {
+                await downloadSitemap();
+                toast.success('Sitemap.xml скачан! Загрузите его в корень сайта');
+              } catch (error) {
+                toast.error('Ошибка генерации sitemap');
+              }
+            }}
+          >
+            <Icon name="Download" className="h-4 w-4 mr-2" />
+            Скачать Sitemap
+          </Button>
+          <Button onClick={() => setShowForm(!showForm)}>
+            <Icon name={showForm ? "X" : "Plus"} className="h-4 w-4 mr-2" />
+            {showForm ? 'Отменить' : 'Создать пост'}
+          </Button>
+        </div>
       </div>
 
       {showForm && (
@@ -282,6 +311,55 @@ export default function BlogManager() {
                   onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
                   placeholder="https://..."
                 />
+              </div>
+
+              <div className="border-t pt-4 mt-4">
+                <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                  <Icon name="Search" className="h-4 w-4" />
+                  SEO настройки
+                </h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      H1 заголовок <span className="text-xs text-muted-foreground">(рекомендуется 30-60 символов)</span>
+                    </label>
+                    <Input
+                      value={formData.seo_h1}
+                      onChange={(e) => setFormData({ ...formData, seo_h1: e.target.value })}
+                      placeholder="Если не указан, используется заголовок статьи"
+                      maxLength={80}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">{formData.seo_h1.length}/80 символов</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Title (название в поиске) <span className="text-xs text-muted-foreground">(рекомендуется 50-60 символов)</span>
+                    </label>
+                    <Input
+                      value={formData.seo_title}
+                      onChange={(e) => setFormData({ ...formData, seo_title: e.target.value })}
+                      placeholder="Если не указан, используется заголовок статьи"
+                      maxLength={70}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">{formData.seo_title.length}/70 символов</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Description (описание в поиске) <span className="text-xs text-muted-foreground">(рекомендуется 120-160 символов)</span>
+                    </label>
+                    <Textarea
+                      value={formData.seo_description}
+                      onChange={(e) => setFormData({ ...formData, seo_description: e.target.value })}
+                      placeholder="Если не указано, используется краткое описание"
+                      rows={3}
+                      maxLength={200}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">{formData.seo_description.length}/200 символов</p>
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
