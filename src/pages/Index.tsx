@@ -20,16 +20,24 @@ const Index = () => {
       <div className="min-h-screen">
         <Hero />
         <Services />
-        <Practice />
         <Cases />
-        <div className="py-16 bg-secondary/20">
+        <Practice />
+        <Blog />
+        <div className="py-20 bg-gradient-to-b from-secondary/10 to-background">
           <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-3xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+                  Получите бесплатную консультацию
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  Заполните форму и мы свяжемся с вами в течение 15 минут
+                </p>
+              </div>
               <ContactForm />
             </div>
           </div>
         </div>
-        <Blog />
         <Contacts />
         <Footer />
       </div>
