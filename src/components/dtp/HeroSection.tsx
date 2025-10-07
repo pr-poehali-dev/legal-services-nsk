@@ -17,14 +17,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onConsultationClick }) => {
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               <span className="text-yellow-400">
-                ВЗЫСКАЛИ БОЛЕЕ 10 МИЛЛИОНОВ
+                Автоюрист в Новосибирске
               </span>
               <br />
-              по ДТП за последний год
+              Защита прав автомобилистов
             </h1>
             <p className="text-xl mb-4 text-blue-100">
-              Артем Вячеславович — эксперт по автоправу. Специализируется на
-              взыскании максимальных компенсаций по ДТП.
+              Взыскание по ОСАГО, споры со страховыми, лишение прав, административные дела. 
+              Работаем на результат — более 10 млн рублей взыскано за год.
             </p>
             <div className="flex items-center gap-4 mb-6 text-yellow-300">
               <div className="flex items-center gap-1">
