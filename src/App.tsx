@@ -21,6 +21,7 @@ import Register from "@/pages/Register";
 import LawyerDashboard from "@/pages/LawyerDashboard";
 import ClientLogin from "@/pages/ClientLogin";
 import ClientDashboard from "@/pages/ClientDashboard";
+import Sitemap from "@/pages/Sitemap";
 import PopupModal from "@/components/PopupModal";
 import ConsultationModal from "@/components/ConsultationModal";
 
@@ -55,6 +56,7 @@ function App() {
                       <Route path="/lawyer" element={<LawyerDashboard />} />
                       <Route path="/client/login" element={<ClientLogin />} />
                       <Route path="/client/cabinet" element={<ClientDashboard />} />
+                      <Route path="/sitemap.xml" element={<Sitemap />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

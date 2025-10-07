@@ -202,17 +202,13 @@ export default function BlogManager() {
         <div className="flex gap-2">
           <Button 
             variant="outline" 
-            onClick={async () => {
-              try {
-                await downloadSitemap();
-                toast.success('Sitemap.xml скачан! Загрузите его в корень сайта');
-              } catch (error) {
-                toast.error('Ошибка генерации sitemap');
-              }
+            onClick={() => {
+              window.open('/sitemap.xml', '_blank');
+              toast.success('Sitemap открыт в новой вкладке');
             }}
           >
             <Icon name="Download" className="h-4 w-4 mr-2" />
-            Скачать Sitemap
+            Открыть Sitemap
           </Button>
           <Button onClick={() => setShowForm(!showForm)}>
             <Icon name={showForm ? "X" : "Plus"} className="h-4 w-4 mr-2" />
