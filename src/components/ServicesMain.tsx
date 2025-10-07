@@ -22,6 +22,14 @@ const ServicesMain = () => {
       features: ["Семейные дела", "Наследство", "Недвижимость"]
     },
     {
+      icon: "Building2",
+      title: "Арбитражный юрист",
+      description: "Представительство в арбитражных судах, корпоративные споры, взыскание задолженности",
+      link: "/services",
+      color: "bg-indigo-500",
+      features: ["Споры в арбитраже", "Взыскание долгов", "Банкротство"]
+    },
+    {
       icon: "FileText",
       title: "Административные дела",
       description: "Обжалование постановлений ГИБДД, штрафов, защита прав граждан",
@@ -55,10 +63,10 @@ const ServicesMain = () => {
       <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
-            Наши услуги
+            Области практики
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Профессиональная юридическая помощь по всем направлениям права
+            Специализируемся на сложных делах, требующих глубоких знаний и опыта
           </p>
         </div>
 

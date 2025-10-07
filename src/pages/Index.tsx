@@ -1,6 +1,5 @@
 import Hero from "@/components/Hero";
 import ServicesMain from "@/components/ServicesMain";
-import Practice from "@/components/Practice";
 import Cases from "@/components/Cases";
 import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
@@ -21,7 +20,6 @@ const Index = () => {
         <Hero />
         <ServicesMain />
         <Cases />
-        <Practice />
         <Blog />
         <div className="py-20 bg-gradient-to-b from-secondary/10 to-background">
           <div className="container mx-auto px-4">
