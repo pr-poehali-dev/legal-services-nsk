@@ -22,7 +22,7 @@ const DTPLawyer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white pt-20">
       <TrustBar />
       <HeroSection onConsultationClick={handleConsultationClick} />
       <SocialProofBar />
