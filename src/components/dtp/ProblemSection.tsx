@@ -6,86 +6,117 @@ const ProblemSection = () => {
   const problems = [
     {
       icon: "XCircle",
-      title: "Занижают выплаты",
-      description: "На 40-70% от реального ущерба",
-      color: "text-red-500"
+      title: "Страховая занижает выплаты?",
+      problem: "Платят на 40-70% меньше реального ущерба",
+      solution: "→ Взыщем полную сумму + неустойку",
+      color: "text-red-500",
+      bgColor: "bg-red-50"
     },
     {
       icon: "Clock",
-      title: "Тянут время",
-      description: "Месяцами рассматривают заявления",
-      color: "text-orange-500"
+      title: "Страховая тянет время?",
+      problem: "Месяцами не платят по ОСАГО",
+      solution: "→ Получим выплату за 2-4 недели",
+      color: "text-orange-500",
+      bgColor: "bg-orange-50"
     },
     {
       icon: "FileX",
-      title: "Отказывают",
-      description: "По надуманным причинам",
-      color: "text-red-600"
+      title: "Страховая отказала в выплате?",
+      problem: "Отказ по надуманным причинам",
+      solution: "→ Обжалуем и взыщем + штраф 50%",
+      color: "text-red-600",
+      bgColor: "bg-red-50"
     },
     {
       icon: "Ban",
-      title: "Неправомерное лишение",
-      description: "ГИБДД нарушает процедуру оформления",
-      color: "text-purple-500"
+      title: "Лишают прав за алкоголь?",
+      problem: "ГИБДД хочет лишить водительских прав",
+      solution: "→ Защитим в суде, вернём удостоверение",
+      color: "text-purple-500",
+      bgColor: "bg-purple-50"
     },
     {
       icon: "Wrench",
-      title: "СТО обманывает",
-      description: "Некачественный ремонт за полную цену",
-      color: "text-amber-500"
+      title: "СТО сделала плохой ремонт?",
+      problem: "Некачественный ремонт за полную цену",
+      solution: "→ Вернём деньги или переделаем бесплатно",
+      color: "text-amber-500",
+      bgColor: "bg-amber-50"
     },
     {
       icon: "AlertTriangle",
-      title: "Незаконные штрафы",
-      description: "Постановления без оснований",
-      color: "text-yellow-600"
+      title: "Незаконный штраф ГИБДД?",
+      problem: "Выписали штраф или постановление незаконно",
+      solution: "→ Отменим штраф и снимем баллы",
+      color: "text-yellow-600",
+      bgColor: "bg-yellow-50"
     }
   ];
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-b from-red-50 to-orange-50">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-16 px-4 bg-gradient-to-b from-blue-50 to-white">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-red-800 mb-4">
-            Почему без юриста вы теряете деньги
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+            Мы решаем проблемы автомобилистов
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Страховые компании, ГИБДД и СТО используют юридическую неграмотность автомобилистов
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Если вы столкнулись с одной из этих ситуаций — мы поможем защитить ваши права и получить деньги
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {problems.map((problem, index) => (
-            <Card key={index} className="bg-white hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <div className={`${problem.color} mb-4 flex justify-center`}>
-                  <Icon name={problem.icon} className="h-12 w-12" />
+          {problems.map((item, index) => (
+            <Card key={index} className="bg-white hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
+              <CardContent className="p-6">
+                <div className={`${item.bgColor} p-4 rounded-lg mb-4 flex justify-center`}>
+                  <Icon name={item.icon} className={`h-12 w-12 ${item.color}`} />
                 </div>
-                <h3 className="font-bold text-lg mb-2 text-foreground">
-                  {problem.title}
+                
+                <h3 className="font-bold text-xl mb-3 text-foreground">
+                  {item.title}
                 </h3>
-                <p className="text-muted-foreground text-sm">
-                  {problem.description}
-                </p>
+                
+                <div className="space-y-3">
+                  <div className="bg-red-50 p-3 rounded-lg border-l-4 border-red-400">
+                    <p className="text-sm text-red-800 font-medium">
+                      ❌ {item.problem}
+                    </p>
+                  </div>
+                  
+                  <div className="bg-green-50 p-3 rounded-lg border-l-4 border-green-400">
+                    <p className="text-sm text-green-800 font-semibold">
+                      ✅ {item.solution}
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <div className="bg-gradient-to-r from-yellow-100 to-orange-100 p-8 rounded-xl border-l-4 border-yellow-500 shadow-lg">
-          <div className="flex items-start gap-4">
-            <Icon name="AlertTriangle" className="h-8 w-8 text-yellow-600 flex-shrink-0 mt-1" />
-            <div>
-              <p className="text-xl font-bold text-yellow-900 mb-2">
-                Без юриста вы получите в 2-3 раза меньше денег!
-              </p>
-              <p className="text-yellow-800">
-                Средний размер выплаты без юриста — 65 000 ₽. С юристом — 180 000 ₽. 
-                Не дарите свои деньги страховым компаниям.
-              </p>
+        <Card className="bg-gradient-to-r from-green-600 to-green-700 text-white border-none shadow-2xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="bg-white/20 p-4 rounded-full">
+                <Icon name="TrendingUp" className="h-12 w-12" />
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <p className="text-2xl font-bold mb-2">
+                  С нами вы получите в 2-3 раза больше денег!
+                </p>
+                <p className="text-green-100 text-lg">
+                  Средняя выплата без юриста — 65 000 ₽. С нашей помощью — 180 000 ₽. 
+                  Первая консультация бесплатно, оплата только при успехе.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Icon name="CheckCircle" className="h-6 w-6 text-green-200" />
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );
