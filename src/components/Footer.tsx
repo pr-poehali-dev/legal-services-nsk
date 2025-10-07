@@ -160,10 +160,6 @@ const Footer = () => {
                 Условия использования
               </a>
             </div>
-            
-            <div className="text-muted-foreground/40 font-mono">
-              8iae5arcsy0odhf5
-            </div>
           </div>
         </div>
       </div>
