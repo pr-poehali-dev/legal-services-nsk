@@ -172,7 +172,7 @@ export default function HomePage() {
             </Link>
             <Button size="lg" variant="outline" className="px-8 py-3 border-white text-white hover:bg-white hover:text-blue-600">
               <Icon name="Phone" size={20} className="mr-2" />
-              +7 (495) 123-45-67
+              +7 (999) 452-35-00
             </Button>
           </div>
         </div>

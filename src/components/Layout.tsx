@@ -59,7 +59,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="tel:+79994523500"
                 className="text-sm text-slate-600 hover:text-blue-600"
               >
-                +7 (495) 123-45-67
+                +7 (999) 452-35-00
               </a>
               <Link to="/contact">
                 <Button className="bg-blue-600 hover:bg-blue-700">
@@ -100,7 +100,7 @@ export default function Layout({ children }: LayoutProps) {
                   className="flex items-center gap-3 px-3 py-3 text-sm text-slate-600"
                 >
                   <Icon name="Phone" size={18} />
-                  +7 (495) 123-45-67
+                  +7 (999) 452-35-00
                 </a>
                 <Link to="/contact" className="block mt-2">
                   <Button className="w-full bg-blue-600 hover:bg-blue-700">

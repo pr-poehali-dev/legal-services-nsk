@@ -43,7 +43,7 @@ export default function ContactPage() {
     {
       icon: "Phone",
       title: "Телефон",
-      content: ["+7 (999) 452-35-99", "+7 (999) 452-35-00"],
+      content: ["+7 (999) 452-35-00"],
       action: "tel:+79994523500",
     },
     {
@@ -160,7 +160,7 @@ export default function ContactPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+7 (999) 123-45-67"
+                      placeholder="+7 (999) 452-35-00"
                       required
                     />
                   </div>
@@ -282,7 +282,7 @@ export default function ContactPage() {
                 <a href="tel:+79994523500">
                   <Button size="lg" variant="secondary" className="w-full">
                     <Icon name="Phone" size={20} className="mr-2" />
-                    +7 (495) 123-45-67
+                    +7 (999) 452-35-00
                   </Button>
                 </a>
               </CardContent>
