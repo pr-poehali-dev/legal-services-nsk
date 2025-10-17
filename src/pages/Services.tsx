@@ -4,10 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
+import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
+import { useDynamicSEO } from "@/hooks/useDynamicSEO";
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState("popular");
   const { openModal } = useModal();
+  const seo = getSEOConfig('services');
+  
+  useDynamicSEO();
 
   const tabs = [
     { id: "popular", label: "ПОПУЛЯРНЫЕ" },
@@ -146,8 +152,15 @@ const Services = () => {
   const services = getFilteredServices();
 
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="container mx-auto px-4 py-12">
+    <>
+      <SEOHead 
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
+      />
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center space-y-4 mb-12">
           <h1 className="text-4xl lg:text-5xl font-bold text-foreground">
@@ -248,6 +261,7 @@ const Services = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

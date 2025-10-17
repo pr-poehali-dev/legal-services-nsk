@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import SEOHead from '@/components/SEOHead';
+import { getSEOConfig } from '@/utils/seoConfig';
 
 interface BlogPost {
   id: number;
@@ -31,6 +33,7 @@ const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Все категории');
   const [sortBy, setSortBy] = useState('newest');
+  const seo = getSEOConfig('blog');
 
   useEffect(() => {
     loadPosts();
@@ -99,7 +102,14 @@ const Blog = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <>
+      <SEOHead 
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
+      />
+      <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-12">
         <div className="text-center space-y-4 mb-12">
           <h1 className="text-4xl lg:text-5xl font-bold text-foreground">
@@ -266,6 +276,7 @@ const Blog = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

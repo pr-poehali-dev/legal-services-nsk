@@ -9,11 +9,19 @@ import ContactForm from "@/components/ContactForm";
 
 import StructuredData from "@/components/StructuredData";
 import YandexQuickLinks from "@/components/YandexQuickLinks";
+import { getSEOConfig } from "@/utils/seoConfig";
 
 const Index = () => {
+  const seo = getSEOConfig('home');
+  
   return (
     <>
-      <SEOHead />
+      <SEOHead 
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
+      />
       <StructuredData />
       <YandexQuickLinks />
       <div className="min-h-screen">

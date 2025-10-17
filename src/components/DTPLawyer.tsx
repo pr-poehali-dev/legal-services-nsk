@@ -9,9 +9,12 @@ import ProcessSection from "./dtp/ProcessSection";
 import TestimonialsSection from "./dtp/TestimonialsSection";
 import CTASection from "./dtp/CTASection";
 import DTPConsultationModal from "./dtp/DTPConsultationModal";
+import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 
 const DTPLawyer = () => {
   const [showForm, setShowForm] = useState(false);
+  const seo = getSEOConfig('dtp');
 
   const handleConsultationClick = () => {
     setShowForm(true);
@@ -22,7 +25,14 @@ const DTPLawyer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white pt-20">
+    <>
+      <SEOHead 
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
+      />
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white pt-20">
       <TrustBar />
       <HeroSection onConsultationClick={handleConsultationClick} />
       <SocialProofBar />
@@ -37,6 +47,7 @@ const DTPLawyer = () => {
         onClose={handleCloseModal} 
       />
     </div>
+    </>
   );
 };
 

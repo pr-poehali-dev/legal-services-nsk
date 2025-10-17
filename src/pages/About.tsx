@@ -2,9 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
+import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 
 const About = () => {
   const { openModal } = useModal();
+  const seo = getSEOConfig('about');
 
   const team = [
     {
@@ -104,9 +107,16 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-16">
-      {/* Hero секция */}
-      <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-16">
+    <>
+      <SEOHead 
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
+      />
+      <div className="min-h-screen pt-16">
+        {/* Hero секция */}
+        <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             О нашей компании
@@ -305,6 +315,7 @@ const About = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

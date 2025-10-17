@@ -1,6 +1,8 @@
 import { Helmet } from "react-helmet-async";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 
 const pricingData = {
   "Общие услуги": [
@@ -312,20 +314,17 @@ const pricingData = {
 
 export default function Pricing() {
   const [activeCategory, setActiveCategory] = useState("Общие услуги");
+  const seo = getSEOConfig('pricing');
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <Helmet>
-        <title>Цены на юридические услуги в Новосибирске - Адвокат Юрист</title>
-        <meta
-          name="description"
-          content="Цены на юридические услуги адвоката Юриста в Новосибирске. Семейное право, наследство, жилищные вопросы, арбитраж, банкротство. От 1 рубля за консультацию."
-        />
-        <meta
-          name="keywords"
-          content="цены юридические услуги Новосибирск, стоимость адвокат, семейное право цены, наследство юрист стоимость, жилищные споры цены, арбитраж стоимость, банкротство услуги цены, трудовые споры юрист"
-        />
-      </Helmet>
+    <>
+      <SEOHead 
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
+      />
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
 
       <div className="container mx-auto px-4 py-8 sm:py-16">
         <div className="text-center mb-12">
@@ -403,5 +402,6 @@ export default function Pricing() {
 
       <Footer />
     </div>
+    </>
   );
 }

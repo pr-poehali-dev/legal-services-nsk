@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
 import { toast } from "sonner";
+import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 
 const Contacts = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +20,7 @@ const Contacts = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { openModal } = useModal();
+  const seo = getSEOConfig('contacts');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,9 +162,16 @@ const Contacts = () => {
   }
 
   return (
-    <div className="min-h-screen pt-16">
-      {/* Hero секция */}
-      <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-16">
+    <>
+      <SEOHead 
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
+      />
+      <div className="min-h-screen pt-16">
+        {/* Hero секция */}
+        <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Свяжитесь с нами
@@ -431,6 +441,7 @@ const Contacts = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
