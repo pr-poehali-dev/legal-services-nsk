@@ -12,6 +12,7 @@ import ConsultationModal from "@/components/ConsultationModal";
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "@/components/ui/sonner";
+import StructuredData from "@/components/StructuredData";
 
 const Services = lazy(() => import("@/pages/Services"));
 const Pricing = lazy(() => import("@/pages/Pricing"));
@@ -71,6 +72,7 @@ function App() {
                   <ConsultationModal />
                   <ScrollToTop />
                   <SmoothScroll />
+                  <StructuredData />
                   <Toaster />
                 </div>
               </Router>

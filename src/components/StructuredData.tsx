@@ -1,4 +1,35 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getServiceSchema, getOrganizationSchema } from '@/utils/structuredData';
+import { getReviewsSchema } from '@/utils/reviewsSchema';
+import { getBreadcrumbsSchema } from '@/utils/breadcrumbsSchema';
+import { getPriceSchema } from '@/utils/priceSchema';
+
 const StructuredData = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    const existingServiceScripts = document.querySelectorAll('script[data-schema="service"]');
+    existingServiceScripts.forEach(script => script.remove());
+
+    const hash = location.hash.replace('#', '');
+    if (hash && location.pathname === '/services') {
+      const serviceSchema = getServiceSchema(hash);
+      if (serviceSchema) {
+        const serviceScript = document.createElement('script');
+        serviceScript.type = 'application/ld+json';
+        serviceScript.setAttribute('data-schema', 'service');
+        serviceScript.text = JSON.stringify(serviceSchema);
+        document.head.appendChild(serviceScript);
+      }
+    }
+
+    return () => {
+      const scripts = document.querySelectorAll('script[data-schema="service"]');
+      scripts.forEach(script => script.remove());
+    };
+  }, [location]);
+  
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "LegalService",
@@ -32,6 +63,13 @@ const StructuredData = () => {
       }
     ],
     "priceRange": "₽₽",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "247",
+      "bestRating": "5",
+      "worstRating": "4"
+    },
     "areaServed": {
       "@type": "City",
       "name": "Новосибирск"
@@ -176,42 +214,8 @@ const StructuredData = () => {
     }
   };
 
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Главная",
-        "item": "https://юридический-сервис.рф"
-      },
-      {
-        "@type": "ListItem", 
-        "position": 2,
-        "name": "Услуги",
-        "item": "https://юридический-сервис.рф/services"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Юрист по ДТП",
-        "item": "https://юридический-сервис.рф/dtp-lawyer"
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "name": "Блог",
-        "item": "https://юридический-сервис.рф/blog"
-      },
-      {
-        "@type": "ListItem",
-        "position": 5,
-        "name": "Контакты",
-        "item": "https://юридический-сервис.рф/contacts"
-      }
-    ]
-  };
+  const hash = location.hash.replace('#', '');
+  const breadcrumbData = getBreadcrumbsSchema(location.pathname, hash);
 
   const faqData = {
     "@context": "https://schema.org",
@@ -244,6 +248,9 @@ const StructuredData = () => {
     ]
   };
 
+  const reviewsData = getReviewsSchema();
+  const pricesData = location.pathname === '/pricing' ? getPriceSchema() : [];
+
   return (
     <>
       <script
@@ -270,6 +277,24 @@ const StructuredData = () => {
           __html: JSON.stringify(faqData)
         }}
       />
+      {reviewsData.map((review, index) => (
+        <script
+          key={`review-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(review)
+          }}
+        />
+      ))}
+      {pricesData.map((price, index) => (
+        <script
+          key={`price-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(price)
+          }}
+        />
+      ))}
     </>
   );
 };
