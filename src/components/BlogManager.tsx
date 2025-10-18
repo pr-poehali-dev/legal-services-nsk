@@ -200,6 +200,9 @@ export default function BlogManager() {
             {' | '}
             Sitemap: <a href="https://functions.poehali.dev/15af1070-d00f-4764-b2b5-2e9de9345be2" target="_blank" rel="noopener" className="text-primary underline">динамический</a>
           </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            ⚡ При публикации URL автоматически отправляется в Яндекс.Вебмастер для быстрой индексации
+          </p>
         </div>
         <div className="flex gap-2">
           <Button onClick={() => setShowForm(!showForm)}>

@@ -4,6 +4,34 @@ from typing import Dict, Any, Optional
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
+import urllib.request
+import urllib.error
+
+def notify_yandex_indexing(url: str) -> None:
+    '''Notify Yandex Webmaster about new URL for indexing'''
+    yandex_token = os.environ.get('YANDEX_WEBMASTER_TOKEN')
+    if not yandex_token:
+        return
+    
+    try:
+        host_id = 'https:юридический-сервис.рф'
+        api_url = f'https://api.webmaster.yandex.net/v4/user/{host_id}/recrawl/queue/'
+        
+        request_data = json.dumps({'url': url}).encode('utf-8')
+        
+        req = urllib.request.Request(
+            api_url,
+            data=request_data,
+            headers={
+                'Authorization': f'OAuth {yandex_token}',
+                'Content-Type': 'application/json'
+            },
+            method='POST'
+        )
+        
+        urllib.request.urlopen(req, timeout=5)
+    except Exception:
+        pass
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -130,6 +158,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             conn.commit()
             result = dict(cur.fetchone())
             
+            if published:
+                blog_url = f"https://юридический-сервис.рф/blog/{slug}"
+                notify_yandex_indexing(blog_url)
+            
             return {
                 'statusCode': 201,
                 'headers': {
@@ -205,6 +237,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             cur.execute(query)
             conn.commit()
             result = dict(cur.fetchone())
+            
+            if 'published' in body_data and body_data['published'] and 'slug' in result:
+                blog_url = f"https://юридический-сервис.рф/blog/{result['slug']}"
+                notify_yandex_indexing(blog_url)
             
             return {
                 'statusCode': 200,
