@@ -200,9 +200,9 @@ ${formData.message}
           {/* Contact Form */}
           <Card className="border-border">
             <CardHeader>
-              <CardTitle className="text-xl">Получите бесплатную консультацию</CardTitle>
+              <CardTitle className="text-xl">Задать вопрос</CardTitle>
               <p className="text-muted-foreground">
-                Заполните форму и мы свяжемся с вами в течение 15 минут
+                Опишите вашу ситуацию, и мы свяжемся с вами в течение часа
               </p>
             </CardHeader>
             <CardContent className="space-y-6">
