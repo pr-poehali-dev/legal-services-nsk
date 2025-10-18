@@ -7,7 +7,7 @@ import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { downloadSitemap } from '@/utils/generateSitemap';
+
 
 interface BlogPost {
   id: number;
@@ -197,19 +197,11 @@ export default function BlogManager() {
           <h2 className="text-2xl font-bold">Управление блогом</h2>
           <p className="text-sm text-muted-foreground mt-1">
             RSS: <a href="https://functions.poehali.dev/23ab26b5-f1a2-4b59-9c6d-dae8bfb8be0f" target="_blank" rel="noopener" className="text-primary underline">feed</a>
+            {' | '}
+            Sitemap: <a href="https://functions.poehali.dev/15af1070-d00f-4764-b2b5-2e9de9345be2" target="_blank" rel="noopener" className="text-primary underline">динамический</a>
           </p>
         </div>
         <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            onClick={() => {
-              window.open('/sitemap.xml', '_blank');
-              toast.success('Sitemap открыт в новой вкладке');
-            }}
-          >
-            <Icon name="Download" className="h-4 w-4 mr-2" />
-            Открыть Sitemap
-          </Button>
           <Button onClick={() => setShowForm(!showForm)}>
             <Icon name={showForm ? "X" : "Plus"} className="h-4 w-4 mr-2" />
             {showForm ? 'Отменить' : 'Создать пост'}
