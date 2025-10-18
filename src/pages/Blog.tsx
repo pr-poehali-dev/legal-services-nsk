@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import SEOHead from '@/components/SEOHead';
 import { getSEOConfig } from '@/utils/seoConfig';
+import { getBlogListSchema } from '@/utils/blogListSchema';
+import { Helmet } from 'react-helmet-async';
 
 interface BlogPost {
   id: number;
@@ -101,6 +103,8 @@ const Blog = () => {
     );
   }
 
+  const blogListSchema = getBlogListSchema(posts);
+
   return (
     <>
       <SEOHead 
@@ -109,6 +113,11 @@ const Blog = () => {
         keywords={seo.keywords}
         canonical={seo.canonical}
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(blogListSchema)}
+        </script>
+      </Helmet>
       <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-12">
         <div className="text-center space-y-4 mb-12">

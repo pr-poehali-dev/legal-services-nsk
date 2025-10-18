@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { Helmet } from 'react-helmet-async';
+import { getArticleSchema } from '@/utils/articleSchema';
 import 'react-quill/dist/quill.snow.css';
 
 interface BlogPost {
@@ -109,16 +110,39 @@ const BlogPost = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  const articleSchema = getArticleSchema(
+    post.seo_title || post.title,
+    post.seo_description || post.description,
+    post.author,
+    post.published_at || post.created_at,
+    post.slug,
+    post.category,
+    post.image_url,
+    post.content.split(/\s+/).length
+  );
+
   return (
     <>
       <Helmet>
         <title>{post.seo_title || post.title} | ЮрСервис НСК</title>
         <meta name="description" content={post.seo_description || post.description} />
+        <meta name="keywords" content={`${post.category}, юридическая консультация, юрист Новосибирск`} />
         <meta property="og:title" content={post.seo_title || post.title} />
         <meta property="og:description" content={post.seo_description || post.description} />
+        <meta property="og:url" content={`https://юридический-сервис.рф/blog/${post.slug}`} />
         {post.image_url && <meta property="og:image" content={post.image_url} />}
         <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={post.published_at || post.created_at} />
+        <meta property="article:author" content={post.author} />
+        <meta property="article:section" content={post.category} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.seo_title || post.title} />
+        <meta name="twitter:description" content={post.seo_description || post.description} />
+        {post.image_url && <meta name="twitter:image" content={post.image_url} />}
         <link rel="canonical" href={`https://юридический-сервис.рф/blog/${post.slug}`} />
+        <script type="application/ld+json">
+          {JSON.stringify(articleSchema)}
+        </script>
       </Helmet>
       
       <div className="min-h-screen bg-background pt-20">
