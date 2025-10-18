@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
-import CreateCaseDialog from '@/components/CreateCaseDialog';
+
 
 interface Case {
   id: string;
@@ -36,7 +36,6 @@ const ClientDashboard = () => {
   const [cases, setCases] = useState<Case[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -166,10 +165,6 @@ const ClientDashboard = () => {
           <div>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Мои дела</h2>
-              <Button size="sm" onClick={() => setCreateDialogOpen(true)}>
-                <Icon name="Plus" className="h-4 w-4 mr-1" />
-                Новое дело
-              </Button>
             </div>
 
             {loading ? (
@@ -184,9 +179,7 @@ const ClientDashboard = () => {
                 <CardContent className="py-12 text-center">
                   <Icon name="FolderOpen" className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
                   <p className="text-muted-foreground">У вас пока нет дел</p>
-                  <Button className="mt-4" size="sm" onClick={() => setCreateDialogOpen(true)}>
-                    Создать первое дело
-                  </Button>
+                  <p className="text-sm text-muted-foreground mt-2">Ваш юрист создаст дело после консультации</p>
                 </CardContent>
               </Card>
             ) : (
@@ -288,12 +281,6 @@ const ClientDashboard = () => {
             )}
           </div>
         </div>
-
-        <CreateCaseDialog 
-          open={createDialogOpen} 
-          onOpenChange={setCreateDialogOpen}
-          onSuccess={loadData}
-        />
       </div>
     </div>
   );
