@@ -91,7 +91,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 
 
 def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
-    phone = body.get('phone', '').strip()
+    phone = body.get('phone', '').strip().replace("'", "''")
     
     if not phone:
         return {
@@ -102,16 +102,15 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
         }
     
     code = generate_code()
-    expires_at = datetime.now() + timedelta(minutes=10)
+    expires_at = (datetime.now() + timedelta(minutes=10)).isoformat()
     
     conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    conn.autocommit = True
+    cur = conn.cursor()
     
-    cur.execute(
-        "INSERT INTO t_p52877782_legal_services_nsk.auth_codes (phone, code, expires_at) VALUES (%s, %s, %s)",
-        (phone, code, expires_at)
-    )
-    conn.commit()
+    query = f"INSERT INTO t_p52877782_legal_services_nsk.auth_codes (phone, code, expires_at) VALUES ('{phone}', '{code}', '{expires_at}')"
+    cur.execute(query)
+    
     cur.close()
     conn.close()
     
@@ -134,8 +133,8 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
-    phone = body.get('phone', '').strip()
-    code = body.get('code', '').strip()
+    phone = body.get('phone', '').strip().replace("'", "''")
+    code = body.get('code', '').strip().replace("'", "''")
     
     if not phone or not code:
         return {
@@ -146,19 +145,18 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
         }
     
     conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    conn.autocommit = True
+    cur = conn.cursor()
     
-    cur.execute(
-        """
-        SELECT * FROM t_p52877782_legal_services_nsk.auth_codes 
-        WHERE phone = %s AND code = %s AND used = false AND expires_at > NOW()
+    query = f"""
+        SELECT id, phone, code, used, expires_at, created_at FROM t_p52877782_legal_services_nsk.auth_codes 
+        WHERE phone = '{phone}' AND code = '{code}' AND used = false AND expires_at > NOW()
         ORDER BY created_at DESC LIMIT 1
-        """,
-        (phone, code)
-    )
-    auth_code = cur.fetchone()
+    """
+    cur.execute(query)
+    row = cur.fetchone()
     
-    if not auth_code:
+    if not row:
         cur.close()
         conn.close()
         return {
@@ -168,42 +166,36 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    cur.execute(
-        "UPDATE t_p52877782_legal_services_nsk.auth_codes SET used = true WHERE id = %s",
-        (auth_code['id'],)
-    )
+    auth_code_id = row[0]
     
-    cur.execute(
-        "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE phone = %s",
-        (phone,)
-    )
-    user = cur.fetchone()
+    cur.execute(f"UPDATE t_p52877782_legal_services_nsk.auth_codes SET used = true WHERE id = {auth_code_id}")
     
-    if not user:
-        name = body.get('name', f'Клиент {phone[-4:]}')
-        cur.execute(
-            """
+    cur.execute(f"SELECT id, phone, name, email, role, created_at FROM t_p52877782_legal_services_nsk.users WHERE phone = '{phone}'")
+    user_row = cur.fetchone()
+    
+    if not user_row:
+        name = body.get('name', f'Клиент {phone[-4:]}').replace("'", "''")
+        email = f'{phone}@temp.local'.replace("'", "''")
+        cur.execute(f"""
             INSERT INTO t_p52877782_legal_services_nsk.users (phone, name, email, password_hash, role)
-            VALUES (%s, %s, %s, %s, %s)
-            RETURNING *
-            """,
-            (phone, name, f'{phone}@temp.local', 'phone_auth', 'client')
-        )
-        user = cur.fetchone()
+            VALUES ('{phone}', '{name}', '{email}', 'phone_auth', 'client')
+            RETURNING id, phone, name, email, role, created_at
+        """)
+        user_row = cur.fetchone()
     
-    conn.commit()
+    user_id, user_phone, user_name, user_email, user_role, user_created = user_row
     
-    token = str(user['id'])
+    token = str(user_id)
     
     result = {
         'token': token,
         'user': {
-            'id': str(user['id']),
-            'name': user['name'],
-            'phone': user['phone'],
-            'role': user['role'],
-            'email': user['email'],
-            'created_at': user['created_at'].isoformat() if user.get('created_at') else None
+            'id': str(user_id),
+            'name': user_name,
+            'phone': user_phone,
+            'role': user_role,
+            'email': user_email,
+            'created_at': user_created.isoformat() if user_created else None
         }
     }
     
