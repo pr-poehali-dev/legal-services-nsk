@@ -124,18 +124,6 @@ export default function ClientLogin() {
                 </p>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="name">Ваше имя (необязательно)</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Иван Иванов"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={loading}
-                />
-              </div>
-
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
