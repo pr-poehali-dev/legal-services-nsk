@@ -15,6 +15,7 @@ export default function ClientLogin() {
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [phoneStep, setPhoneStep] = useState<'phone' | 'code'>('phone');
+  const [debugCode, setDebugCode] = useState('');
   
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -43,7 +44,12 @@ export default function ClientLogin() {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success('Код отправлен в WhatsApp!');
+        if (data.code) {
+          setDebugCode(data.code);
+          toast.success(`Ваш код: ${data.code}`);
+        } else {
+          toast.success('Код отправлен в WhatsApp!');
+        }
         setPhoneStep('code');
       } else {
         toast.error(data.error || 'Ошибка отправки кода');
@@ -140,6 +146,12 @@ export default function ClientLogin() {
             </form>
           ) : (
             <form onSubmit={handleVerifyCode} className="space-y-4">
+              {debugCode && (
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-center">
+                  <p className="text-sm font-medium text-amber-900">Ваш код:</p>
+                  <p className="text-2xl font-bold text-amber-600 tracking-wider">{debugCode}</p>
+                </div>
+              )}
               <div className="space-y-2">
                 <Label htmlFor="code">Код из WhatsApp</Label>
                 <Input
