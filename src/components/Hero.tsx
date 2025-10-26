@@ -49,21 +49,13 @@ const Hero = () => {
               <Button 
                 variant="outline" 
                 size="lg"
-                onClick={() => {
-                  const btn = document.getElementById('hero-phone-btn');
-                  const hidden = document.getElementById('hero-phone-hidden');
-                  if (btn && hidden) {
-                    hidden.style.filter = 'blur(0px)';
-                    hidden.style.opacity = '1';
-                    hidden.textContent = '35 00';
-                    setTimeout(() => window.open('tel:+79931903500', '_self'), 300);
-                  }
-                }}
-                id="hero-phone-btn"
+                asChild
                 className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold transition-all"
               >
-                <Icon name="Phone" className="h-5 w-5 mr-2" />
-                <span>+7 993 190 <span id="hero-phone-hidden" style={{filter: 'blur(5px)', opacity: 0.6, transition: 'all 0.3s ease'}}>XX XX</span></span>
+                <a href="tel:+79931903500">
+                  <Icon name="Phone" className="h-5 w-5 mr-2" />
+                  +7 993 190 35 00
+                </a>
               </Button>
             </div>
 
