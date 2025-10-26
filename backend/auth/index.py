@@ -31,6 +31,11 @@ def send_sms(phone: str, message: str) -> bool:
     phone_clean = phone.replace('+', '').replace('-', '').replace(' ', '')
     
     print(f'Sending SMS to: {phone} -> cleaned: {phone_clean}')
+    print(f'API Key present: {bool(SMSGOROD_API_KEY)}')
+    
+    if not SMSGOROD_API_KEY:
+        print('ERROR: SMSGOROD_API_KEY is not set')
+        return False
     
     try:
         payload = {
@@ -43,7 +48,7 @@ def send_sms(phone: str, message: str) -> bool:
                 }
             ]
         }
-        print(f'Request payload: {payload}')
+        print(f'Request payload (without key): phone={phone_clean}, text={message}')
         
         response = requests.post(
             url,
@@ -58,6 +63,7 @@ def send_sms(phone: str, message: str) -> bool:
         if response.status_code == 200:
             result = response.json()
             if result.get('status') == 'success':
+                print('SMS sent successfully')
                 return True
             else:
                 print(f'SMS API returned error: {result}')
@@ -68,6 +74,7 @@ def send_sms(phone: str, message: str) -> bool:
             
     except Exception as e:
         print(f'SMS API exception: {type(e).__name__} - {str(e)}')
+        return False
         return False
 
 
