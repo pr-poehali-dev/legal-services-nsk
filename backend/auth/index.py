@@ -43,12 +43,12 @@ def send_sms(phone: str, message: str) -> bool:
             'sms': [
                 {
                     'channel': 'digit',
-                    'phone': phone_clean,
-                    'text': message
+                    'text': message,
+                    'phone': phone_clean
                 }
             ]
         }
-        print(f'Request payload (without key): phone={phone_clean}, text={message}')
+        print(f'Request payload (without key): phone={phone_clean}, text={message}, channel=digit')
         
         response = requests.post(
             url,
