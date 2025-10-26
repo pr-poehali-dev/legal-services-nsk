@@ -18,54 +18,49 @@ import string
 import requests
 
 DSN = os.environ.get('DATABASE_URL', '')
-SMSGOROD_API_KEY = os.environ.get('SMSGOROD_API_KEY', '')
-GREENAPI_INSTANCE_ID = '1103279953'
-GREENAPI_TOKEN = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e'
+SMSRU_API_KEY = os.environ.get('SMSRU_API_KEY', '')
 
 
 def generate_code() -> str:
     return ''.join(random.choices(string.digits, k=6))
 
 
-def send_whatsapp(phone: str, message: str) -> tuple[bool, str]:
-    """Отправка сообщения через GreenAPI WhatsApp"""
+def send_sms(phone: str, message: str) -> tuple[bool, str]:
+    """Отправка SMS через SMS.RU"""
     
     phone_clean = phone.replace('+', '').replace('-', '').replace(' ', '').replace('(', '').replace(')', '')
     
     if phone_clean.startswith('8'):
         phone_clean = '7' + phone_clean[1:]
     
-    chat_id = f'{phone_clean}@c.us'
-    
-    url = f'https://{GREENAPI_INSTANCE_ID}.api.green-api.com/waInstance{GREENAPI_INSTANCE_ID}/sendMessage/{GREENAPI_TOKEN}'
+    url = 'https://sms.ru/sms/send'
     
     try:
-        payload = {
-            'chatId': chat_id,
-            'message': message
+        params = {
+            'api_id': SMSRU_API_KEY,
+            'to': phone_clean,
+            'msg': message,
+            'json': 1
         }
         
-        response = requests.post(
-            url,
-            json=payload,
-            headers={'Content-Type': 'application/json'},
-            timeout=10
-        )
+        response = requests.get(url, params=params, timeout=10)
         
-        print(f'WhatsApp API response status: {response.status_code}')
-        print(f'WhatsApp API response body: {response.text}')
+        print(f'SMS.RU API response status: {response.status_code}')
+        print(f'SMS.RU API response body: {response.text}')
         
         if response.status_code == 200:
             result = response.json()
-            if result.get('idMessage'):
-                return True, 'Message sent'
+            if result.get('status') == 'OK':
+                return True, 'SMS sent'
             else:
-                return False, f'API error: {result}'
+                error_code = result.get('status_code', 'unknown')
+                error_text = result.get('status_text', str(result))
+                return False, f'API error {error_code}: {error_text}'
         else:
-            return False, f'HTTP {response.status_code}: {response.text}'
+            return False, f'HTTP {response.status_code}'
             
     except Exception as e:
-        print(f'WhatsApp API exception: {type(e).__name__} - {str(e)}')
+        print(f'SMS.RU API exception: {type(e).__name__} - {str(e)}')
         return False, f'{type(e).__name__}: {str(e)}'
 
 
@@ -99,10 +94,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             return handle_phone_request_code(body)
         elif action == 'phone_verify_code':
             return handle_phone_verify_code(body)
-        elif action == 'whatsapp_request_code':
-            return handle_whatsapp_request_code(body)
-        elif action == 'whatsapp_verify_code':
-            return handle_whatsapp_verify_code(body)
+        elif action == 'sms_request_code':
+            return handle_sms_request_code(body)
+        elif action == 'sms_verify_code':
+            return handle_sms_verify_code(body)
         elif action == 'create_case':
             return handle_create_case(event, body)
     
@@ -149,7 +144,7 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     conn.close()
     
     sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
-    sent, error_msg = send_whatsapp(phone, sms_text)
+    sent, error_msg = send_sms(phone, sms_text)
     
     return {
         'statusCode': 200,
@@ -243,8 +238,8 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def handle_whatsapp_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
-    """Запрос кода через WhatsApp"""
+def handle_sms_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
+    """Запрос кода через SMS.RU"""
     phone = body.get('phone', '').strip().replace("'", "''")
     
     if not phone:
@@ -268,14 +263,14 @@ def handle_whatsapp_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     cur.close()
     conn.close()
     
-    whatsapp_text = f'🔐 Ваш код для входа: *{code}*\n\nКод действителен 10 минут.'
-    sent, error_msg = send_whatsapp(phone, whatsapp_text)
+    sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
+    sent, error_msg = send_sms(phone, sms_text)
     
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
         'body': json.dumps({
-            'message': 'Код отправлен в WhatsApp' if sent else f'Ошибка отправки: {error_msg}',
+            'message': 'Код отправлен в SMS' if sent else f'Ошибка отправки: {error_msg}',
             'phone': phone,
             'sent': sent,
             'error': error_msg if not sent else None
@@ -284,8 +279,8 @@ def handle_whatsapp_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def handle_whatsapp_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
-    """Проверка кода из WhatsApp"""
+def handle_sms_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
+    """Проверка кода из SMS"""
     phone = body.get('phone', '').strip().replace("'", "''")
     code = body.get('code', '').strip().replace("'", "''")
     
@@ -330,7 +325,7 @@ def handle_whatsapp_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
         email = f'{phone}@temp.local'.replace("'", "''")
         cur.execute(f"""
             INSERT INTO t_p52877782_legal_services_nsk.users (phone, name, email, password_hash, role)
-            VALUES ('{phone}', '{name}', '{email}', 'whatsapp_auth', 'client')
+            VALUES ('{phone}', '{name}', '{email}', 'sms_auth', 'client')
             RETURNING id, phone, name, email, role, created_at
         """)
         user_row = cur.fetchone()

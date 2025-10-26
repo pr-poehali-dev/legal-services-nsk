@@ -18,7 +18,7 @@ export default function Login() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleWhatsAppRequestCode = async () => {
+  const handleSmsRequestCode = async () => {
     if (!phone) {
       toast.error('Введите номер телефона');
       return;
@@ -31,7 +31,7 @@ export default function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'whatsapp_request_code',
+          action: 'sms_request_code',
           phone: phone
         })
       });
@@ -39,7 +39,7 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok && data.sent) {
-        toast.success('Код отправлен в WhatsApp!');
+        toast.success('Код отправлен в SMS!');
         setCodeRequested(true);
       } else {
         toast.error(data.error || data.message || 'Ошибка отправки кода');
@@ -51,7 +51,7 @@ export default function Login() {
     }
   };
 
-  const handleWhatsAppVerifyCode = async (e: React.FormEvent) => {
+  const handleSmsVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!phone || !code) {
@@ -66,7 +66,7 @@ export default function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'whatsapp_verify_code',
+          action: 'sms_verify_code',
           phone: phone,
           code: code
         })
@@ -103,7 +103,7 @@ export default function Login() {
             Вход в систему
           </CardTitle>
           <CardDescription className="text-center">
-            Авторизация через WhatsApp
+            Авторизация через SMS
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -125,7 +125,7 @@ export default function Login() {
                 />
               </div>
               <Button 
-                onClick={handleWhatsAppRequestCode} 
+                onClick={handleSmsRequestCode} 
                 className="w-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 disabled={loading}
               >
@@ -136,22 +136,22 @@ export default function Login() {
                   </>
                 ) : (
                   <>
-                    <Icon name="MessageCircle" className="mr-2 h-4 w-4" />
-                    Получить код в WhatsApp
+                    <Icon name="MessageSquare" className="mr-2 h-4 w-4" />
+                    Получить код по SMS
                   </>
                 )}
               </Button>
             </div>
           ) : (
-            <form onSubmit={handleWhatsAppVerifyCode} className="space-y-4 animate-in fade-in-50 duration-500">
-              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+            <form onSubmit={handleSmsVerifyCode} className="space-y-4 animate-in fade-in-50 duration-500">
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <div className="flex items-start gap-3">
-                  <Icon name="MessageCircle" className="h-5 w-5 text-green-600 mt-0.5" />
+                  <Icon name="MessageSquare" className="h-5 w-5 text-blue-600 mt-0.5" />
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-green-900">
-                      Код отправлен в WhatsApp
+                    <p className="text-sm font-medium text-blue-900">
+                      Код отправлен в SMS
                     </p>
-                    <p className="text-xs text-green-700">
+                    <p className="text-xs text-blue-700">
                       Проверьте сообщения на номере {phone}
                     </p>
                   </div>
@@ -161,7 +161,7 @@ export default function Login() {
               <div className="space-y-2">
                 <Label htmlFor="code" className="flex items-center gap-2">
                   <Icon name="Lock" className="h-4 w-4 text-primary" />
-                  Код из WhatsApp
+                  Код из SMS
                 </Label>
                 <Input
                   id="code"
