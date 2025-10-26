@@ -25,7 +25,7 @@ def generate_code() -> str:
     return ''.join(random.choices(string.digits, k=6))
 
 
-def send_sms(phone: str, message: str) -> bool:
+def send_sms(phone: str, message: str) -> tuple[bool, str]:
     url = 'https://new.smsgorod.ru/apiSms/create'
     
     phone_clean = phone.replace('+', '').replace('-', '').replace(' ', '')
@@ -35,7 +35,7 @@ def send_sms(phone: str, message: str) -> bool:
     
     if not SMSGOROD_API_KEY:
         print('ERROR: SMSGOROD_API_KEY is not set')
-        return False
+        return False, 'API key not configured'
     
     try:
         payload = {
@@ -66,20 +66,22 @@ def send_sms(phone: str, message: str) -> bool:
                 data = result['data']
                 if len(data) > 0 and data[0].get('status') == 'sent':
                     print(f'SMS sent successfully: {data[0]}')
-                    return True
+                    return True, 'SMS sent'
                 else:
+                    error_msg = f"SMS not sent: {data[0] if len(data) > 0 else 'no data'}"
                     print(f'SMS API returned non-sent status: {data}')
-                    return False
+                    return False, error_msg
             else:
+                error_msg = result.get('error', {}).get('message', str(result))
                 print(f'SMS API returned error: {result}')
-                return False
+                return False, f'API error: {error_msg}'
         else:
             print(f'SMS API returned non-200 status')
-            return False
+            return False, f'HTTP {response.status_code}'
             
     except Exception as e:
         print(f'SMS API exception: {type(e).__name__} - {str(e)}')
-        return False
+        return False, f'{type(e).__name__}: {str(e)}'
         return False
 
 
@@ -159,16 +161,17 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     conn.close()
     
     sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
-    sent = send_sms(phone, sms_text)
+    sent, error_msg = send_sms(phone, sms_text)
     
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
         'body': json.dumps({
-            'message': 'Код отправлен на SMS' if sent else 'Код сгенерирован (SMS не отправлена)', 
+            'message': 'Код отправлен на SMS' if sent else f'Код сгенерирован ({error_msg})', 
             'phone': phone,
             'code': code,
-            'sms_sent': sent
+            'sms_sent': sent,
+            'sms_error': error_msg if not sent else None
         }),
         'isBase64Encoded': False
     }
