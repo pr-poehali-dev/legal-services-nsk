@@ -19,36 +19,31 @@ import requests
 
 DSN = os.environ.get('DATABASE_URL', '')
 SMSGOROD_API_KEY = os.environ.get('SMSGOROD_API_KEY', '')
+GREENAPI_INSTANCE_ID = '1103279953'
+GREENAPI_TOKEN = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e'
 
 
 def generate_code() -> str:
     return ''.join(random.choices(string.digits, k=6))
 
 
-def send_sms(phone: str, message: str) -> tuple[bool, str]:
-    url = 'https://new.smsgorod.ru/apiSms/create'
+def send_whatsapp(phone: str, message: str) -> tuple[bool, str]:
+    """Отправка сообщения через GreenAPI WhatsApp"""
     
-    phone_clean = phone.replace('+', '').replace('-', '').replace(' ', '')
+    phone_clean = phone.replace('+', '').replace('-', '').replace(' ', '').replace('(', '').replace(')', '')
     
-    print(f'Sending SMS to: {phone} -> cleaned: {phone_clean}')
-    print(f'API Key present: {bool(SMSGOROD_API_KEY)}')
+    if phone_clean.startswith('8'):
+        phone_clean = '7' + phone_clean[1:]
     
-    if not SMSGOROD_API_KEY:
-        print('ERROR: SMSGOROD_API_KEY is not set')
-        return False, 'API key not configured'
+    chat_id = f'{phone_clean}@c.us'
+    
+    url = f'https://{GREENAPI_INSTANCE_ID}.api.green-api.com/waInstance{GREENAPI_INSTANCE_ID}/sendMessage/{GREENAPI_TOKEN}'
     
     try:
         payload = {
-            'apiKey': SMSGOROD_API_KEY,
-            'sms': [
-                {
-                    'channel': 'digit',
-                    'text': message,
-                    'phone': phone_clean
-                }
-            ]
+            'chatId': chat_id,
+            'message': message
         }
-        print(f'Request payload (without key): phone={phone_clean}, text={message}, channel=digit')
         
         response = requests.post(
             url,
@@ -57,32 +52,21 @@ def send_sms(phone: str, message: str) -> tuple[bool, str]:
             timeout=10
         )
         
-        print(f'SMS API response status: {response.status_code}')
-        print(f'SMS API response body: {response.text}')
+        print(f'WhatsApp API response status: {response.status_code}')
+        print(f'WhatsApp API response body: {response.text}')
         
         if response.status_code == 200:
             result = response.json()
-            if result.get('status') == 'success' and result.get('data'):
-                data = result['data']
-                if len(data) > 0 and data[0].get('status') == 'sent':
-                    print(f'SMS sent successfully: {data[0]}')
-                    return True, 'SMS sent'
-                else:
-                    error_msg = f"SMS not sent: {data[0] if len(data) > 0 else 'no data'}"
-                    print(f'SMS API returned non-sent status: {data}')
-                    return False, error_msg
+            if result.get('idMessage'):
+                return True, 'Message sent'
             else:
-                error_msg = result.get('error', {}).get('message', str(result))
-                print(f'SMS API returned error: {result}')
-                return False, f'API error: {error_msg}'
+                return False, f'API error: {result}'
         else:
-            print(f'SMS API returned non-200 status')
-            return False, f'HTTP {response.status_code}'
+            return False, f'HTTP {response.status_code}: {response.text}'
             
     except Exception as e:
-        print(f'SMS API exception: {type(e).__name__} - {str(e)}')
+        print(f'WhatsApp API exception: {type(e).__name__} - {str(e)}')
         return False, f'{type(e).__name__}: {str(e)}'
-        return False
 
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
@@ -115,6 +99,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             return handle_phone_request_code(body)
         elif action == 'phone_verify_code':
             return handle_phone_verify_code(body)
+        elif action == 'whatsapp_request_code':
+            return handle_whatsapp_request_code(body)
+        elif action == 'whatsapp_verify_code':
+            return handle_whatsapp_verify_code(body)
         elif action == 'create_case':
             return handle_create_case(event, body)
     
@@ -161,7 +149,7 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     conn.close()
     
     sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
-    sent, error_msg = send_sms(phone, sms_text)
+    sent, error_msg = send_whatsapp(phone, sms_text)
     
     return {
         'statusCode': 200,
@@ -224,6 +212,125 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
         cur.execute(f"""
             INSERT INTO t_p52877782_legal_services_nsk.users (phone, name, email, password_hash, role)
             VALUES ('{phone}', '{name}', '{email}', 'phone_auth', 'client')
+            RETURNING id, phone, name, email, role, created_at
+        """)
+        user_row = cur.fetchone()
+    
+    user_id, user_phone, user_name, user_email, user_role, user_created = user_row
+    
+    token = str(user_id)
+    
+    result = {
+        'token': token,
+        'user': {
+            'id': str(user_id),
+            'name': user_name,
+            'phone': user_phone,
+            'role': user_role,
+            'email': user_email,
+            'created_at': user_created.isoformat() if user_created else None
+        }
+    }
+    
+    cur.close()
+    conn.close()
+    
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        'body': json.dumps(result),
+        'isBase64Encoded': False
+    }
+
+
+def handle_whatsapp_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
+    """Запрос кода через WhatsApp"""
+    phone = body.get('phone', '').strip().replace("'", "''")
+    
+    if not phone:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Номер телефона обязателен'}),
+            'isBase64Encoded': False
+        }
+    
+    code = generate_code()
+    expires_at = (datetime.now() + timedelta(minutes=10)).isoformat()
+    
+    conn = psycopg2.connect(DSN)
+    conn.autocommit = True
+    cur = conn.cursor()
+    
+    query = f"INSERT INTO t_p52877782_legal_services_nsk.auth_codes (phone, code, expires_at) VALUES ('{phone}', '{code}', '{expires_at}')"
+    cur.execute(query)
+    
+    cur.close()
+    conn.close()
+    
+    whatsapp_text = f'🔐 Ваш код для входа: *{code}*\n\nКод действителен 10 минут.'
+    sent, error_msg = send_whatsapp(phone, whatsapp_text)
+    
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        'body': json.dumps({
+            'message': 'Код отправлен в WhatsApp' if sent else f'Ошибка отправки: {error_msg}',
+            'phone': phone,
+            'sent': sent,
+            'error': error_msg if not sent else None
+        }),
+        'isBase64Encoded': False
+    }
+
+
+def handle_whatsapp_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
+    """Проверка кода из WhatsApp"""
+    phone = body.get('phone', '').strip().replace("'", "''")
+    code = body.get('code', '').strip().replace("'", "''")
+    
+    if not phone or not code:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Телефон и код обязательны'}),
+            'isBase64Encoded': False
+        }
+    
+    conn = psycopg2.connect(DSN)
+    conn.autocommit = True
+    cur = conn.cursor()
+    
+    query = f"""
+        SELECT id FROM t_p52877782_legal_services_nsk.auth_codes 
+        WHERE phone = '{phone}' AND code = '{code}' AND used = false AND expires_at > NOW()
+        ORDER BY created_at DESC LIMIT 1
+    """
+    cur.execute(query)
+    row = cur.fetchone()
+    
+    if not row:
+        cur.close()
+        conn.close()
+        return {
+            'statusCode': 401,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Неверный или истёкший код'}),
+            'isBase64Encoded': False
+        }
+    
+    auth_code_id = row[0]
+    cur.execute(f"UPDATE t_p52877782_legal_services_nsk.auth_codes SET used = true WHERE id = {auth_code_id}")
+    
+    cur.execute(f"SELECT id, phone, name, email, role, created_at FROM t_p52877782_legal_services_nsk.users WHERE phone = '{phone}'")
+    user_row = cur.fetchone()
+    
+    if not user_row:
+        name = body.get('name', f'Клиент {phone[-4:]}').replace("'", "''")
+        email = f'{phone}@temp.local'.replace("'", "''")
+        cur.execute(f"""
+            INSERT INTO t_p52877782_legal_services_nsk.users (phone, name, email, password_hash, role)
+            VALUES ('{phone}', '{name}', '{email}', 'whatsapp_auth', 'client')
             RETURNING id, phone, name, email, role, created_at
         """)
         user_row = cur.fetchone()
