@@ -62,9 +62,14 @@ def send_sms(phone: str, message: str) -> bool:
         
         if response.status_code == 200:
             result = response.json()
-            if result.get('status') == 'success':
-                print('SMS sent successfully')
-                return True
+            if result.get('status') == 'success' and result.get('data'):
+                data = result['data']
+                if len(data) > 0 and data[0].get('status') == 'sent':
+                    print(f'SMS sent successfully: {data[0]}')
+                    return True
+                else:
+                    print(f'SMS API returned non-sent status: {data}')
+                    return False
             else:
                 print(f'SMS API returned error: {result}')
                 return False
