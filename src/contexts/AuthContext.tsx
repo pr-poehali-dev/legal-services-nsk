@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
   id: string;
@@ -38,7 +38,7 @@ interface AuthProviderProps {
 const AUTH_API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
 const PROFILE_API_URL = 'https://functions.poehali.dev/6d737c07-5eb6-4ce4-b92e-d455d785a16d';
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -188,7 +188,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Проверка сохраненного пользователя при загрузке
-  React.useEffect(() => {
+  useEffect(() => {
     const savedUser = localStorage.getItem('user');
     const savedToken = localStorage.getItem('auth_token');
     
