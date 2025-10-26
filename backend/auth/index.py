@@ -18,25 +18,69 @@ import string
 import requests
 
 DSN = os.environ.get('DATABASE_URL', '')
-GREEN_API_INSTANCE = '1103279953'
-GREEN_API_TOKEN = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e'
+SMSGOROD_API_KEY = os.environ.get('SMSGOROD_API_KEY', '')
 
 
 def generate_code() -> str:
     return ''.join(random.choices(string.digits, k=6))
 
 
-def send_whatsapp(phone: str, message: str) -> bool:
-    chat_id = f'{phone.replace("+", "")}@c.us'
-    url = f'https://1103.api.green-api.com/waInstance{GREEN_API_INSTANCE}/sendMessage/{GREEN_API_TOKEN}'
+def send_sms(phone: str, message: str) -> bool:
+    url = 'https://new.smsgorod.ru/apiSms/create'
     
-    response = requests.post(
-        url,
-        json={'chatId': chat_id, 'message': message},
-        headers={'Content-Type': 'application/json'}
-    )
+    phone_clean = phone.replace('+', '').replace('-', '').replace(' ', '')
     
-    return response.status_code == 200
+    print(f'Sending SMS to: {phone} -> cleaned: {phone_clean}')
+    print(f'API Key present: {bool(SMSGOROD_API_KEY)}')
+    
+    if not SMSGOROD_API_KEY:
+        print('ERROR: SMSGOROD_API_KEY is not set')
+        return False
+    
+    try:
+        payload = {
+            'apiKey': SMSGOROD_API_KEY,
+            'sms': [
+                {
+                    'channel': 'digit',
+                    'text': message,
+                    'phone': phone_clean
+                }
+            ]
+        }
+        print(f'Request payload (without key): phone={phone_clean}, text={message}, channel=digit')
+        
+        response = requests.post(
+            url,
+            json=payload,
+            headers={'Content-Type': 'application/json'},
+            timeout=10
+        )
+        
+        print(f'SMS API response status: {response.status_code}')
+        print(f'SMS API response body: {response.text}')
+        
+        if response.status_code == 200:
+            result = response.json()
+            if result.get('status') == 'success' and result.get('data'):
+                data = result['data']
+                if len(data) > 0 and data[0].get('status') == 'sent':
+                    print(f'SMS sent successfully: {data[0]}')
+                    return True
+                else:
+                    print(f'SMS API returned non-sent status: {data}')
+                    return False
+            else:
+                print(f'SMS API returned error: {result}')
+                return False
+        else:
+            print(f'SMS API returned non-200 status')
+            return False
+            
+    except Exception as e:
+        print(f'SMS API exception: {type(e).__name__} - {str(e)}')
+        return False
+        return False
 
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
@@ -91,7 +135,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 
 
 def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
-    phone = body.get('phone', '').strip()
+    phone = body.get('phone', '').strip().replace("'", "''")
     
     if not phone:
         return {
@@ -102,40 +146,37 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
         }
     
     code = generate_code()
-    expires_at = datetime.now() + timedelta(minutes=10)
+    expires_at = (datetime.now() + timedelta(minutes=10)).isoformat()
     
     conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    conn.autocommit = True
+    cur = conn.cursor()
     
-    cur.execute(
-        "INSERT INTO t_p52877782_legal_services_nsk.auth_codes (phone, code, expires_at) VALUES (%s, %s, %s)",
-        (phone, code, expires_at)
-    )
-    conn.commit()
+    query = f"INSERT INTO t_p52877782_legal_services_nsk.auth_codes (phone, code, expires_at) VALUES ('{phone}', '{code}', '{expires_at}')"
+    cur.execute(query)
+    
     cur.close()
     conn.close()
     
-    sent = send_whatsapp(phone, f'🔐 Ваш код для входа: {code}\n\nКод действителен 10 минут.')
-    
-    if not sent:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Failed to send WhatsApp message'}),
-            'isBase64Encoded': False
-        }
+    sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
+    sent = send_sms(phone, sms_text)
     
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'message': 'Code sent to WhatsApp', 'phone': phone}),
+        'body': json.dumps({
+            'message': 'Код отправлен на SMS' if sent else 'Код сгенерирован (SMS не отправлена)', 
+            'phone': phone,
+            'code': code,
+            'sms_sent': sent
+        }),
         'isBase64Encoded': False
     }
 
 
 def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
-    phone = body.get('phone', '').strip()
-    code = body.get('code', '').strip()
+    phone = body.get('phone', '').strip().replace("'", "''")
+    code = body.get('code', '').strip().replace("'", "''")
     
     if not phone or not code:
         return {
@@ -146,19 +187,18 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
         }
     
     conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    conn.autocommit = True
+    cur = conn.cursor()
     
-    cur.execute(
-        """
-        SELECT * FROM t_p52877782_legal_services_nsk.auth_codes 
-        WHERE phone = %s AND code = %s AND used = false AND expires_at > NOW()
+    query = f"""
+        SELECT id, phone, code, used, expires_at, created_at FROM t_p52877782_legal_services_nsk.auth_codes 
+        WHERE phone = '{phone}' AND code = '{code}' AND used = false AND expires_at > NOW()
         ORDER BY created_at DESC LIMIT 1
-        """,
-        (phone, code)
-    )
-    auth_code = cur.fetchone()
+    """
+    cur.execute(query)
+    row = cur.fetchone()
     
-    if not auth_code:
+    if not row:
         cur.close()
         conn.close()
         return {
@@ -168,42 +208,36 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    cur.execute(
-        "UPDATE t_p52877782_legal_services_nsk.auth_codes SET used = true WHERE id = %s",
-        (auth_code['id'],)
-    )
+    auth_code_id = row[0]
     
-    cur.execute(
-        "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE phone = %s",
-        (phone,)
-    )
-    user = cur.fetchone()
+    cur.execute(f"UPDATE t_p52877782_legal_services_nsk.auth_codes SET used = true WHERE id = {auth_code_id}")
     
-    if not user:
-        name = body.get('name', f'Клиент {phone[-4:]}')
-        cur.execute(
-            """
+    cur.execute(f"SELECT id, phone, name, email, role, created_at FROM t_p52877782_legal_services_nsk.users WHERE phone = '{phone}'")
+    user_row = cur.fetchone()
+    
+    if not user_row:
+        name = body.get('name', f'Клиент {phone[-4:]}').replace("'", "''")
+        email = f'{phone}@temp.local'.replace("'", "''")
+        cur.execute(f"""
             INSERT INTO t_p52877782_legal_services_nsk.users (phone, name, email, password_hash, role)
-            VALUES (%s, %s, %s, %s, %s)
-            RETURNING *
-            """,
-            (phone, name, f'{phone}@temp.local', 'phone_auth', 'client')
-        )
-        user = cur.fetchone()
+            VALUES ('{phone}', '{name}', '{email}', 'phone_auth', 'client')
+            RETURNING id, phone, name, email, role, created_at
+        """)
+        user_row = cur.fetchone()
     
-    conn.commit()
+    user_id, user_phone, user_name, user_email, user_role, user_created = user_row
     
-    token = str(user['id'])
+    token = str(user_id)
     
     result = {
         'token': token,
         'user': {
-            'id': str(user['id']),
-            'name': user['name'],
-            'phone': user['phone'],
-            'role': user['role'],
-            'email': user['email'],
-            'created_at': user['created_at'].isoformat() if user.get('created_at') else None
+            'id': str(user_id),
+            'name': user_name,
+            'phone': user_phone,
+            'role': user_role,
+            'email': user_email,
+            'created_at': user_created.isoformat() if user_created else None
         }
     }
     
