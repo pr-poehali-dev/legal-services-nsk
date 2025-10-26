@@ -11,14 +11,11 @@ import { toast } from 'sonner';
 const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
 
 export default function Login() {
-  const [authMethod, setAuthMethod] = useState<'whatsapp' | 'email'>('whatsapp');
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [codeRequested, setCodeRequested] = useState(false);
-  const { login, setUser } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleWhatsAppRequestCode = async () => {
@@ -92,189 +89,133 @@ export default function Login() {
     }
   };
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email || !password) {
-      toast.error('Заполните все поля');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      await login(email, password);
-      toast.success('Вход выполнен успешно!');
-      navigate('/lawyer');
-    } catch (error: any) {
-      toast.error(error.message || 'Ошибка входа');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <div className="flex items-center justify-center mb-4">
-            <Icon name="Scale" className="h-12 w-12 text-primary" />
+          <div className="flex items-center justify-center mb-4 transition-transform duration-500 hover:scale-110">
+            <div className="relative">
+              <Icon name="Scale" className="h-12 w-12 text-primary animate-pulse" />
+              <div className="absolute -inset-2 bg-primary/20 rounded-full blur-xl opacity-50" />
+            </div>
           </div>
-          <CardTitle className="text-2xl text-center">Вход в систему</CardTitle>
+          <CardTitle className="text-2xl text-center bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+            Вход в систему
+          </CardTitle>
           <CardDescription className="text-center">
-            Выберите способ авторизации
+            Авторизация через WhatsApp
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              type="button"
-              variant={authMethod === 'whatsapp' ? 'default' : 'outline'}
-              onClick={() => {
-                setAuthMethod('whatsapp');
-                setCodeRequested(false);
-              }}
-            >
-              <Icon name="MessageCircle" className="mr-2 h-4 w-4" />
-              WhatsApp
-            </Button>
-            <Button
-              type="button"
-              variant={authMethod === 'email' ? 'default' : 'outline'}
-              onClick={() => setAuthMethod('email')}
-            >
-              <Icon name="Mail" className="mr-2 h-4 w-4" />
-              Email
-            </Button>
-          </div>
-
-          {authMethod === 'whatsapp' ? (
-            !codeRequested ? (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Номер телефона</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="+7 999 123 45 67"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    disabled={loading}
-                  />
+        <CardContent>
+          {!codeRequested ? (
+            <div className="space-y-4 animate-in fade-in-50 duration-500">
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="flex items-center gap-2">
+                  <Icon name="Phone" className="h-4 w-4 text-primary" />
+                  Номер телефона
+                </Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="+7 999 123 45 67"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  disabled={loading}
+                  className="transition-all duration-300 focus:scale-[1.02]"
+                />
+              </div>
+              <Button 
+                onClick={handleWhatsAppRequestCode} 
+                className="w-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Icon name="Loader2" className="mr-2 h-4 w-4 animate-spin" />
+                    Отправка...
+                  </>
+                ) : (
+                  <>
+                    <Icon name="MessageCircle" className="mr-2 h-4 w-4" />
+                    Получить код в WhatsApp
+                  </>
+                )}
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={handleWhatsAppVerifyCode} className="space-y-4 animate-in fade-in-50 duration-500">
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <Icon name="MessageCircle" className="h-5 w-5 text-green-600 mt-0.5" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-green-900">
+                      Код отправлен в WhatsApp
+                    </p>
+                    <p className="text-xs text-green-700">
+                      Проверьте сообщения на номере {phone}
+                    </p>
+                  </div>
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="code" className="flex items-center gap-2">
+                  <Icon name="Lock" className="h-4 w-4 text-primary" />
+                  Код из WhatsApp
+                </Label>
+                <Input
+                  id="code"
+                  type="text"
+                  placeholder="123456"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  disabled={loading}
+                  maxLength={6}
+                  className="text-center text-2xl tracking-widest font-bold transition-all duration-300 focus:scale-[1.02]"
+                />
+              </div>
+              
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setCodeRequested(false);
+                    setCode('');
+                  }}
+                  className="w-full transition-all duration-300 hover:scale-105"
+                >
+                  <Icon name="ArrowLeft" className="mr-2 h-4 w-4" />
+                  Назад
+                </Button>
                 <Button 
-                  onClick={handleWhatsAppRequestCode} 
-                  className="w-full"
+                  type="submit" 
+                  className="w-full transition-all duration-300 hover:scale-105 hover:shadow-lg" 
                   disabled={loading}
                 >
                   {loading ? (
                     <>
                       <Icon name="Loader2" className="mr-2 h-4 w-4 animate-spin" />
-                      Отправка...
+                      Проверка...
                     </>
                   ) : (
                     <>
-                      <Icon name="Send" className="mr-2 h-4 w-4" />
-                      Получить код в WhatsApp
+                      <Icon name="LogIn" className="mr-2 h-4 w-4" />
+                      Войти
                     </>
                   )}
                 </Button>
               </div>
-            ) : (
-              <form onSubmit={handleWhatsAppVerifyCode} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="code">Код из WhatsApp</Label>
-                  <Input
-                    id="code"
-                    type="text"
-                    placeholder="123456"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    disabled={loading}
-                    maxLength={6}
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setCodeRequested(false)}
-                    className="w-full"
-                  >
-                    Назад
-                  </Button>
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? (
-                      <>
-                        <Icon name="Loader2" className="mr-2 h-4 w-4 animate-spin" />
-                        Проверка...
-                      </>
-                    ) : (
-                      <>
-                        <Icon name="LogIn" className="mr-2 h-4 w-4" />
-                        Войти
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </form>
-            )
-          ) : (
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="password">Пароль</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Icon name="Loader2" className="mr-2 h-4 w-4 animate-spin" />
-                    Вход...
-                  </>
-                ) : (
-                  <>
-                    <Icon name="LogIn" className="mr-2 h-4 w-4" />
-                    Войти
-                  </>
-                )}
-              </Button>
             </form>
           )}
 
           <div className="mt-6 text-center text-sm">
-            <p className="text-muted-foreground mb-2">
+            <p className="text-muted-foreground">
               Нет аккаунта?{' '}
-              <Link to="/register" className="text-primary hover:underline font-medium">
+              <Link to="/register" className="text-primary hover:underline font-medium transition-colors">
                 Зарегистрироваться как юрист
               </Link>
             </p>
-            {authMethod === 'email' && (
-              <p className="text-xs text-muted-foreground">
-                Для входа админа используйте: admin@legal.ru / admin123
-              </p>
-            )}
           </div>
         </CardContent>
       </Card>
