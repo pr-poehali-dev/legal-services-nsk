@@ -124,11 +124,12 @@ const BlogPost = () => {
   return (
     <>
       <Helmet>
-        <title>{post.seo_title || post.title} | ЮрСервис НСК</title>
+        <title>{post.seo_title || post.title}</title>
         <meta name="description" content={post.seo_description || post.description} />
         <meta name="keywords" content={`${post.category}, юридическая консультация, юрист Новосибирск`} />
         <meta property="og:title" content={post.seo_title || post.title} />
         <meta property="og:description" content={post.seo_description || post.description} />
+        <meta property="og:site_name" content="ЮрСервис НСК" />
         <meta property="og:url" content={`https://юридический-сервис.рф/blog/${post.slug}`} />
         {post.image_url && <meta property="og:image" content={post.image_url} />}
         <meta property="og:type" content="article" />
