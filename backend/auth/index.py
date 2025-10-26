@@ -18,22 +18,31 @@ import string
 import requests
 
 DSN = os.environ.get('DATABASE_URL', '')
-GREEN_API_INSTANCE = '1103279953'
-GREEN_API_TOKEN = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e'
+SMSGOROD_API_KEY = os.environ.get('SMSGOROD_API_KEY', '')
 
 
 def generate_code() -> str:
     return ''.join(random.choices(string.digits, k=6))
 
 
-def send_whatsapp(phone: str, message: str) -> bool:
-    chat_id = f'{phone.replace("+", "")}@c.us'
-    url = f'https://1103.api.green-api.com/waInstance{GREEN_API_INSTANCE}/sendMessage/{GREEN_API_TOKEN}'
+def send_sms(phone: str, message: str) -> bool:
+    url = 'https://new.smsgorod.ru/apiSms/create'
     
-    print(f'Sending WhatsApp to: {phone} -> chatId: {chat_id}')
+    phone_clean = phone.replace('+', '').replace('-', '').replace(' ', '')
+    
+    print(f'Sending SMS to: {phone} -> cleaned: {phone_clean}')
     
     try:
-        payload = {'chatId': chat_id, 'message': message}
+        payload = {
+            'apiKey': SMSGOROD_API_KEY,
+            'sms': [
+                {
+                    'channel': 'digit',
+                    'phone': phone_clean,
+                    'text': message
+                }
+            ]
+        }
         print(f'Request payload: {payload}')
         
         response = requests.post(
@@ -43,17 +52,22 @@ def send_whatsapp(phone: str, message: str) -> bool:
             timeout=10
         )
         
-        print(f'WhatsApp API response status: {response.status_code}')
-        print(f'WhatsApp API response body: {response.text}')
+        print(f'SMS API response status: {response.status_code}')
+        print(f'SMS API response body: {response.text}')
         
         if response.status_code == 200:
-            return True
+            result = response.json()
+            if result.get('status') == 'success':
+                return True
+            else:
+                print(f'SMS API returned error: {result}')
+                return False
         else:
-            print(f'WhatsApp API returned non-200 status')
+            print(f'SMS API returned non-200 status')
             return False
             
     except Exception as e:
-        print(f'WhatsApp API exception: {type(e).__name__} - {str(e)}')
+        print(f'SMS API exception: {type(e).__name__} - {str(e)}')
         return False
 
 
@@ -132,12 +146,21 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     cur.close()
     conn.close()
     
-    send_whatsapp(phone, f'🔐 Ваш код для входа: {code}\n\nКод действителен 10 минут.')
+    sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
+    sent = send_sms(phone, sms_text)
+    
+    if not sent:
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Ошибка отправки SMS'}),
+            'isBase64Encoded': False
+        }
     
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'message': f'Code generated: {code}', 'phone': phone, 'code': code}),
+        'body': json.dumps({'message': 'Код отправлен на SMS', 'phone': phone}),
         'isBase64Encoded': False
     }
 
