@@ -30,17 +30,30 @@ def send_whatsapp(phone: str, message: str) -> bool:
     chat_id = f'{phone.replace("+", "")}@c.us'
     url = f'https://1103.api.green-api.com/waInstance{GREEN_API_INSTANCE}/sendMessage/{GREEN_API_TOKEN}'
     
+    print(f'Sending WhatsApp to: {phone} -> chatId: {chat_id}')
+    
     try:
+        payload = {'chatId': chat_id, 'message': message}
+        print(f'Request payload: {payload}')
+        
         response = requests.post(
             url,
-            json={'chatId': chat_id, 'message': message},
+            json=payload,
             headers={'Content-Type': 'application/json'},
             timeout=10
         )
-        print(f'WhatsApp API response: {response.status_code} - {response.text}')
-        return response.status_code == 200
+        
+        print(f'WhatsApp API response status: {response.status_code}')
+        print(f'WhatsApp API response body: {response.text}')
+        
+        if response.status_code == 200:
+            return True
+        else:
+            print(f'WhatsApp API returned non-200 status')
+            return False
+            
     except Exception as e:
-        print(f'WhatsApp API error: {str(e)}')
+        print(f'WhatsApp API exception: {type(e).__name__} - {str(e)}')
         return False
 
 
