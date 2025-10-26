@@ -156,18 +156,15 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
     sent = send_sms(phone, sms_text)
     
-    if not sent:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Ошибка отправки SMS'}),
-            'isBase64Encoded': False
-        }
-    
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'message': 'Код отправлен на SMS', 'phone': phone}),
+        'body': json.dumps({
+            'message': 'Код отправлен на SMS' if sent else 'Код сгенерирован (SMS не отправлена)', 
+            'phone': phone,
+            'code': code,
+            'sms_sent': sent
+        }),
         'isBase64Encoded': False
     }
 
