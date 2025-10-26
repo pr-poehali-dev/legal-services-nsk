@@ -8,8 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 import BlogManager from '@/components/BlogManager';
-import CaseEditDialog from '@/components/CaseEditDialog';
-import CreateCaseForClientDialog from '@/components/CreateCaseForClientDialog';
 
 interface Case {
   id: string;
@@ -35,15 +33,13 @@ interface Client {
   cases_count: number;
 }
 
-const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
+const API_URL = 'https://functions.poehali.dev/9fdb025a-0913-42ac-8528-3f1959eb4fb0';
 
 const LawyerDashboard = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const [cases, setCases] = useState<Case[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingCase, setEditingCase] = useState<Case | null>(null);
-  const [createCaseDialogOpen, setCreateCaseDialogOpen] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && (user?.role === 'lawyer' || user?.role === 'admin')) {
@@ -186,14 +182,6 @@ const LawyerDashboard = () => {
           </TabsList>
 
           <TabsContent value="cases" className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Дела клиентов</h2>
-              <Button onClick={() => setCreateCaseDialogOpen(true)}>
-                <Icon name="Plus" className="h-4 w-4 mr-2" />
-                Создать дело
-              </Button>
-            </div>
-
             {loading ? (
               <Card>
                 <CardContent className="py-8 text-center">
@@ -257,20 +245,18 @@ const LawyerDashboard = () => {
                           </div>
                         </div>
                         <div className="flex gap-2 pt-2">
-                          <Button size="sm" variant="default" className="flex-1" onClick={() => setEditingCase(caseItem)}>
+                          <Button size="sm" variant="default" className="flex-1">
                             <Icon name="Edit" className="h-4 w-4 mr-1" />
                             Редактировать
                           </Button>
-                          {caseItem.client_phone && (
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              onClick={() => window.open(`https://wa.me/${caseItem.client_phone.replace(/\D/g, '')}`, '_blank')}
-                            >
-                              <Icon name="MessageCircle" className="h-4 w-4 mr-1" />
-                              WhatsApp
-                            </Button>
-                          )}
+                          <Button size="sm" variant="outline">
+                            <Icon name="MessageCircle" className="h-4 w-4 mr-1" />
+                            Чат
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Icon name="FileText" className="h-4 w-4 mr-1" />
+                            Документы
+                          </Button>
                         </div>
                       </div>
                     </CardContent>
@@ -338,20 +324,6 @@ const LawyerDashboard = () => {
             <BlogManager />
           </TabsContent>
         </Tabs>
-
-        <CaseEditDialog
-          open={!!editingCase}
-          onOpenChange={(open) => !open && setEditingCase(null)}
-          caseData={editingCase}
-          onSuccess={loadData}
-        />
-
-        <CreateCaseForClientDialog
-          open={createCaseDialogOpen}
-          onOpenChange={setCreateCaseDialogOpen}
-          clients={clients}
-          onSuccess={loadData}
-        />
       </div>
     </div>
   );

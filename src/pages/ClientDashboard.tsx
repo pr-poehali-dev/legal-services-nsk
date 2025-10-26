@@ -29,7 +29,7 @@ interface Payment {
   created_at: string;
 }
 
-const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
+const API_URL = 'https://functions.poehali.dev/bbe69fb4-2a9a-478e-9b6c-efbfdb5ab40b';
 
 const ClientDashboard = () => {
   const { user, isAuthenticated, logout } = useAuth();
