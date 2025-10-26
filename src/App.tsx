@@ -13,7 +13,6 @@ import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "@/components/ui/sonner";
 import StructuredData from "@/components/StructuredData";
-import SoloGPTWidget from "@/components/SoloGPTWidget";
 
 const Services = lazy(() => import("@/pages/Services"));
 const Pricing = lazy(() => import("@/pages/Pricing"));
@@ -74,7 +73,6 @@ function App() {
                   <ScrollToTop />
                   <SmoothScroll />
                   <StructuredData />
-                  <SoloGPTWidget />
                   <Toaster />
                 </div>
               </Router>
