@@ -1,5 +1,9 @@
 import Hero from "@/components/Hero";
+import ProblemsSection from "@/components/ProblemsSection";
+import UrgencySection from "@/components/UrgencySection";
 import ServicesMain from "@/components/ServicesMain";
+import RealStoriesSection from "@/components/RealStoriesSection";
+import GuaranteesSection from "@/components/GuaranteesSection";
 import Cases from "@/components/Cases";
 import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
@@ -25,7 +29,11 @@ const Index = () => {
       <YandexQuickLinks />
       <div className="min-h-screen">
         <Hero />
+        <ProblemsSection />
+        <UrgencySection />
         <ServicesMain />
+        <RealStoriesSection />
+        <GuaranteesSection />
         <Cases />
         <Blog />
         <Contacts />

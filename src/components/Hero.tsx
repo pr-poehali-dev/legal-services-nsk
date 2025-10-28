@@ -28,12 +28,10 @@ const Hero = () => {
                 Новосибирск
               </div>
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                Профессиональная юридическая помощь в Новосибирске
+                Страховая обманула? Несправедливо уволили? Хотят отнять квартиру?
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Более 10 лет успешной практики. Защищаю права и интересы граждан
-                и предприятий. Индивидуальный подход к каждому клиенту и
-                гарантия результата.
+                <span className="font-bold text-foreground">Вернём ваши деньги или вернём гонорар.</span> Работаем до победы — 500+ выигранных дел, 98% положительных решений. Не выиграли — не платите.
               </p>
             </div>
 
@@ -60,14 +58,18 @@ const Hero = () => {
             </div>
 
             {/* Срочность и гарантии */}
-            <div className="bg-accent/10 border-l-4 border-accent p-4 rounded-r-lg">
-              <div className="flex items-center space-x-2">
-                <Icon name="Clock" className="h-5 w-5 text-accent" />
-                <p className="font-semibold text-accent">СРОЧНЫЕ ДЕЛА — В ТЕЧЕНИЕ ЧАСА</p>
+            <div className="space-y-3">
+              <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                <div className="flex items-center space-x-2">
+                  <Icon name="AlertCircle" className="h-5 w-5 text-red-600" />
+                  <p className="font-bold text-red-600">СРОК ОБЖАЛОВАНИЯ — 10 ДНЕЙ. ПРОМЕДЛЕНИЕ = ПОТЕРЯ ПРАВ</p>
+                </div>
               </div>
-              <div className="flex items-center space-x-2 mt-2">
-                <Icon name="Shield" className="h-5 w-5 text-accent" />
-                <p className="text-sm text-muted-foreground">Гарантия возврата средств при неудовлетворительном результате</p>
+              <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                <div className="flex items-center space-x-2">
+                  <Icon name="Shield" className="h-5 w-5 text-green-600" />
+                  <p className="font-semibold text-green-700">Гарантия: Не выиграли дело — вернём 100% оплаты</p>
+                </div>
               </div>
             </div>
 
