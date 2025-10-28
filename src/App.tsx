@@ -24,6 +24,12 @@ const Contacts = lazy(() => import("@/pages/Contacts"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const DTPLawyer = lazy(() => import("@/components/DTPLawyer"));
+const DTPLawyerChoice = lazy(() => import("@/pages/DTPLawyerChoice"));
+const InsuranceDispute = lazy(() => import("@/pages/InsuranceDispute"));
+const DamageClaim = lazy(() => import("@/pages/DamageClaim"));
+const LicenseAlcohol = lazy(() => import("@/pages/LicenseAlcohol"));
+const IllegalFine = lazy(() => import("@/pages/IllegalFine"));
+const BadRepair = lazy(() => import("@/pages/BadRepair"));
 const AdminPanel = lazy(() => import("@/pages/AdminPanel"));
 const Login = lazy(() => import("@/pages/Login"));
 const Register = lazy(() => import("@/pages/Register"));
@@ -52,7 +58,12 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/services" element={<Services />} />
                         <Route path="/pricing" element={<Pricing />} />
-                        <Route path="/dtp-lawyer" element={<DTPLawyer />} />
+                        <Route path="/dtp-lawyer" element={<DTPLawyerChoice />} />
+                        <Route path="/dtp-lawyer/insurance-dispute" element={<InsuranceDispute />} />
+                        <Route path="/dtp-lawyer/damage-claim" element={<DamageClaim />} />
+                        <Route path="/dtp-lawyer/license-alcohol" element={<LicenseAlcohol />} />
+                        <Route path="/dtp-lawyer/illegal-fine" element={<IllegalFine />} />
+                        <Route path="/dtp-lawyer/bad-repair" element={<BadRepair />} />
                         <Route path="/blog" element={<Blog />} />
                         <Route path="/blog/:id" element={<BlogPost />} />
                         <Route path="/about" element={<About />} />
