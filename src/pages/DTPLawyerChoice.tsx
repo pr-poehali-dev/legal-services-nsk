@@ -12,7 +12,8 @@ const services = [
     description: "Страховая занижает выплату или отказывает в возмещении",
     icon: "FileText",
     color: "bg-red-50 border-red-200",
-    iconColor: "text-red-600"
+    iconColor: "text-red-600",
+    cta: "Узнать цену вопроса"
   },
   {
     id: "damage-claim",
@@ -20,7 +21,8 @@ const services = [
     description: "Виновник не платит за ремонт или вред здоровью",
     icon: "Car",
     color: "bg-orange-50 border-orange-200",
-    iconColor: "text-orange-600"
+    iconColor: "text-orange-600",
+    cta: "Бесплатная консультация"
   },
   {
     id: "license-alcohol",
@@ -28,7 +30,8 @@ const services = [
     description: "Обжалование протокола и защита в суде",
     icon: "ShieldAlert",
     color: "bg-purple-50 border-purple-200",
-    iconColor: "text-purple-600"
+    iconColor: "text-purple-600",
+    cta: "Оценить мои шансы"
   },
   {
     id: "illegal-fine",
@@ -36,7 +39,8 @@ const services = [
     description: "Обжалование необоснованных штрафов и постановлений",
     icon: "AlertCircle",
     color: "bg-blue-50 border-blue-200",
-    iconColor: "text-blue-600"
+    iconColor: "text-blue-600",
+    cta: "Узнать, как решить"
   },
   {
     id: "bad-repair",
@@ -44,7 +48,8 @@ const services = [
     description: "Взыскание убытков за некачественный ремонт автомобиля",
     icon: "Wrench",
     color: "bg-green-50 border-green-200",
-    iconColor: "text-green-600"
+    iconColor: "text-green-600",
+    cta: "Проконсультироваться сейчас"
   }
 ];
 
@@ -117,7 +122,7 @@ const DTPLawyerChoice = () => {
                   <Button 
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                   >
-                    Получить помощь
+                    {service.cta}
                     <Icon name="ArrowRight" size={18} className="ml-2" />
                   </Button>
                 </div>
