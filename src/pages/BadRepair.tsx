@@ -4,6 +4,7 @@ import { getSEOConfig } from "@/utils/seoConfig";
 import Icon from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import DTPConsultationModal from "@/components/dtp/DTPConsultationModal";
+import ContactBar from "@/components/dtp/ContactBar";
 
 const BadRepair = () => {
   const [showForm, setShowForm] = useState(false);
@@ -373,6 +374,8 @@ const BadRepair = () => {
         </div>
       </div>
       
+      <ContactBar onConsultClick={() => setShowForm(true)} />
+
       <DTPConsultationModal 
         showForm={showForm} 
         onClose={() => setShowForm(false)} 
