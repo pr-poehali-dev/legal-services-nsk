@@ -1,18 +1,21 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 import Icon from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import DTPConsultationModal from "@/components/dtp/DTPConsultationModal";
 
 const IllegalFine = () => {
   const [showForm, setShowForm] = useState(false);
+  const seo = getSEOConfig('illegalFine');
 
   return (
     <>
       <SEOHead 
-        title="Обжалование штрафов ГИБДД | Незаконные постановления"
-        description="Поможем обжаловать незаконные штрафы и постановления ГИБДД. Камеры, эвакуация, лишение прав. Опыт 15+ лет."
-        keywords="обжалование штрафов ГИБДД, отмена постановления, незаконный штраф"
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
       />
       <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50 pt-24 pb-16">
         <div className="container mx-auto px-4">

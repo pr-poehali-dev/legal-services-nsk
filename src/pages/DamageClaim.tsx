@@ -1,18 +1,21 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 import Icon from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import DTPConsultationModal from "@/components/dtp/DTPConsultationModal";
 
 const DamageClaim = () => {
   const [showForm, setShowForm] = useState(false);
+  const seo = getSEOConfig('damageClaim');
 
   return (
     <>
       <SEOHead 
-        title="Взыскание ущерба с виновника ДТП | Юридическая помощь"
-        description="Поможем взыскать полную сумму ущерба с виновника ДТП. Работаем по регрессу, возмещению морального вреда и утраченного заработка."
-        keywords="взыскание ущерба ДТП, компенсация виновника, регресс"
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
       />
       <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50 pt-24 pb-16">
         <div className="container mx-auto px-4">

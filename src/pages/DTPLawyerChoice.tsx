@@ -51,7 +51,7 @@ const services = [
 const DTPLawyerChoice = () => {
   const navigate = useNavigate();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const seo = getSEOConfig('dtp');
+  const seo = getSEOConfig('dtpChoice');
 
   const handleServiceClick = (serviceId: string) => {
     navigate(`/dtp-lawyer/${serviceId}`);

@@ -1,18 +1,21 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 import Icon from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import DTPConsultationModal from "@/components/dtp/DTPConsultationModal";
 
 const LicenseAlcohol = () => {
   const [showForm, setShowForm] = useState(false);
+  const seo = getSEOConfig('licenseAlcohol');
 
   return (
     <>
       <SEOHead 
-        title="Лишение прав за алкоголь — защита в суде | Юрист по ДТП"
-        description="Защитим от лишения прав за алкогольное опьянение. Обжалование протокола, защита в суде. Опыт 15+ лет, сотни возвращённых прав."
-        keywords="лишение прав алкоголь, отмена лишения, защита в суде, 12.8 КоАП"
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
       />
       <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50 pt-24 pb-16">
         <div className="container mx-auto px-4">

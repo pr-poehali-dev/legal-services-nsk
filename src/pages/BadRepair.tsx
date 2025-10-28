@@ -1,18 +1,21 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSEOConfig } from "@/utils/seoConfig";
 import Icon from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import DTPConsultationModal from "@/components/dtp/DTPConsultationModal";
 
 const BadRepair = () => {
   const [showForm, setShowForm] = useState(false);
+  const seo = getSEOConfig('badRepair');
 
   return (
     <>
       <SEOHead 
-        title="СТО сделала плохой ремонт — взыскание убытков | Юрист"
-        description="Поможем взыскать деньги за некачественный ремонт автомобиля. Неустойка, штраф, моральный вред. Опыт в спорах с СТО."
-        keywords="плохой ремонт СТО, взыскание с автосервиса, некачественный ремонт"
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonical={seo.canonical}
       />
       <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-green-50 pt-24 pb-16">
         <div className="container mx-auto px-4">
