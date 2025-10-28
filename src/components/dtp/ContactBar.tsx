@@ -4,14 +4,12 @@ import Icon from "@/components/ui/icon";
 interface ContactBarProps {
   phone?: string;
   whatsapp?: string;
-  telegram?: string;
   onConsultClick?: () => void;
 }
 
 const ContactBar = ({ 
-  phone = "+7 (999) 123-45-67", 
-  whatsapp = "79991234567",
-  telegram = "legal_help_bot",
+  phone = "+7 (999) 452-35-00", 
+  whatsapp = "79994523500",
   onConsultClick 
 }: ContactBarProps) => {
   const handlePhoneClick = () => {
@@ -20,10 +18,6 @@ const ContactBar = ({
 
   const handleWhatsAppClick = () => {
     window.open(`https://wa.me/${whatsapp}`, '_blank');
-  };
-
-  const handleTelegramClick = () => {
-    window.open(`https://t.me/${telegram}`, '_blank');
   };
 
   return (
@@ -43,15 +37,6 @@ const ContactBar = ({
             >
               <Icon name="MessageCircle" size={20} className="mr-2" />
               WhatsApp
-            </Button>
-            
-            <Button
-              size="lg"
-              className="bg-blue-500 hover:bg-blue-600 text-white"
-              onClick={handleTelegramClick}
-            >
-              <Icon name="Send" size={20} className="mr-2" />
-              Telegram
             </Button>
             
             <Button
