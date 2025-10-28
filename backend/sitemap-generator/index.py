@@ -74,9 +74,49 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     <priority>0.8</priority>
   </url>
   
-  <!-- ДТП Юрист -->
+  <!-- ДТП Юрист - главная -->
   <url>
     <loc>{base_url}/dtp-lawyer</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- ДТП: Спор со страховой -->
+  <url>
+    <loc>{base_url}/dtp-lawyer/insurance-dispute</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- ДТП: Взыскание ущерба -->
+  <url>
+    <loc>{base_url}/dtp-lawyer/damage-claim</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- ДТП: Лишение прав за алкоголь -->
+  <url>
+    <loc>{base_url}/dtp-lawyer/license-alcohol</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- ДТП: Незаконный штраф ГИБДД -->
+  <url>
+    <loc>{base_url}/dtp-lawyer/illegal-fine</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- ДТП: Плохой ремонт СТО -->
+  <url>
+    <loc>{base_url}/dtp-lawyer/bad-repair</loc>
     <lastmod>{today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
