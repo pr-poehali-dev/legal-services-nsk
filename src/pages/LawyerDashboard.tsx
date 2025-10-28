@@ -81,6 +81,34 @@ const LawyerDashboard = () => {
     }
   };
 
+  const handleDelete = async (table: string, id: string, type: string) => {
+    if (!confirm(`Вы уверены, что хотите удалить эту запись?`)) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch(`${API_URL}?table=${table}&id=${id}`, {
+        method: 'DELETE',
+        headers: { 'X-Auth-Token': token || '' }
+      });
+
+      if (res.ok) {
+        toast.success('Запись удалена');
+        if (type === 'case') {
+          setCases(prev => prev.filter(c => c.id !== id));
+        } else if (type === 'client') {
+          setClients(prev => prev.filter(c => c.id !== id));
+        }
+      } else {
+        toast.error('Ошибка при удалении');
+      }
+    } catch (error) {
+      console.error('Ошибка удаления:', error);
+      toast.error('Ошибка удаления записи');
+    }
+  };
+
   if (!isAuthenticated || (user?.role !== 'lawyer' && user?.role !== 'admin')) {
     return <Navigate to="/" replace />;
   }
@@ -261,6 +289,13 @@ const LawyerDashboard = () => {
                             <Icon name="Edit" className="h-4 w-4 mr-1" />
                             Редактировать
                           </Button>
+                          <Button 
+                            size="sm" 
+                            variant="destructive"
+                            onClick={() => handleDelete('cases', caseItem.id, 'case')}
+                          >
+                            <Icon name="Trash2" className="h-4 w-4" />
+                          </Button>
                           {caseItem.client_phone && (
                             <Button 
                               size="sm" 
@@ -323,10 +358,19 @@ const LawyerDashboard = () => {
                           <span>{client.cases_count} дел</span>
                         </div>
                       </div>
-                      <Button size="sm" variant="outline" className="w-full">
-                        <Icon name="Eye" className="h-4 w-4 mr-1" />
-                        Посмотреть профиль
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" className="flex-1">
+                          <Icon name="Eye" className="h-4 w-4 mr-1" />
+                          Профиль
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="destructive"
+                          onClick={() => handleDelete('users', client.id, 'client')}
+                        >
+                          <Icon name="Trash2" className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}

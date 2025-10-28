@@ -108,6 +108,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         body = json.loads(event.get('body', '{}'))
         return handle_update_case(event, body)
     
+    elif method == 'DELETE':
+        return handle_delete(event)
+    
     return {
         'statusCode': 400,
         'headers': {
@@ -630,6 +633,64 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         'statusCode': 201,
         'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
         'body': json.dumps({'id': str(new_case['id']), 'message': 'Case created'}),
+        'isBase64Encoded': False
+    }
+
+
+def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
+    """Удаление записей из различных таблиц"""
+    token = event.get('headers', {}).get('x-auth-token', '')
+    params = event.get('queryStringParameters', {})
+    table = params.get('table', '').replace("'", "''")
+    record_id = params.get('id', '').replace("'", "''")
+    
+    if not token or not table or not record_id:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Missing parameters'}),
+            'isBase64Encoded': False
+        }
+    
+    conn = psycopg2.connect(DSN)
+    conn.autocommit = True
+    cur = conn.cursor()
+    
+    # Проверка прав доступа
+    cur.execute(f"SELECT role FROM t_p52877782_legal_services_nsk.users WHERE id = '{token}'")
+    row = cur.fetchone()
+    if not row or row[0] not in ['admin', 'lawyer']:
+        cur.close()
+        conn.close()
+        return {
+            'statusCode': 403,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Unauthorized'}),
+            'isBase64Encoded': False
+        }
+    
+    # Разрешенные таблицы для удаления
+    allowed_tables = ['cases', 'users', 'blog_posts', 'blog_comments', 'auth_codes', 'payments', 'whatsapp_notifications']
+    if table not in allowed_tables:
+        cur.close()
+        conn.close()
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Invalid table'}),
+            'isBase64Encoded': False
+        }
+    
+    # Удаление записи
+    cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.{table} WHERE id = '{record_id}'")
+    
+    cur.close()
+    conn.close()
+    
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        'body': json.dumps({'success': True, 'message': 'Record deleted'}),
         'isBase64Encoded': False
     }
 
