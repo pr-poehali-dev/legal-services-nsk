@@ -21,7 +21,7 @@ const ContactBar = ({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t-2 border-blue-200 z-50">
+    <div className="fixed bottom-20 left-0 right-0 bg-white shadow-2xl border-t-2 border-blue-200 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
