@@ -37,6 +37,7 @@ const LawyerDashboard = lazy(() => import("@/pages/LawyerDashboard"));
 const ClientLogin = lazy(() => import("@/pages/ClientLogin"));
 const ClientDashboard = lazy(() => import("@/pages/ClientDashboard"));
 const Sitemap = lazy(() => import("@/pages/Sitemap"));
+const SMSTest = lazy(() => import("@/pages/SMSTest"));
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
                         <Route path="/client/login" element={<ClientLogin />} />
                         <Route path="/client/cabinet" element={<ClientDashboard />} />
                         <Route path="/sitemap.xml" element={<Sitemap />} />
+                        <Route path="/sms-test" element={<SMSTest />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </Suspense>
