@@ -167,13 +167,24 @@ const DTPLawyerChoice = () => {
               <p className="text-lg mb-6 opacity-90">
                 Позвоните нам — проконсультируем по любому вопросу бесплатно
               </p>
-              <Button 
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
-              >
-                <Icon name="Phone" size={20} className="mr-2" />
-                Позвонить юристу
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
+                  onClick={() => window.location.href = 'tel:+79994523500'}
+                >
+                  <Icon name="Phone" size={20} className="mr-2" />
+                  Позвонить юристу
+                </Button>
+                <Button 
+                  size="lg"
+                  className="bg-green-500 text-white hover:bg-green-600 font-semibold"
+                  onClick={() => window.open('https://wa.me/79994523500', '_blank')}
+                >
+                  <Icon name="MessageCircle" size={20} className="mr-2" />
+                  WhatsApp
+                </Button>
+              </div>
             </div>
           </div>
         </div>
