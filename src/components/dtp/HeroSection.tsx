@@ -13,28 +13,35 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onConsultationClick }) => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="bg-red-500 text-white px-4 py-2 rounded-full inline-block text-sm font-bold mb-4">
-              🔥 АКЦИЯ: Первая консультация БЕСПЛАТНО
+              ⚠️ СРОК ОБЖАЛОВАНИЯ — 10 ДНЕЙ. ПРОМЕДЛЕНИЕ = ПОТЕРЯ ДЕНЕГ
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               <span className="text-yellow-400">
-                Автоюрист в Новосибирске
+                Страховая обманула?
               </span>
               <br />
-              Защита прав автомобилистов
+              Занизила выплату? Отказала в ОСАГО?
             </h1>
             <p className="text-xl mb-4 text-blue-100">
-              Взыскание по ОСАГО, споры со страховыми, лишение прав, административные дела. 
-              Работаем на результат — более 10 млн рублей взыскано за год.
+              <span className="font-bold text-white">Взыщем реальную сумму или вернём гонорар.</span> Работаем до победы — 500+ выигранных дел по автоспорам, средняя выплата увеличивается в 3-4 раза. Не взыскали — не платите.
             </p>
-            <div className="flex items-center gap-4 mb-6 text-yellow-300">
-              <div className="flex items-center gap-1">
-                <Icon name="Star" size={16} className="fill-current" />
-                <Icon name="Star" size={16} className="fill-current" />
-                <Icon name="Star" size={16} className="fill-current" />
-                <Icon name="Star" size={16} className="fill-current" />
-                <Icon name="Star" size={16} className="fill-current" />
+            <div className="grid grid-cols-2 gap-4 text-sm text-blue-200">
+              <div className="flex items-center gap-2">
+                <Icon name="TrendingUp" size={16} className="text-green-300" />
+                <span className="text-white font-medium">Выплата в 3-4 раза больше</span>
               </div>
-              <span className="text-blue-200">4.9/5 • 127 отзывов</span>
+              <div className="flex items-center gap-2">
+                <Icon name="Award" size={16} className="text-yellow-300" />
+                <span className="text-white font-medium">98% выигранных дел</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon name="Clock" size={16} className="text-blue-300" />
+                <span className="text-white font-medium">Результат за 2-4 недели</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon name="CheckCircle" size={16} className="text-green-300" />
+                <span className="text-white font-medium">Член Адвокатской палаты</span>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -53,22 +60,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onConsultationClick }) => {
               </a>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm text-blue-200">
-              <div className="flex items-center gap-2">
-                <Icon name="Shield" size={16} />
-                <span>Работаем по договору</span>
+            <div className="space-y-3 mb-4">
+              <div className="bg-red-500/20 border-l-4 border-red-400 p-4 rounded-r-lg backdrop-blur-sm">
+                <div className="flex items-center space-x-2">
+                  <Icon name="AlertCircle" className="h-5 w-5 text-red-300" />
+                  <p className="font-bold text-red-100">10 ДНЕЙ на обжалование. Пропустили срок = потеряли 50-500 тыс. ₽</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon name="Clock" size={16} />
-                <span>Результат или возврат аванса</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="Award" size={16} />
-                <span>Член Адвокатской палаты</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="CheckCircle" size={16} />
-                <span>Гарантия результата</span>
+              <div className="bg-green-500/20 border-l-4 border-green-400 p-4 rounded-r-lg backdrop-blur-sm">
+                <div className="flex items-center space-x-2">
+                  <Icon name="Shield" className="h-5 w-5 text-green-300" />
+                  <p className="font-semibold text-green-100">Гарантия: Не взыскали — вернём 100% оплаты</p>
+                </div>
               </div>
             </div>
           </div>

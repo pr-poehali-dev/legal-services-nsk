@@ -4,7 +4,10 @@ import HeroSection from "./dtp/HeroSection";
 import SocialProofBar from "./dtp/SocialProofBar";
 import AchievementsSection from "./dtp/AchievementsSection";
 import ProblemSection from "./dtp/ProblemSection";
+import UrgencyAutoSection from "./dtp/UrgencyAutoSection";
 import ServicesSection from "./dtp/ServicesSection";
+import RealAutoStoriesSection from "./dtp/RealAutoStoriesSection";
+import GuaranteesAutoSection from "./dtp/GuaranteesAutoSection";
 import ProcessSection from "./dtp/ProcessSection";
 import TestimonialsSection from "./dtp/TestimonialsSection";
 import CTASection from "./dtp/CTASection";
@@ -38,7 +41,10 @@ const DTPLawyer = () => {
       <SocialProofBar />
       <AchievementsSection />
       <ProblemSection />
+      <UrgencyAutoSection />
       <ServicesSection onConsultationClick={handleConsultationClick} />
+      <RealAutoStoriesSection />
+      <GuaranteesAutoSection onConsultationClick={handleConsultationClick} />
       <ProcessSection />
       <TestimonialsSection />
       <CTASection onConsultationClick={handleConsultationClick} />
