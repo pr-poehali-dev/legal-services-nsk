@@ -49,13 +49,16 @@ const CTASection = ({ onConsultationClick }: CTASectionProps) => {
               </div>
               ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ
             </button>
-            <div className="text-blue-900">
+            <a
+              href="tel:+79994523500"
+              className="text-blue-900 hover:text-blue-700 transition-colors"
+            >
               <div className="font-bold text-2xl">+7 (999) 452-35-00</div>
               <div className="text-sm flex items-center justify-center gap-1">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 Работаем 24/7
               </div>
-            </div>
+            </a>
           </div>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-blue-900">
