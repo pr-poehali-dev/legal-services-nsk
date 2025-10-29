@@ -1,9 +1,18 @@
 {
   "tests": [
     {
-      "name": "Get RSS feed",
+      "name": "Get sitemap",
       "method": "GET",
       "path": "/",
+      "expectedStatus": 200,
+      "expectedHeaders": {
+        "Content-Type": "application/xml; charset=UTF-8"
+      }
+    },
+    {
+      "name": "Get RSS feed",
+      "method": "GET",
+      "path": "/?type=rss",
       "expectedStatus": 200,
       "expectedHeaders": {
         "Content-Type": "application/rss+xml; charset=UTF-8"
