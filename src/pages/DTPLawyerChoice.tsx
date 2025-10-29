@@ -78,10 +78,10 @@ const DTPLawyerChoice = () => {
               <Icon name="Scale" size={40} className="text-blue-600" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Какой у вас вопрос по ДТП?
+              С какой ситуацией вы столкнулись?
             </h1>
             <p className="text-xl text-gray-600 mb-4">
-              Выберите вашу ситуацию — получите экспертную помощь
+              Выберите вашу проблему — получите экспертную помощь и решение
             </p>
             <div className="flex items-center justify-center gap-6 text-sm text-gray-500 mt-8">
               <div className="flex items-center gap-2">
