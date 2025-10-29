@@ -15,6 +15,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithSMS: (token: string, userData: any) => void;
   register: (email: string, password: string, name: string, phone?: string, role?: 'client' | 'lawyer') => Promise<void>;
   logout: () => void;
   updateProfile: (data: { name?: string; phone?: string }) => Promise<void>;
@@ -181,6 +182,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const loginWithSMS = (token: string, userData: any) => {
+    const loggedUser: User = {
+      id: userData.id,
+      name: userData.name || 'Клиент',
+      email: userData.email || '',
+      phone: userData.phone,
+      role: userData.role,
+      created_at: userData.created_at,
+      token: token
+    };
+
+    setUser(loggedUser);
+    localStorage.setItem('user', JSON.stringify(loggedUser));
+    localStorage.setItem('auth_token', token);
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
@@ -216,6 +233,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     isAuthenticated: !!user,
     isLoading,
     login,
+    loginWithSMS,
     register,
     logout,
     updateProfile

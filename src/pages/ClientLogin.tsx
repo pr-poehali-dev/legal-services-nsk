@@ -8,17 +8,15 @@ import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 
-const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
+const SMS_AUTH_URL = 'https://functions.poehali.dev/3435e395-e2f4-4083-b5f9-45aa97f38b94';
 
 export default function ClientLogin() {
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
-  const [name, setName] = useState('');
   const [phoneStep, setPhoneStep] = useState<'phone' | 'code'>('phone');
-  const [debugCode, setDebugCode] = useState('');
   
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { loginWithSMS } = useAuth();
   const navigate = useNavigate();
 
   const handleRequestCode = async (e: React.FormEvent) => {
@@ -32,27 +30,22 @@ export default function ClientLogin() {
     setLoading(true);
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(SMS_AUTH_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'phone_request_code',
+          action: 'send',
           phone: phone.startsWith('+') ? phone : `+${phone}`
         })
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        if (data.code) {
-          setDebugCode(data.code);
-          if (data.sms_sent) {
-            toast.success('Код отправлен по SMS!');
-          } else {
-            toast.success(`Код сгенерирован: ${data.code}`);
-          }
-        } else {
+      if (response.ok && data.success) {
+        if (data.sms_sent) {
           toast.success('Код отправлен по SMS!');
+        } else {
+          toast.success('Код сохранён (проверьте консоль для тестирования)');
         }
         setPhoneStep('code');
       } else {
@@ -76,21 +69,20 @@ export default function ClientLogin() {
     setLoading(true);
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(SMS_AUTH_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'phone_verify_code',
+          action: 'verify',
           phone: phone.startsWith('+') ? phone : `+${phone}`,
-          code,
-          name: name || `Клиент ${phone.slice(-4)}`
+          code
         })
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        login(data.token, data.user);
+      if (response.ok && data.success) {
+        loginWithSMS(data.token, data.user);
         toast.success('Вход выполнен!');
         navigate('/client/cabinet');
       } else {
@@ -150,13 +142,6 @@ export default function ClientLogin() {
             </form>
           ) : (
             <form onSubmit={handleVerifyCode} className="space-y-4">
-              {debugCode && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
-                  <p className="text-sm font-medium text-blue-900">Ваш код:</p>
-                  <p className="text-2xl font-bold text-blue-600 tracking-wider">{debugCode}</p>
-                  <p className="text-xs text-blue-700 mt-1">Введите этот код ниже</p>
-                </div>
-              )}
               <div className="space-y-2">
                 <Label htmlFor="code">Код из SMS</Label>
                 <Input
