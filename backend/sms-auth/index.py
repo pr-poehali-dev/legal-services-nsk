@@ -19,32 +19,42 @@ def generate_code() -> str:
     return ''.join(random.choices(string.digits, k=6))
 
 def send_sms(phone: str, code: str) -> bool:
-    """Send SMS using sms.ru API"""
+    """Send SMS using SMS Aero API"""
     import urllib.request
     import urllib.parse
+    import base64
     
-    api_key = os.environ.get('SMSRU_API_KEY')
-    if not api_key:
+    email = os.environ.get('SMSAERO_EMAIL')
+    api_key = os.environ.get('SMSAERO_API_KEY')
+    
+    if not email or not api_key:
         return False
     
     phone_clean = ''.join(filter(str.isdigit, phone))
+    if not phone_clean.startswith('7'):
+        phone_clean = '7' + phone_clean.lstrip('8')
+    
     message = f'Ваш код для входа: {code}'
     
+    auth_string = f'{email}:{api_key}'
+    auth_bytes = auth_string.encode('utf-8')
+    auth_base64 = base64.b64encode(auth_bytes).decode('utf-8')
+    
     params = {
-        'api_id': api_key,
-        'to': phone_clean,
-        'msg': message,
-        'json': '1'
+        'number': phone_clean,
+        'text': message,
+        'sign': 'SMS Aero'
     }
     
-    url = 'https://sms.ru/sms/send?' + urllib.parse.urlencode(params)
+    url = 'https://gate.smsaero.ru/v2/sms/send?' + urllib.parse.urlencode(params)
     
     try:
         req = urllib.request.Request(url)
+        req.add_header('Authorization', f'Basic {auth_base64}')
+        
         with urllib.request.urlopen(req, timeout=10) as response:
             result = json.loads(response.read().decode())
-            status_code = result.get('status_code')
-            return status_code == 100
+            return result.get('success') == True
     except Exception as e:
         return False
 
