@@ -117,6 +117,12 @@ const Blog = () => {
         <script type="application/ld+json">
           {JSON.stringify(blogListSchema)}
         </script>
+        <link 
+          rel="alternate" 
+          type="application/rss+xml" 
+          title="RSS лента блога - Юридический Сервис НСК" 
+          href="https://functions.poehali.dev/b0dd8eb7-03ae-44fc-b230-dbb9fe64deef?type=rss" 
+        />
       </Helmet>
       <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-12">

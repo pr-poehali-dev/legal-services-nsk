@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const SITEMAP_URL = 'https://functions.poehali.dev/15af1070-d00f-4764-b2b5-2e9de9345be2';
+const SITEMAP_URL = 'https://functions.poehali.dev/b0dd8eb7-03ae-44fc-b230-dbb9fe64deef';
 
 const Sitemap = () => {
   useEffect(() => {
