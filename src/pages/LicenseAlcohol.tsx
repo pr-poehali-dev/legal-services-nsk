@@ -5,6 +5,8 @@ import Icon from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import DTPConsultationModal from "@/components/dtp/DTPConsultationModal";
 import ContactBar from "@/components/dtp/ContactBar";
+import UrgencyLicenseSection from "@/components/license/UrgencyLicenseSection";
+import RealLicenseStoriesSection from "@/components/license/RealLicenseStoriesSection";
 
 const LicenseAlcohol = () => {
   const [showForm, setShowForm] = useState(false);
@@ -27,11 +29,13 @@ const LicenseAlcohol = () => {
               <Icon name="ShieldAlert" size={48} className="text-purple-600" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Лишают прав за алкоголь?
+              Лишают прав за алкоголь? <br/>
+              <span className="text-red-600">Потеряете работу, доход, свободу?</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8">
-              Защитим ваши права в суде. Обжалуем протокол и добьёмся оправдания <br/>
-              или минимального наказания
+              <span className="font-bold text-gray-900">Защитим в суде — 73% дел закрываем.</span><br/>
+              Без юриста лишают в 98% случаев. С нами — находим нарушения в протоколе, 
+              обжалуем в суде, сохраняем права и работу.
             </p>
             <Button 
               size="lg"
@@ -89,6 +93,9 @@ const LicenseAlcohol = () => {
             </div>
           </div>
 
+          {/* Urgency Section */}
+          <UrgencyLicenseSection />
+
           {/* Defense Strategies */}
           <div className="max-w-5xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -141,6 +148,9 @@ const LicenseAlcohol = () => {
               ))}
             </div>
           </div>
+
+          {/* Real Stories */}
+          <RealLicenseStoriesSection />
 
           {/* Grounds for Dismissal */}
           <div className="max-w-4xl mx-auto mb-16 bg-green-50 rounded-2xl p-8 border-2 border-green-200">
