@@ -27,25 +27,25 @@ def send_sms(phone: str, code: str) -> bool:
     if not api_key:
         return False
     
-    # Clean phone number
     phone_clean = ''.join(filter(str.isdigit, phone))
-    
-    message = f'Ваш код для входа: {code}\nЮридическая консультация'
+    message = f'Ваш код для входа: {code}'
     
     params = {
         'api_id': api_key,
         'to': phone_clean,
         'msg': message,
-        'json': 1
+        'json': '1'
     }
     
     url = 'https://sms.ru/sms/send?' + urllib.parse.urlencode(params)
     
     try:
-        with urllib.request.urlopen(url) as response:
+        req = urllib.request.Request(url)
+        with urllib.request.urlopen(req, timeout=10) as response:
             result = json.loads(response.read().decode())
-            return result.get('status') == 'OK'
-    except Exception:
+            status_code = result.get('status_code')
+            return status_code == 100
+    except Exception as e:
         return False
 
 def save_code_to_db(phone: str, code: str) -> bool:
