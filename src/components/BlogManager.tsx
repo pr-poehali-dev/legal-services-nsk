@@ -196,11 +196,9 @@ export default function BlogManager() {
         <div>
           <h2 className="text-2xl font-bold">Управление блогом</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            RSS: <a href="https://functions.poehali.dev/23ab26b5-f1a2-4b59-9c6d-dae8bfb8be0f" target="_blank" rel="noopener" className="text-primary underline">feed</a>
+            RSS: <a href="https://functions.poehali.dev/b0dd8eb7-03ae-44fc-b230-dbb9fe64deef?type=rss" target="_blank" rel="noopener" className="text-primary underline">feed</a>
             {' | '}
-            Sitemap: <a href="https://functions.poehali.dev/15af1070-d00f-4764-b2b5-2e9de9345be2" target="_blank" rel="noopener" className="text-primary underline">динамический</a>
-            {' | '}
-            YML: <a href="https://functions.poehali.dev/24d96c7a-6fbe-4e06-84dd-b1d1eac3ec04" target="_blank" rel="noopener" className="text-primary underline">Яндекс.Услуги</a>
+            Sitemap: <a href="https://functions.poehali.dev/b0dd8eb7-03ae-44fc-b230-dbb9fe64deef" target="_blank" rel="noopener" className="text-primary underline">динамический</a>
           </p>
           <p className="text-xs text-muted-foreground mt-1">
             ⚡ При публикации URL автоматически отправляется в Яндекс.Вебмастер для быстрой индексации
