@@ -58,15 +58,18 @@ def save_code_to_db(phone: str, code: str) -> bool:
         conn = psycopg2.connect(database_url)
         cur = conn.cursor()
         
+        phone_escaped = phone.replace("'", "''")
+        code_escaped = code.replace("'", "''")
+        
         # Delete old codes
-        cur.execute("DELETE FROM sms_codes WHERE phone = %s", (phone,))
+        cur.execute(f"DELETE FROM sms_codes WHERE phone = '{phone_escaped}'")
         
         # Insert new code (expires in 5 minutes)
-        expiry = datetime.now() + timedelta(minutes=5)
-        cur.execute("""
+        expiry = (datetime.now() + timedelta(minutes=5)).strftime('%Y-%m-%d %H:%M:%S')
+        cur.execute(f"""
             INSERT INTO sms_codes (phone, code, expires_at, created_at)
-            VALUES (%s, %s, %s, NOW())
-        """, (phone, code, expiry))
+            VALUES ('{phone_escaped}', '{code_escaped}', '{expiry}', NOW())
+        """)
         
         conn.commit()
         cur.close()
@@ -85,18 +88,21 @@ def verify_code(phone: str, code: str) -> bool:
         conn = psycopg2.connect(database_url)
         cur = conn.cursor()
         
+        phone_escaped = phone.replace("'", "''")
+        code_escaped = code.replace("'", "''")
+        
         # Check if code valid
-        cur.execute("""
+        cur.execute(f"""
             SELECT code FROM sms_codes 
-            WHERE phone = %s AND code = %s AND expires_at > NOW()
+            WHERE phone = '{phone_escaped}' AND code = '{code_escaped}' AND expires_at > NOW()
             ORDER BY created_at DESC LIMIT 1
-        """, (phone, code))
+        """)
         
         result = cur.fetchone()
         
         # Delete used code
         if result:
-            cur.execute("DELETE FROM sms_codes WHERE phone = %s AND code = %s", (phone, code))
+            cur.execute(f"DELETE FROM sms_codes WHERE phone = '{phone_escaped}' AND code = '{code_escaped}'")
             conn.commit()
         
         cur.close()
@@ -116,11 +122,13 @@ def get_or_create_user(phone: str) -> Dict[str, Any]:
         conn = psycopg2.connect(database_url)
         cur = conn.cursor()
         
+        phone_escaped = phone.replace("'", "''")
+        
         # Find existing user
-        cur.execute("""
+        cur.execute(f"""
             SELECT id, phone, name, role, created_at 
-            FROM users WHERE phone = %s
-        """, (phone,))
+            FROM users WHERE phone = '{phone_escaped}'
+        """)
         
         user = cur.fetchone()
         
@@ -134,12 +142,14 @@ def get_or_create_user(phone: str) -> Dict[str, Any]:
             }
         else:
             # Create new user (email required, use phone-based placeholder)
-            email_placeholder = f"{phone.replace('+', '').replace(' ', '')}@sms-user.local"
-            cur.execute("""
+            email_placeholder = phone.replace('+', '').replace(' ', '') + '@sms-user.local'
+            email_escaped = email_placeholder.replace("'", "''")
+            
+            cur.execute(f"""
                 INSERT INTO users (phone, name, role, email, password_hash, created_at)
-                VALUES (%s, %s, 'client', %s, 'sms-auth', NOW())
+                VALUES ('{phone_escaped}', 'Клиент', 'client', '{email_escaped}', 'sms-auth', NOW())
                 RETURNING id, phone, name, role, created_at
-            """, (phone, 'Клиент', email_placeholder))
+            """)
             
             new_user = cur.fetchone()
             conn.commit()

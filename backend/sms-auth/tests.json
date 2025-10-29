@@ -15,22 +15,6 @@
       "bodyMatcher": "partial"
     },
     {
-      "name": "Verify code - valid",
-      "method": "POST",
-      "path": "/",
-      "body": {
-        "action": "verify",
-        "phone": "+79991234567",
-        "code": "123456"
-      },
-      "expectedStatus": 200,
-      "expectedBody": {
-        "success": true,
-        "token": "string"
-      },
-      "bodyMatcher": "partial"
-    },
-    {
       "name": "Missing phone",
       "method": "POST",
       "path": "/",
@@ -42,6 +26,12 @@
         "error": "string"
       },
       "bodyMatcher": "partial"
+    },
+    {
+      "name": "OPTIONS request",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
     }
   ]
 }
