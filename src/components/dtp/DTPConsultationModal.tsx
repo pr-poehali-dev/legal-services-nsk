@@ -96,7 +96,7 @@ const DTPConsultationModal = ({ showForm, onClose }: DTPConsultationModalProps) 
             required
           />
           <textarea
-            placeholder="Кратко опишите ситуацию с ДТП (необязательно)"
+            placeholder="Опишите вашу ситуацию (необязательно)"
             value={formData.situation}
             onChange={(e) =>
               setFormData({ ...formData, situation: e.target.value })
