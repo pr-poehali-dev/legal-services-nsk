@@ -38,7 +38,7 @@ const Contacts = () => {
       // Green API настройки
       const idInstance = '1103279953';
       const apiTokenInstance = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e';
-      const chatId = '79931903500@c.us'; // Номер получателя
+      const chatId = '79994523500@c.us'; // Номер получателя
 
       const message = `🆕 Новое обращение с сайта:
 
@@ -88,8 +88,14 @@ ${formData.message}
     {
       icon: "Phone",
       title: "Телефон",
-      value: "+7 993 190 ●● ●●",
-      link: "tel:+79931903500",
+      value: "+7 (999) 452-35-00",
+      link: "tel:+79994523500",
+    },
+    {
+      icon: "MessageCircle",
+      title: "WhatsApp",
+      value: "+7 (999) 452-35-00",
+      link: "https://wa.me/79994523500",
     },
     {
       icon: "Mail",
@@ -121,6 +127,26 @@ ${formData.message}
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Свяжитесь с нами для получения бесплатной консультации
           </p>
+          
+          {/* Prominent Contact Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+            <a
+              href="tel:+79994523500"
+              className="inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg"
+            >
+              <Icon name="Phone" size={24} />
+              +7 (999) 452-35-00
+            </a>
+            <a
+              href="https://wa.me/79994523500"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg"
+            >
+              <Icon name="MessageCircle" size={24} />
+              Написать в WhatsApp
+            </a>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
@@ -142,22 +168,15 @@ ${formData.message}
                           {info.title}
                         </div>
                         {info.link !== "#" ? (
-                          info.title === "Телефон" ? (
-                            <button
-                              onClick={(e) => {
-                                const target = e.currentTarget;
-                                const hidden = target.querySelector('.phone-hidden');
-                                if (hidden) {
-                                  (hidden as HTMLElement).style.filter = 'blur(0px)';
-                                  (hidden as HTMLElement).style.opacity = '1';
-                                  hidden.textContent = '35 00';
-                                  setTimeout(() => window.open(info.link, '_self'), 300);
-                                }
-                              }}
-                              className="text-muted-foreground hover:text-primary transition-colors duration-200 text-left"
+                          info.title === "Телефон" || info.title === "WhatsApp" ? (
+                            <a
+                              href={info.link}
+                              target={info.title === "WhatsApp" ? "_blank" : undefined}
+                              rel={info.title === "WhatsApp" ? "noopener noreferrer" : undefined}
+                              className="text-muted-foreground hover:text-primary transition-colors duration-200 text-lg font-semibold"
                             >
-                              +7 993 190 <span className="phone-hidden" style={{filter: 'blur(5px)', opacity: 0.6, transition: 'all 0.3s ease'}}>XX XX</span>
-                            </button>
+                              {info.value}
+                            </a>
                           ) : (
                             <a
                               href={info.link}

@@ -29,6 +29,7 @@ const DamageClaim = lazy(() => import("@/pages/DamageClaim"));
 const LicenseAlcohol = lazy(() => import("@/pages/LicenseAlcohol"));
 const IllegalFine = lazy(() => import("@/pages/IllegalFine"));
 const BadRepair = lazy(() => import("@/pages/BadRepair"));
+const Migration = lazy(() => import("@/pages/Migration"));
 const AdminPanel = lazy(() => import("@/pages/AdminPanel"));
 const Login = lazy(() => import("@/pages/Login"));
 const Register = lazy(() => import("@/pages/Register"));
@@ -63,6 +64,7 @@ function App() {
                         <Route path="/dtp-lawyer/license-alcohol" element={<LicenseAlcohol />} />
                         <Route path="/dtp-lawyer/illegal-fine" element={<IllegalFine />} />
                         <Route path="/dtp-lawyer/bad-repair" element={<BadRepair />} />
+                        <Route path="/migration" element={<Migration />} />
                         <Route path="/blog" element={<Blog />} />
                         <Route path="/blog/:id" element={<BlogPost />} />
                         <Route path="/about" element={<About />} />
