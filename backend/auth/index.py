@@ -365,99 +365,52 @@ def handle_sms_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
-    headers = event.get('headers', {})
-    auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
-    
-    if not auth_token:
-        return {
-            'statusCode': 401,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Unauthorized'}),
-            'isBase64Encoded': False
-        }
-    
-    conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-    
-    user_id = auth_token.split(':')[0] if ':' in auth_token else auth_token
-    
-    cur.execute(
-        "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s",
-        (user_id,)
-    )
-    user = cur.fetchone()
-    
-    if not user:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 403,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Access denied'}),
-            'isBase64Encoded': False
-        }
-    
-    query_params = event.get('queryStringParameters') or {}
-    request_type = query_params.get('type', 'cases')
-    
-    if request_type == 'cases':
-        if user['role'] in ['lawyer', 'admin']:
-            cur.execute(
-                """
-                SELECT 
-                    c.*,
-                    u.name as client_name,
-                    u.email as client_email,
-                    u.phone as client_phone
-                FROM t_p52877782_legal_services_nsk.cases c
-                LEFT JOIN t_p52877782_legal_services_nsk.users u ON c.client_id = u.id
-                ORDER BY c.created_at DESC
-                """
-            )
-        else:
-            cur.execute(
-                """
-                SELECT c.* 
-                FROM t_p52877782_legal_services_nsk.cases c
-                WHERE c.client_id = %s
-                ORDER BY c.created_at DESC
-                """,
-                (user_id,)
-            )
+    try:
+        headers = event.get('headers', {})
+        auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
         
-        cases = cur.fetchall()
+        print(f'GET DATA REQUEST: type={event.get("queryStringParameters", {}).get("type")}')
         
-        result = [{
-            'id': str(c['id']),
-            'title': c['title'],
-            'description': c['description'],
-            'status': c['status'],
-            'priority': c['priority'],
-            'category': c['category'],
-            'price': float(c['price']) if c['price'] else 0,
-            'progress': c['progress'] or 0,
-            'created_at': c['created_at'].isoformat() if c['created_at'] else None,
-            'client_name': c.get('client_name'),
-            'client_email': c.get('client_email'),
-            'client_phone': c.get('client_phone'),
-            'hearing_date': c['hearing_date'].isoformat() if c.get('hearing_date') else None,
-            'hearing_result': c.get('hearing_result'),
-            'next_hearing_date': c['next_hearing_date'].isoformat() if c.get('next_hearing_date') else None,
-            'lawyer_name': 'Юрист'
-        } for c in cases]
+        if not auth_token:
+            print('ERROR: No auth token')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Unauthorized'}),
+                'isBase64Encoded': False
+            }
         
-        cur.close()
-        conn.close()
+        try:
+            decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
+            user_id = decoded.get('user_id')
+            print(f'Decoded JWT: user_id={user_id}')
+        except jwt.ExpiredSignatureError:
+            print('ERROR: Token expired')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Token expired'}),
+                'isBase64Encoded': False
+            }
+        except Exception as jwt_err:
+            print(f'ERROR: Invalid token - {str(jwt_err)}')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Invalid token'}),
+                'isBase64Encoded': False
+            }
         
-        return {
-            'statusCode': 200,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps(result),
-            'isBase64Encoded': False
-        }
-    
-    elif request_type == 'clients':
-        if user['role'] not in ['lawyer', 'admin']:
+        conn = psycopg2.connect(DSN)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        
+        cur.execute(
+            "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s",
+            (user_id,)
+        )
+        user = cur.fetchone()
+        
+        if not user:
             cur.close()
             conn.close()
             return {
@@ -467,77 +420,155 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
                 'isBase64Encoded': False
             }
         
-        cur.execute(
-            """
-            SELECT 
-                u.*,
-                COUNT(c.id) as cases_count
-            FROM t_p52877782_legal_services_nsk.users u
-            LEFT JOIN t_p52877782_legal_services_nsk.cases c ON u.id = c.client_id
-            WHERE u.role = 'client'
-            GROUP BY u.id
-            ORDER BY u.created_at DESC
-            """
-        )
-        clients = cur.fetchall()
+        query_params = event.get('queryStringParameters') or {}
+        request_type = query_params.get('type', 'cases')
         
-        result = [{
-            'id': str(cl['id']),
-            'name': cl['name'],
-            'email': cl['email'],
-            'phone': cl['phone'],
-            'created_at': cl['created_at'].isoformat() if cl['created_at'] else None,
-            'cases_count': cl['cases_count'] or 0
-        } for cl in clients]
+        if request_type == 'cases':
+            if user['role'] in ['lawyer', 'admin']:
+                cur.execute(
+                    """
+                    SELECT 
+                        c.*,
+                        u.name as client_name,
+                        u.email as client_email,
+                        u.phone as client_phone
+                    FROM t_p52877782_legal_services_nsk.cases c
+                    LEFT JOIN t_p52877782_legal_services_nsk.users u ON c.client_id = u.id
+                    ORDER BY c.created_at DESC
+                    """
+                )
+            else:
+                cur.execute(
+                    """
+                    SELECT c.* 
+                    FROM t_p52877782_legal_services_nsk.cases c
+                    WHERE c.client_id = %s
+                    ORDER BY c.created_at DESC
+                    """,
+                    (user_id,)
+                )
+            
+            cases = cur.fetchall()
+            
+            result = [{
+                'id': str(c['id']),
+                'title': c['title'],
+                'description': c['description'],
+                'status': c['status'],
+                'priority': c['priority'],
+                'category': c['category'],
+                'price': float(c['price']) if c['price'] else 0,
+                'progress': c['progress'] or 0,
+                'created_at': c['created_at'].isoformat() if c['created_at'] else None,
+                'client_name': c.get('client_name'),
+                'client_email': c.get('client_email'),
+                'client_phone': c.get('client_phone'),
+                'hearing_date': c['hearing_date'].isoformat() if c.get('hearing_date') else None,
+                'hearing_result': c.get('hearing_result'),
+                'next_hearing_date': c['next_hearing_date'].isoformat() if c.get('next_hearing_date') else None,
+                'lawyer_name': 'Юрист'
+            } for c in cases]
+            
+            cur.close()
+            conn.close()
+            
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps(result),
+                'isBase64Encoded': False
+            }
         
+        elif request_type == 'clients':
+            if user['role'] not in ['lawyer', 'admin']:
+                cur.close()
+                conn.close()
+                return {
+                    'statusCode': 403,
+                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({'error': 'Access denied'}),
+                    'isBase64Encoded': False
+                }
+            
+            cur.execute(
+                """
+                SELECT 
+                    u.*,
+                    COUNT(c.id) as cases_count
+                FROM t_p52877782_legal_services_nsk.users u
+                LEFT JOIN t_p52877782_legal_services_nsk.cases c ON u.id = c.client_id
+                WHERE u.role = 'client'
+                GROUP BY u.id
+                ORDER BY u.created_at DESC
+                """
+            )
+            clients = cur.fetchall()
+            
+            result = [{
+                'id': str(cl['id']),
+                'name': cl['name'],
+                'email': cl['email'],
+                'phone': cl['phone'],
+                'created_at': cl['created_at'].isoformat() if cl['created_at'] else None,
+                'cases_count': cl['cases_count'] or 0
+            } for cl in clients]
+            
+            cur.close()
+            conn.close()
+            
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps(result),
+                'isBase64Encoded': False
+            }
+        
+        elif request_type == 'payments':
+            cur.execute(
+                """
+                SELECT * FROM t_p52877782_legal_services_nsk.payments
+                WHERE client_id = %s
+                ORDER BY created_at DESC
+                """,
+                (user_id,)
+            )
+            payments = cur.fetchall()
+            
+            result = [{
+                'id': str(p['id']),
+                'amount': float(p['amount']),
+                'description': p['description'],
+                'status': p['status'],
+                'created_at': p['created_at'].isoformat() if p['created_at'] else None
+            } for p in payments]
+            
+            cur.close()
+            conn.close()
+            
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps(result),
+                'isBase64Encoded': False
+            }
+    
         cur.close()
         conn.close()
         
         return {
-            'statusCode': 200,
+            'statusCode': 400,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps(result),
+            'body': json.dumps({'error': 'Invalid request type'}),
             'isBase64Encoded': False
         }
-    
-    elif request_type == 'payments':
-        cur.execute(
-            """
-            SELECT * FROM t_p52877782_legal_services_nsk.payments
-            WHERE client_id = %s
-            ORDER BY created_at DESC
-            """,
-            (user_id,)
-        )
-        payments = cur.fetchall()
-        
-        result = [{
-            'id': str(p['id']),
-            'amount': float(p['amount']),
-            'description': p['description'],
-            'status': p['status'],
-            'created_at': p['created_at'].isoformat() if p['created_at'] else None
-        } for p in payments]
-        
-        cur.close()
-        conn.close()
-        
+    except Exception as e:
+        print(f'EXCEPTION in handle_get_data: {type(e).__name__} - {str(e)}')
         return {
-            'statusCode': 200,
+            'statusCode': 500,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps(result),
+            'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
         }
-    
-    cur.close()
-    conn.close()
-    
-    return {
-        'statusCode': 400,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'error': 'Invalid request type'}),
-        'isBase64Encoded': False
-    }
 
 
 def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
