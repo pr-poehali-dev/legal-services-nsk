@@ -677,75 +677,98 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
 
 
 def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
-    headers = event.get('headers', {})
-    auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
-    
-    if not auth_token:
-        return {
-            'statusCode': 401,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Unauthorized'}),
-            'isBase64Encoded': False
-        }
-    
-    conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-    
-    user_id = auth_token.split(':')[0] if ':' in auth_token else auth_token
-    
-    cur.execute(
-        "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role IN ('lawyer', 'admin')",
-        (user_id,)
-    )
-    user = cur.fetchone()
-    
-    if not user:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 403,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Access denied'}),
-            'isBase64Encoded': False
-        }
-    
-    client_id = body.get('client_id')
-    title = body.get('title', '')
-    description = body.get('description', '')
-    category = body.get('category', '')
-    priority = body.get('priority', 'medium')
-    price = body.get('price', 0)
-    
-    if not client_id or not title:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'client_id and title required'}),
-            'isBase64Encoded': False
-        }
-    
-    cur.execute(
-        """
-        INSERT INTO t_p52877782_legal_services_nsk.cases 
-        (client_id, lawyer_id, title, description, category, priority, price, status)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, 'pending')
-        RETURNING *
-        """,
-        (client_id, user_id, title, description, category, priority, price)
-    )
-    new_case = cur.fetchone()
-    conn.commit()
-    
-    cur.execute(
-        "SELECT phone FROM t_p52877782_legal_services_nsk.users WHERE id = %s",
-        (client_id,)
-    )
-    client = cur.fetchone()
-    
-    if client and client['phone']:
-        whatsapp_msg = f"""📋 *Новое дело создано*
+    try:
+        headers = event.get('headers', {})
+        auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
+        
+        print(f'CREATE CASE REQUEST: title={body.get("title")}, client_id={body.get("client_id")}')
+        
+        if not auth_token:
+            print('ERROR: No auth token')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Unauthorized'}),
+                'isBase64Encoded': False
+            }
+        
+        try:
+            decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
+            user_id = decoded.get('user_id')
+            print(f'Decoded JWT: user_id={user_id}')
+        except jwt.ExpiredSignatureError:
+            print('ERROR: Token expired')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Token expired'}),
+                'isBase64Encoded': False
+            }
+        except Exception as jwt_err:
+            print(f'ERROR: Invalid token - {str(jwt_err)}')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Invalid token'}),
+                'isBase64Encoded': False
+            }
+        
+        conn = psycopg2.connect(DSN)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        
+        cur.execute(
+            "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role IN ('lawyer', 'admin')",
+            (user_id,)
+        )
+        user = cur.fetchone()
+        
+        if not user:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 403,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Access denied'}),
+                'isBase64Encoded': False
+            }
+        
+        client_id = body.get('client_id')
+        title = body.get('title', '')
+        description = body.get('description', '')
+        category = body.get('category', '')
+        priority = body.get('priority', 'medium')
+        price = body.get('price', 0)
+        
+        if not client_id or not title:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'client_id and title required'}),
+                'isBase64Encoded': False
+            }
+        
+        cur.execute(
+            """
+            INSERT INTO t_p52877782_legal_services_nsk.cases 
+            (client_id, lawyer_id, title, description, category, priority, price, status)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, 'pending')
+            RETURNING *
+            """,
+            (client_id, user_id, title, description, category, priority, price)
+        )
+        new_case = cur.fetchone()
+        conn.commit()
+        
+        cur.execute(
+            "SELECT phone FROM t_p52877782_legal_services_nsk.users WHERE id = %s",
+            (client_id,)
+        )
+        client = cur.fetchone()
+        
+        if client and client['phone']:
+            whatsapp_msg = f"""📋 *Новое дело создано*
 
 Тема: {title}
 Описание: {description}
@@ -753,28 +776,38 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
 Статус: В ожидании
 
 Ваш юрист свяжется с вами в ближайшее время."""
+            
+            send_whatsapp(client['phone'], whatsapp_msg)
+            
+            cur.execute(
+                """
+                INSERT INTO t_p52877782_legal_services_nsk.whatsapp_notifications
+                (case_id, client_id, message, notification_type)
+                VALUES (%s, %s, %s, 'case_created')
+                """,
+                (new_case['id'], client_id, whatsapp_msg)
+            )
+            conn.commit()
         
-        send_whatsapp(client['phone'], whatsapp_msg)
+        print(f'SUCCESS: Case created with id={new_case["id"]}')
         
-        cur.execute(
-            """
-            INSERT INTO t_p52877782_legal_services_nsk.whatsapp_notifications
-            (case_id, client_id, message, notification_type)
-            VALUES (%s, %s, %s, 'case_created')
-            """,
-            (new_case['id'], client_id, whatsapp_msg)
-        )
-        conn.commit()
-    
-    cur.close()
-    conn.close()
-    
-    return {
-        'statusCode': 201,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'id': str(new_case['id']), 'message': 'Case created'}),
-        'isBase64Encoded': False
-    }
+        cur.close()
+        conn.close()
+        
+        return {
+            'statusCode': 201,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'id': str(new_case['id']), 'message': 'Case created'}),
+            'isBase64Encoded': False
+        }
+    except Exception as e:
+        print(f'EXCEPTION in handle_create_case: {type(e).__name__} - {str(e)}')
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': f'Server error: {str(e)}'}),
+            'isBase64Encoded': False
+        }
 
 
 def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
