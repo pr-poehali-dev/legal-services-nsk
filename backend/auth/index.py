@@ -16,9 +16,11 @@ import uuid
 import random
 import string
 import requests
+import jwt
 
 DSN = os.environ.get('DATABASE_URL', '')
 SMSRU_API_KEY = os.environ.get('SMSRU_API_KEY', '')
+JWT_SECRET = os.environ.get('JWT_SECRET', 'fallback-secret-key')
 
 
 def generate_code() -> str:
@@ -554,10 +556,29 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
                 'isBase64Encoded': False
             }
         
+        try:
+            decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
+            user_id = decoded.get('user_id')
+            print(f'Decoded JWT: user_id={user_id}')
+        except jwt.ExpiredSignatureError:
+            print('ERROR: Token expired')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Token expired'}),
+                'isBase64Encoded': False
+            }
+        except Exception as jwt_err:
+            print(f'ERROR: Invalid token - {str(jwt_err)}')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Invalid token'}),
+                'isBase64Encoded': False
+            }
+        
         conn = psycopg2.connect(DSN)
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        
-        user_id = auth_token.split(':')[0] if ':' in auth_token else auth_token
         
         cur.execute(
             "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role IN ('lawyer', 'admin')",
