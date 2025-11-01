@@ -54,6 +54,7 @@ const LawyerDashboard = () => {
   const loadData = async () => {
     try {
       const token = localStorage.getItem('auth_token');
+      console.log('🔄 Loading data... token:', token ? 'exists' : 'missing');
       
       const [casesRes, clientsRes] = await Promise.all([
         fetch(`${API_URL}?type=cases`, {
@@ -63,6 +64,8 @@ const LawyerDashboard = () => {
           headers: { 'X-Auth-Token': token || '' }
         })
       ]);
+      
+      console.log('📡 API responses:', { casesStatus: casesRes.status, clientsStatus: clientsRes.status });
 
       if (casesRes.ok) {
         const casesData = await casesRes.json();
