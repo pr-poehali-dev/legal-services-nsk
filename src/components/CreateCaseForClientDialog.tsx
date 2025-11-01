@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
+import CreateClientDialog from './CreateClientDialog';
 
 interface CreateCaseForClientDialogProps {
   open: boolean;
@@ -19,6 +20,8 @@ const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841
 
 const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess }: CreateCaseForClientDialogProps) => {
   const [loading, setLoading] = useState(false);
+  const [createClientOpen, setCreateClientOpen] = useState(false);
+  const [localClients, setLocalClients] = useState(clients);
   const [formData, setFormData] = useState({
     client_id: '',
     title: '',
@@ -27,6 +30,12 @@ const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess }: C
     priority: 'medium',
     price: 0
   });
+
+  const handleNewClient = (newClient: any) => {
+    setLocalClients([...localClients, newClient]);
+    setFormData({ ...formData, client_id: newClient.id });
+    toast.success('Клиент добавлен в список');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,13 +98,25 @@ const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess }: C
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="client">Клиент *</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="client">Клиент *</Label>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setCreateClientOpen(true)}
+                disabled={loading}
+              >
+                <Icon name="UserPlus" className="h-4 w-4 mr-1" />
+                Новый клиент
+              </Button>
+            </div>
             <Select value={formData.client_id} onValueChange={(value) => setFormData({ ...formData, client_id: value })}>
               <SelectTrigger>
                 <SelectValue placeholder="Выберите клиента" />
               </SelectTrigger>
               <SelectContent>
-                {clients.map((client) => (
+                {localClients.map((client) => (
                   <SelectItem key={client.id} value={client.id}>
                     {client.name} {client.phone && `(${client.phone})`}
                   </SelectItem>
@@ -192,6 +213,12 @@ const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess }: C
           </div>
         </form>
       </DialogContent>
+
+      <CreateClientDialog
+        open={createClientOpen}
+        onOpenChange={setCreateClientOpen}
+        onSuccess={handleNewClient}
+      />
     </Dialog>
   );
 };
