@@ -41,7 +41,7 @@ interface Client {
   total_debt: number;
 }
 
-const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
+const API_URL = 'https://functions.poehali.dev/45070852-d041-47e0-b7d4-1036ea1c8dc2';
 
 const ClientCard = () => {
   const { id } = useParams<{ id: string }>();
