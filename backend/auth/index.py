@@ -480,6 +480,7 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             }
         
         elif request_type == 'clients':
+            print(f'CLIENTS REQUEST from user role={user["role"]}')
             if user['role'] not in ['lawyer', 'admin']:
                 cur.close()
                 conn.close()
@@ -503,6 +504,7 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
                 """
             )
             clients = cur.fetchall()
+            print(f'SUCCESS: Loaded {len(clients)} clients from database')
             
             result = [{
                 'id': str(cl['id']),
@@ -513,6 +515,7 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
                 'cases_count': cl['cases_count'] or 0
             } for cl in clients]
             
+            print(f'RESPONSE: Returning {len(result)} clients')
             cur.close()
             conn.close()
             
