@@ -539,101 +539,120 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
-    headers = event.get('headers', {})
-    auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
-    
-    if not auth_token:
-        return {
-            'statusCode': 401,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Unauthorized'}),
-            'isBase64Encoded': False
-        }
-    
-    conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-    
-    user_id = auth_token.split(':')[0] if ':' in auth_token else auth_token
-    
-    cur.execute(
-        "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role IN ('lawyer', 'admin')",
-        (user_id,)
-    )
-    user = cur.fetchone()
-    
-    if not user:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 403,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Access denied'}),
-            'isBase64Encoded': False
-        }
-    
-    name = body.get('name', '').strip()
-    phone = body.get('phone', '').strip()
-    email = body.get('email', '').strip()
-    
-    if not name or not phone:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Name and phone are required'}),
-            'isBase64Encoded': False
-        }
-    
-    cur.execute(
-        "SELECT id FROM t_p52877782_legal_services_nsk.users WHERE phone = %s",
-        (phone,)
-    )
-    existing_user = cur.fetchone()
-    
-    if existing_user:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Клиент с таким телефоном уже существует'}),
-            'isBase64Encoded': False
-        }
-    
-    if not email:
-        email = f'{phone}@temp.local'
-    
-    cur.execute(
-        """
-        INSERT INTO t_p52877782_legal_services_nsk.users 
-        (name, phone, email, password_hash, role)
-        VALUES (%s, %s, %s, 'sms_auth', 'client')
-        RETURNING id, name, phone, email, created_at
-        """,
-        (name, phone, email)
-    )
-    new_client = cur.fetchone()
-    conn.commit()
-    
-    cur.close()
-    conn.close()
-    
-    return {
-        'statusCode': 201,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({
-            'client': {
-                'id': str(new_client['id']),
-                'name': new_client['name'],
-                'phone': new_client['phone'],
-                'email': new_client['email'],
-                'created_at': new_client['created_at'].isoformat() if new_client['created_at'] else None,
-                'cases_count': 0
+    try:
+        headers = event.get('headers', {})
+        auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
+        
+        print(f'CREATE CLIENT REQUEST: action={body.get("action")}, name={body.get("name")}, phone={body.get("phone")}')
+        
+        if not auth_token:
+            print('ERROR: No auth token')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Unauthorized'}),
+                'isBase64Encoded': False
             }
-        }),
-        'isBase64Encoded': False
-    }
+        
+        conn = psycopg2.connect(DSN)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        
+        user_id = auth_token.split(':')[0] if ':' in auth_token else auth_token
+        
+        cur.execute(
+            "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role IN ('lawyer', 'admin')",
+            (user_id,)
+        )
+        user = cur.fetchone()
+        
+        if not user:
+            print(f'ERROR: User {user_id} not found or not lawyer/admin')
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 403,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Access denied'}),
+                'isBase64Encoded': False
+            }
+        
+        name = body.get('name', '').strip()
+        phone = body.get('phone', '').strip()
+        email = body.get('email', '').strip()
+        
+        if not name or not phone:
+            print(f'ERROR: Missing name or phone: name={name}, phone={phone}')
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Name and phone are required'}),
+                'isBase64Encoded': False
+            }
+        
+        cur.execute(
+            "SELECT id FROM t_p52877782_legal_services_nsk.users WHERE phone = %s",
+            (phone,)
+        )
+        existing_user = cur.fetchone()
+        
+        if existing_user:
+            print(f'ERROR: Phone {phone} already exists')
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Клиент с таким телефоном уже существует'}),
+                'isBase64Encoded': False
+            }
+        
+        if not email:
+            email = f'{phone}@temp.local'
+        
+        print(f'Creating client: name={name}, phone={phone}, email={email}')
+        
+        cur.execute(
+            """
+            INSERT INTO t_p52877782_legal_services_nsk.users 
+            (name, phone, email, password_hash, role)
+            VALUES (%s, %s, %s, 'sms_auth', 'client')
+            RETURNING id, name, phone, email, created_at
+            """,
+            (name, phone, email)
+        )
+        new_client = cur.fetchone()
+        conn.commit()
+        
+        print(f'SUCCESS: Client created with id={new_client["id"]}')
+        
+        cur.close()
+        conn.close()
+        
+        return {
+            'statusCode': 201,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({
+                'client': {
+                    'id': str(new_client['id']),
+                    'name': new_client['name'],
+                    'phone': new_client['phone'],
+                    'email': new_client['email'],
+                    'created_at': new_client['created_at'].isoformat() if new_client['created_at'] else None,
+                    'cases_count': 0
+                }
+            }),
+            'isBase64Encoded': False
+        }
+    except Exception as e:
+        print(f'EXCEPTION in handle_create_client: {type(e).__name__} - {str(e)}')
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': f'Server error: {str(e)}'}),
+            'isBase64Encoded': False
+        }
 
 
 def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
