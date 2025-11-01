@@ -46,8 +46,12 @@ const LawyerDashboard = () => {
   const [createCaseDialogOpen, setCreateCaseDialogOpen] = useState(false);
 
   useEffect(() => {
+    console.log('👤 Auth state:', { isAuthenticated, role: user?.role });
     if (isAuthenticated && (user?.role === 'lawyer' || user?.role === 'admin')) {
+      console.log('✅ Auth OK, loading data...');
       loadData();
+    } else {
+      console.log('❌ Auth failed or wrong role');
     }
   }, [isAuthenticated, user]);
 
