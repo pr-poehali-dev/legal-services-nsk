@@ -159,6 +159,16 @@ const LawyerDashboard = () => {
   const pendingCases = cases.filter(c => c.status === 'pending').length;
   const completedCases = cases.filter(c => c.status === 'completed').length;
 
+  if (!isAuthenticated || !user) {
+    console.log('🚫 Not authenticated, redirecting...');
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.role !== 'lawyer' && user.role !== 'admin') {
+    console.log('🚫 Wrong role:', user.role);
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-8">
