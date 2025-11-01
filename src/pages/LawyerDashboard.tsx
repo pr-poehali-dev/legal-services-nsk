@@ -44,6 +44,8 @@ const LawyerDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [editingCase, setEditingCase] = useState<Case | null>(null);
   const [createCaseDialogOpen, setCreateCaseDialogOpen] = useState(false);
+  
+  console.log('🔵 LawyerDashboard mounted');
 
   useEffect(() => {
     console.log('👤 Auth state:', { isAuthenticated, role: user?.role });
