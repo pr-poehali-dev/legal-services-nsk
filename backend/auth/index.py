@@ -914,6 +914,11 @@ def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
                 'isBase64Encoded': False
             }
         
+        if table == 'users':
+            cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.whatsapp_notifications WHERE client_id = '{record_id}'")
+            cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.payments WHERE client_id = '{record_id}'")
+            cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.cases WHERE client_id = '{record_id}'")
+        
         cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.{table} WHERE id = '{record_id}'")
         
         print(f'SUCCESS: Deleted {table} record {record_id}')
