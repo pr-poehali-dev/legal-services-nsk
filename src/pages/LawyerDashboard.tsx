@@ -74,10 +74,10 @@ const LawyerDashboard = () => {
 
       if (clientsRes.ok) {
         const clientsData = await clientsRes.json();
-        console.log('Clients loaded:', clientsData);
+        console.log('✅ Clients loaded:', clientsData, 'Total:', Array.isArray(clientsData) ? clientsData.length : 0);
         setClients(Array.isArray(clientsData) ? clientsData : []);
       } else {
-        console.error('Clients load failed:', clientsRes.status, await clientsRes.text());
+        console.error('❌ Clients load failed:', clientsRes.status, await clientsRes.text());
       }
     } catch (error) {
       console.error('Ошибка загрузки данных:', error);

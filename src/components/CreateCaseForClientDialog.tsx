@@ -32,9 +32,11 @@ const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess, onC
   });
 
   const handleNewClient = (newClient: any) => {
+    console.log('🆕 New client created:', newClient);
     setFormData({ ...formData, client_id: newClient.id });
     toast.success('Клиент добавлен');
     if (onClientCreated) {
+      console.log('🔄 Reloading clients list...');
       onClientCreated();
     }
   };
