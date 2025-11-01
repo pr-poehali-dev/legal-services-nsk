@@ -222,7 +222,8 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     
     user_id, user_phone, user_name, user_email, user_role, user_created = user_row
     
-    token = str(user_id)
+    token = str(uuid.uuid4())
+    cur.execute(f"UPDATE t_p52877782_legal_services_nsk.users SET auth_token = '{token}' WHERE id = '{user_id}'")
     
     result = {
         'token': token,
@@ -341,7 +342,8 @@ def handle_sms_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     
     user_id, user_phone, user_name, user_email, user_role, user_created = user_row
     
-    token = str(user_id)
+    token = str(uuid.uuid4())
+    cur.execute(f"UPDATE t_p52877782_legal_services_nsk.users SET auth_token = '{token}' WHERE id = '{user_id}'")
     
     result = {
         'token': token,
@@ -1302,7 +1304,14 @@ def handle_login(body: Dict[str, Any]) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    token = str(user['id'])
+    token = str(uuid.uuid4())
+    
+    conn2 = psycopg2.connect(DSN)
+    cursor2 = conn2.cursor()
+    cursor2.execute(f"UPDATE t_p52877782_legal_services_nsk.users SET auth_token = '{token}' WHERE id = '{user['id']}'")
+    conn2.commit()
+    cursor2.close()
+    conn2.close()
     
     return {
         'statusCode': 200,
