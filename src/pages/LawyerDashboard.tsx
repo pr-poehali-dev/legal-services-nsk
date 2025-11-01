@@ -401,6 +401,7 @@ const LawyerDashboard = () => {
           onOpenChange={setCreateCaseDialogOpen}
           clients={clients}
           onSuccess={loadData}
+          onClientCreated={loadData}
         />
       </div>
     </div>

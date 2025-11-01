@@ -14,14 +14,14 @@ interface CreateCaseForClientDialogProps {
   onOpenChange: (open: boolean) => void;
   clients: any[];
   onSuccess: () => void;
+  onClientCreated?: () => void;
 }
 
 const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
 
-const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess }: CreateCaseForClientDialogProps) => {
+const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess, onClientCreated }: CreateCaseForClientDialogProps) => {
   const [loading, setLoading] = useState(false);
   const [createClientOpen, setCreateClientOpen] = useState(false);
-  const [localClients, setLocalClients] = useState(clients);
   const [formData, setFormData] = useState({
     client_id: '',
     title: '',
@@ -32,9 +32,11 @@ const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess }: C
   });
 
   const handleNewClient = (newClient: any) => {
-    setLocalClients([...localClients, newClient]);
     setFormData({ ...formData, client_id: newClient.id });
-    toast.success('Клиент добавлен в список');
+    toast.success('Клиент добавлен');
+    if (onClientCreated) {
+      onClientCreated();
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -116,7 +118,7 @@ const CreateCaseForClientDialog = ({ open, onOpenChange, clients, onSuccess }: C
                 <SelectValue placeholder="Выберите клиента" />
               </SelectTrigger>
               <SelectContent>
-                {localClients.map((client) => (
+                {clients.map((client) => (
                   <SelectItem key={client.id} value={client.id}>
                     {client.name} {client.phone && `(${client.phone})`}
                   </SelectItem>
