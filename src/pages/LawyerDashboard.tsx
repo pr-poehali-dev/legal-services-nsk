@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -39,6 +39,7 @@ const API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841
 
 const LawyerDashboard = () => {
   const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
   const [cases, setCases] = useState<Case[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
@@ -384,7 +385,12 @@ const LawyerDashboard = () => {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="flex-1">
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="flex-1"
+                          onClick={() => navigate(`/lawyer/client/${client.id}`)}
+                        >
                           <Icon name="Eye" className="h-4 w-4 mr-1" />
                           Профиль
                         </Button>

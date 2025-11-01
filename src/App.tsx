@@ -34,6 +34,7 @@ const AdminPanel = lazy(() => import("@/pages/AdminPanel"));
 const Login = lazy(() => import("@/pages/Login"));
 const Register = lazy(() => import("@/pages/Register"));
 const LawyerDashboard = lazy(() => import("@/pages/LawyerDashboard"));
+const ClientCard = lazy(() => import("@/pages/ClientCard"));
 const ClientLogin = lazy(() => import("@/pages/ClientLogin"));
 const ClientDashboard = lazy(() => import("@/pages/ClientDashboard"));
 const Sitemap = lazy(() => import("@/pages/Sitemap"));
@@ -74,6 +75,7 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/lawyer" element={<LawyerDashboard />} />
+                        <Route path="/lawyer/client/:id" element={<ClientCard />} />
                         <Route path="/client/login" element={<ClientLogin />} />
                         <Route path="/client/cabinet" element={<ClientDashboard />} />
                         <Route path="/sitemap.xml" element={<Sitemap />} />

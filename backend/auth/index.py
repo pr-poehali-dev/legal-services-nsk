@@ -104,6 +104,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             return handle_create_client(event, body)
         elif action == 'create_case':
             return handle_create_case(event, body)
+        elif action == 'add_interaction':
+            return handle_add_interaction(event, body)
     
     elif method == 'GET':
         return handle_get_data(event)
@@ -516,6 +518,124 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             } for cl in clients]
             
             print(f'RESPONSE: Returning {len(result)} clients')
+            cur.close()
+            conn.close()
+            
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps(result),
+                'isBase64Encoded': False
+            }
+        
+        elif request_type == 'client_detail':
+            if user['role'] not in ['lawyer', 'admin']:
+                cur.close()
+                conn.close()
+                return {
+                    'statusCode': 403,
+                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({'error': 'Access denied'}),
+                    'isBase64Encoded': False
+                }
+            
+            client_id = query_params.get('client_id')
+            if not client_id:
+                cur.close()
+                conn.close()
+                return {
+                    'statusCode': 400,
+                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({'error': 'client_id required'}),
+                    'isBase64Encoded': False
+                }
+            
+            cur.execute(
+                "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role = 'client'",
+                (client_id,)
+            )
+            client = cur.fetchone()
+            
+            if not client:
+                cur.close()
+                conn.close()
+                return {
+                    'statusCode': 404,
+                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({'error': 'Client not found'}),
+                    'isBase64Encoded': False
+                }
+            
+            cur.execute(
+                """
+                SELECT 
+                    c.*,
+                    u.name as client_name,
+                    u.email as client_email,
+                    u.phone as client_phone
+                FROM t_p52877782_legal_services_nsk.cases c
+                LEFT JOIN t_p52877782_legal_services_nsk.users u ON c.client_id = u.id
+                WHERE c.client_id = %s
+                ORDER BY c.created_at DESC
+                """,
+                (client_id,)
+            )
+            cases = cur.fetchall()
+            
+            cur.execute(
+                """
+                SELECT 
+                    i.*,
+                    u.name as created_by_name
+                FROM t_p52877782_legal_services_nsk.interactions i
+                LEFT JOIN t_p52877782_legal_services_nsk.users u ON i.created_by = u.id
+                WHERE i.client_id = %s
+                ORDER BY i.created_at DESC
+                """,
+                (client_id,)
+            )
+            interactions = cur.fetchall()
+            
+            cur.execute(
+                """
+                SELECT 
+                    COALESCE(SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END), 0) as total_paid,
+                    COALESCE(SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END), 0) as total_debt
+                FROM t_p52877782_legal_services_nsk.payments
+                WHERE client_id = %s
+                """,
+                (client_id,)
+            )
+            financial = cur.fetchone()
+            
+            result = {
+                'id': str(client['id']),
+                'name': client['name'],
+                'email': client['email'],
+                'phone': client['phone'],
+                'created_at': client['created_at'].isoformat() if client['created_at'] else None,
+                'cases': [{
+                    'id': str(c['id']),
+                    'title': c['title'],
+                    'description': c['description'],
+                    'status': c['status'],
+                    'priority': c['priority'],
+                    'category': c['category'],
+                    'price': float(c['price']) if c['price'] else 0,
+                    'progress': c['progress'] or 0,
+                    'created_at': c['created_at'].isoformat() if c['created_at'] else None
+                } for c in cases],
+                'interactions': [{
+                    'id': str(i['id']),
+                    'type': i['type'],
+                    'description': i['description'],
+                    'created_at': i['created_at'].isoformat() if i['created_at'] else None,
+                    'created_by': i.get('created_by_name', 'Юрист')
+                } for i in interactions],
+                'total_paid': float(financial['total_paid']) if financial else 0,
+                'total_debt': float(financial['total_debt']) if financial else 0
+            }
+            
             cur.close()
             conn.close()
             
@@ -1293,6 +1413,92 @@ def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
         }),
         'isBase64Encoded': False
     }
+
+
+def handle_add_interaction(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
+    try:
+        headers = event.get('headers', {})
+        auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
+        
+        if not auth_token:
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Unauthorized'}),
+                'isBase64Encoded': False
+            }
+        
+        try:
+            decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
+            user_id = decoded.get('user_id')
+        except:
+            user_id = auth_token.split(':')[0] if ':' in auth_token else auth_token
+        
+        conn = psycopg2.connect(DSN)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        
+        cur.execute(
+            "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s",
+            (user_id,)
+        )
+        user = cur.fetchone()
+        
+        if not user or user['role'] not in ['lawyer', 'admin']:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 403,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Access denied'}),
+                'isBase64Encoded': False
+            }
+        
+        client_id = body.get('client_id')
+        interaction_type = body.get('type', 'note')
+        description = body.get('description', '').strip()
+        
+        if not client_id or not description:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'client_id and description required'}),
+                'isBase64Encoded': False
+            }
+        
+        cur.execute(
+            """
+            INSERT INTO t_p52877782_legal_services_nsk.interactions 
+            (client_id, type, description, created_by)
+            VALUES (%s, %s, %s, %s)
+            RETURNING id, created_at
+            """,
+            (client_id, interaction_type, description, user_id)
+        )
+        new_interaction = cur.fetchone()
+        conn.commit()
+        
+        cur.close()
+        conn.close()
+        
+        return {
+            'statusCode': 201,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({
+                'id': str(new_interaction['id']),
+                'created_at': new_interaction['created_at'].isoformat() if new_interaction['created_at'] else None
+            }),
+            'isBase64Encoded': False
+        }
+    except Exception as e:
+        print(f'EXCEPTION in handle_add_interaction: {type(e).__name__} - {str(e)}')
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': f'Server error: {str(e)}'}),
+            'isBase64Encoded': False
+        }
 
 
 def handle_verify(event: Dict[str, Any]) -> Dict[str, Any]:
