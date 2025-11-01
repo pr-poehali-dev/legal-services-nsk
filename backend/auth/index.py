@@ -843,214 +843,283 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
 
 def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
     """Удаление записей из различных таблиц"""
-    token = event.get('headers', {}).get('x-auth-token', '')
-    params = event.get('queryStringParameters', {})
-    table = params.get('table', '').replace("'", "''")
-    record_id = params.get('id', '').replace("'", "''")
-    
-    if not token or not table or not record_id:
-        return {
-            'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Missing parameters'}),
-            'isBase64Encoded': False
-        }
-    
-    conn = psycopg2.connect(DSN)
-    conn.autocommit = True
-    cur = conn.cursor()
-    
-    # Проверка прав доступа
-    cur.execute(f"SELECT role FROM t_p52877782_legal_services_nsk.users WHERE id = '{token}'")
-    row = cur.fetchone()
-    if not row or row[0] not in ['admin', 'lawyer']:
+    try:
+        headers = event.get('headers', {})
+        auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
+        params = event.get('queryStringParameters', {})
+        table = params.get('table', '').replace("'", "''")
+        record_id = params.get('id', '').replace("'", "''")
+        
+        print(f'DELETE REQUEST: table={table}, id={record_id}')
+        
+        if not auth_token or not table or not record_id:
+            print(f'ERROR: Missing params - token={bool(auth_token)}, table={table}, id={record_id}')
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Missing parameters'}),
+                'isBase64Encoded': False
+            }
+        
+        try:
+            decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
+            user_id = decoded.get('user_id')
+            print(f'Decoded JWT: user_id={user_id}')
+        except jwt.ExpiredSignatureError:
+            print('ERROR: Token expired')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Token expired'}),
+                'isBase64Encoded': False
+            }
+        except Exception as jwt_err:
+            print(f'ERROR: Invalid token - {str(jwt_err)}')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Invalid token'}),
+                'isBase64Encoded': False
+            }
+        
+        conn = psycopg2.connect(DSN)
+        conn.autocommit = True
+        cur = conn.cursor()
+        
+        cur.execute(
+            "SELECT role FROM t_p52877782_legal_services_nsk.users WHERE id = %s",
+            (user_id,)
+        )
+        row = cur.fetchone()
+        if not row or row[0] not in ['admin', 'lawyer']:
+            print(f'ERROR: Access denied for user {user_id}')
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 403,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Unauthorized'}),
+                'isBase64Encoded': False
+            }
+        
+        allowed_tables = ['cases', 'users', 'blog_posts', 'blog_comments', 'auth_codes', 'payments', 'whatsapp_notifications']
+        if table not in allowed_tables:
+            print(f'ERROR: Invalid table {table}')
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Invalid table'}),
+                'isBase64Encoded': False
+            }
+        
+        cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.{table} WHERE id = '{record_id}'")
+        
+        print(f'SUCCESS: Deleted {table} record {record_id}')
+        
         cur.close()
         conn.close()
+        
         return {
-            'statusCode': 403,
+            'statusCode': 200,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Unauthorized'}),
+            'body': json.dumps({'success': True, 'message': 'Record deleted'}),
             'isBase64Encoded': False
         }
-    
-    # Разрешенные таблицы для удаления
-    allowed_tables = ['cases', 'users', 'blog_posts', 'blog_comments', 'auth_codes', 'payments', 'whatsapp_notifications']
-    if table not in allowed_tables:
-        cur.close()
-        conn.close()
+    except Exception as e:
+        print(f'EXCEPTION in handle_delete: {type(e).__name__} - {str(e)}')
         return {
-            'statusCode': 400,
+            'statusCode': 500,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Invalid table'}),
+            'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
         }
-    
-    # Удаление записи
-    cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.{table} WHERE id = '{record_id}'")
-    
-    cur.close()
-    conn.close()
-    
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'success': True, 'message': 'Record deleted'}),
-        'isBase64Encoded': False
-    }
 
 
 def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
-    headers = event.get('headers', {})
-    auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
-    
-    if not auth_token:
-        return {
-            'statusCode': 401,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Unauthorized'}),
-            'isBase64Encoded': False
-        }
-    
-    conn = psycopg2.connect(DSN)
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-    
-    user_id = auth_token.split(':')[0] if ':' in auth_token else auth_token
-    
-    cur.execute(
-        "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role IN ('lawyer', 'admin')",
-        (user_id,)
-    )
-    user = cur.fetchone()
-    
-    if not user:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 403,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Access denied'}),
-            'isBase64Encoded': False
-        }
-    
-    case_id = body.get('case_id')
-    
-    if not case_id:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'case_id required'}),
-            'isBase64Encoded': False
-        }
-    
-    cur.execute(
+    try:
+        headers = event.get('headers', {})
+        auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
+        
+        print(f'UPDATE CASE REQUEST: case_id={body.get("case_id")}')
+        
+        if not auth_token:
+            print('ERROR: No auth token')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Unauthorized'}),
+                'isBase64Encoded': False
+            }
+        
+        try:
+            decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
+            user_id = decoded.get('user_id')
+            print(f'Decoded JWT: user_id={user_id}')
+        except jwt.ExpiredSignatureError:
+            print('ERROR: Token expired')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Token expired'}),
+                'isBase64Encoded': False
+            }
+        except Exception as jwt_err:
+            print(f'ERROR: Invalid token - {str(jwt_err)}')
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Invalid token'}),
+                'isBase64Encoded': False
+            }
+        
+        conn = psycopg2.connect(DSN)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        
+        cur.execute(
+            "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role IN ('lawyer', 'admin')",
+            (user_id,)
+        )
+        user = cur.fetchone()
+        
+        if not user:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 403,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Access denied'}),
+                'isBase64Encoded': False
+            }
+        
+        case_id = body.get('case_id')
+        
+        if not case_id:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'case_id required'}),
+                'isBase64Encoded': False
+            }
+        
+        cur.execute(
+            """
+            SELECT c.*, u.phone as client_phone 
+            FROM t_p52877782_legal_services_nsk.cases c
+            LEFT JOIN t_p52877782_legal_services_nsk.users u ON c.client_id = u.id
+            WHERE c.id = %s
+            """,
+            (case_id,)
+        )
+        old_case = cur.fetchone()
+        
+        if not old_case:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 404,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Case not found'}),
+                'isBase64Encoded': False
+            }
+        
+        updates = []
+        params = []
+        
+        for field in ['title', 'description', 'status', 'priority', 'category', 'progress']:
+            if field in body:
+                updates.append(f"{field} = %s")
+                params.append(body[field])
+        
+        if 'price' in body:
+            updates.append("price = %s")
+            params.append(float(body['price']))
+        
+        hearing_date_changed = False
+        if 'hearing_date' in body:
+            updates.append("hearing_date = %s")
+            params.append(body['hearing_date'] if body['hearing_date'] else None)
+            hearing_date_changed = True
+        
+        result_changed = False
+        if 'hearing_result' in body:
+            updates.append("hearing_result = %s")
+            params.append(body['hearing_result'])
+            result_changed = True
+        
+        if 'next_hearing_date' in body:
+            updates.append("next_hearing_date = %s")
+            params.append(body['next_hearing_date'] if body['next_hearing_date'] else None)
+        
+        if not updates:
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'No fields to update'}),
+                'isBase64Encoded': False
+            }
+        
+        updates.append("updated_at = CURRENT_TIMESTAMP")
+        params.append(case_id)
+        
+        query = f"""
+            UPDATE t_p52877782_legal_services_nsk.cases 
+            SET {', '.join(updates)}
+            WHERE id = %s
+            RETURNING *
         """
-        SELECT c.*, u.phone as client_phone 
-        FROM t_p52877782_legal_services_nsk.cases c
-        LEFT JOIN t_p52877782_legal_services_nsk.users u ON c.client_id = u.id
-        WHERE c.id = %s
-        """,
-        (case_id,)
-    )
-    old_case = cur.fetchone()
-    
-    if not old_case:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 404,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Case not found'}),
-            'isBase64Encoded': False
-        }
-    
-    updates = []
-    params = []
-    
-    for field in ['title', 'description', 'status', 'priority', 'category', 'progress']:
-        if field in body:
-            updates.append(f"{field} = %s")
-            params.append(body[field])
-    
-    if 'price' in body:
-        updates.append("price = %s")
-        params.append(float(body['price']))
-    
-    hearing_date_changed = False
-    if 'hearing_date' in body:
-        updates.append("hearing_date = %s")
-        params.append(body['hearing_date'] if body['hearing_date'] else None)
-        hearing_date_changed = True
-    
-    result_changed = False
-    if 'hearing_result' in body:
-        updates.append("hearing_result = %s")
-        params.append(body['hearing_result'])
-        result_changed = True
-    
-    if 'next_hearing_date' in body:
-        updates.append("next_hearing_date = %s")
-        params.append(body['next_hearing_date'] if body['next_hearing_date'] else None)
-    
-    if not updates:
-        cur.close()
-        conn.close()
-        return {
-            'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'No fields to update'}),
-            'isBase64Encoded': False
-        }
-    
-    updates.append("updated_at = CURRENT_TIMESTAMP")
-    params.append(case_id)
-    
-    query = f"""
-        UPDATE t_p52877782_legal_services_nsk.cases 
-        SET {', '.join(updates)}
-        WHERE id = %s
-        RETURNING *
-    """
-    
-    cur.execute(query, params)
-    updated_case = cur.fetchone()
-    conn.commit()
-    
-    if old_case['client_phone'] and (hearing_date_changed or result_changed):
-        messages = []
         
-        if hearing_date_changed and body.get('hearing_date'):
-            hearing_dt = datetime.fromisoformat(body['hearing_date'].replace('Z', '+00:00'))
-            formatted_date = hearing_dt.strftime('%d.%m.%Y в %H:%M')
-            messages.append(f"📅 *Назначено заседание*\n\nДело: {old_case['title']}\nДата: {formatted_date}")
-        
-        if result_changed and body.get('hearing_result'):
-            messages.append(f"✅ *Обновлён результат*\n\nДело: {old_case['title']}\nРезультат: {body['hearing_result']}")
-        
-        for msg in messages:
-            send_whatsapp(old_case['client_phone'], msg)
-            
-            cur.execute(
-                """
-                INSERT INTO t_p52877782_legal_services_nsk.whatsapp_notifications
-                (case_id, client_id, message, notification_type)
-                VALUES (%s, %s, %s, %s)
-                """,
-                (case_id, old_case['client_id'], msg, 'hearing_update' if hearing_date_changed else 'result_update')
-            )
-        
+        cur.execute(query, params)
+        updated_case = cur.fetchone()
         conn.commit()
-    
-    cur.close()
-    conn.close()
-    
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({'message': 'Case updated', 'id': str(updated_case['id'])}),
-        'isBase64Encoded': False
-    }
+        
+        if old_case['client_phone'] and (hearing_date_changed or result_changed):
+            messages = []
+            
+            if hearing_date_changed and body.get('hearing_date'):
+                hearing_dt = datetime.fromisoformat(body['hearing_date'].replace('Z', '+00:00'))
+                formatted_date = hearing_dt.strftime('%d.%m.%Y в %H:%M')
+                messages.append(f"📅 *Назначено заседание*\n\nДело: {old_case['title']}\nДата: {formatted_date}")
+            
+            if result_changed and body.get('hearing_result'):
+                messages.append(f"✅ *Обновлён результат*\n\nДело: {old_case['title']}\nРезультат: {body['hearing_result']}")
+            
+            for msg in messages:
+                send_whatsapp(old_case['client_phone'], msg)
+                
+                cur.execute(
+                    """
+                    INSERT INTO t_p52877782_legal_services_nsk.whatsapp_notifications
+                    (case_id, client_id, message, notification_type)
+                    VALUES (%s, %s, %s, %s)
+                    """,
+                    (case_id, old_case['client_id'], msg, 'hearing_update' if hearing_date_changed else 'result_update')
+                )
+            
+            conn.commit()
+        
+        cur.close()
+        conn.close()
+        
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'message': 'Case updated', 'id': str(updated_case['id'])}),
+            'isBase64Encoded': False
+        }
+    except Exception as e:
+        print(f'EXCEPTION in handle_update_case: {type(e).__name__} - {str(e)}')
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': f'Server error: {str(e)}'}),
+            'isBase64Encoded': False
+        }
 
 
 def handle_login(body: Dict[str, Any]) -> Dict[str, Any]:
