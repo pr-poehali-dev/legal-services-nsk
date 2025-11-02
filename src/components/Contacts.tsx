@@ -128,25 +128,7 @@ ${formData.message}
             Свяжитесь с нами для получения бесплатной консультации
           </p>
           
-          {/* Prominent Contact Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
-            <a
-              href="tel:+79994523500"
-              className="inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg"
-            >
-              <Icon name="Phone" size={24} />
-              +7 (999) 452-35-00
-            </a>
-            <a
-              href="https://wa.me/79994523500"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg"
-            >
-              <Icon name="MessageCircle" size={24} />
-              Написать в WhatsApp
-            </a>
-          </div>
+
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
