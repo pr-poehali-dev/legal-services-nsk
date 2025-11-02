@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import Icon from '@/components/ui/icon';
 
-const SMS_AUTH_URL = 'https://functions.poehali.dev/3435e395-e2f4-4083-b5f9-45aa97f38b94';
+const SMS_AUTH_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
 
 interface SMSAuthModalProps {
   open: boolean;
@@ -33,7 +33,7 @@ export default function SMSAuthModal({ open, onClose, onSuccess }: SMSAuthModalP
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'send',
+          action: 'sms_request_code',
           phone: phone.trim(),
         }),
       });
@@ -67,7 +67,7 @@ export default function SMSAuthModal({ open, onClose, onSuccess }: SMSAuthModalP
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'verify',
+          action: 'sms_verify_code',
           phone: phone.trim(),
           code: code.trim(),
         }),

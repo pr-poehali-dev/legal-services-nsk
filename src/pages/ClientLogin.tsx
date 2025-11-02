@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 
-const SMS_AUTH_URL = 'https://functions.poehali.dev/3435e395-e2f4-4083-b5f9-45aa97f38b94';
+const SMS_AUTH_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
 
 export default function ClientLogin() {
   const [phone, setPhone] = useState('');
@@ -34,7 +34,7 @@ export default function ClientLogin() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'send',
+          action: 'sms_request_code',
           phone: phone.startsWith('+') ? phone : `+${phone}`
         })
       });
@@ -73,7 +73,7 @@ export default function ClientLogin() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'verify',
+          action: 'sms_verify_code',
           phone: phone.startsWith('+') ? phone : `+${phone}`,
           code
         })
