@@ -26,15 +26,23 @@ export default function Promo() {
           <p className="text-xl text-muted-foreground mb-8">
             Решаем ваши правовые вопросы онлайн — быстро, прозрачно, по фиксированной цене
           </p>
-          <div className="flex gap-4 justify-center">
-            <Link to="/client/login">
-              <Button size="lg" className="text-lg px-8">
-                Получить консультацию
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="https://wa.me/79994523500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" className="text-lg px-8 bg-green-600 hover:bg-green-700">
+                <Icon name="MessageCircle" className="mr-2" size={20} />
+                Написать в WhatsApp
               </Button>
-            </Link>
-            <Button size="lg" variant="outline" className="text-lg px-8">
-              Узнать цены
-            </Button>
+            </a>
+            <a href="tel:+79994523500">
+              <Button size="lg" variant="outline" className="text-lg px-8">
+                <Icon name="Phone" className="mr-2" size={20} />
+                Позвонить
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -275,11 +283,24 @@ export default function Promo() {
           <p className="text-xl mb-8 opacity-90">
             Опишите вашу ситуацию, и мы предложим план действий с точной стоимостью
           </p>
-          <Link to="/client/login">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
-              Получить консультацию
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="https://wa.me/79994523500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" variant="secondary" className="text-lg px-8">
+                <Icon name="MessageCircle" className="mr-2" size={20} />
+                Написать в WhatsApp
+              </Button>
+            </a>
+            <a href="tel:+79994523500">
+              <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary">
+                <Icon name="Phone" className="mr-2" size={20} />
+                Позвонить
+              </Button>
+            </a>
+          </div>
           <p className="mt-4 text-sm opacity-75">
             Регистрация займёт 30 секунд
           </p>
