@@ -192,6 +192,72 @@ export default function Promo() {
         </div>
       </section>
 
+      <section className="py-16 bg-muted/20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-4">
+            Области практики
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 text-lg">
+            Помогаем в самых распространённых юридических вопросах
+          </p>
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
+              <Icon name="Car" size={32} className="text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Автоюрист</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                ДТП, споры со страховыми, лишение прав, штрафы ГИБДД
+              </p>
+              <p className="text-primary font-medium">от 5 000 ₽</p>
+            </div>
+
+            <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
+              <Icon name="Building2" size={32} className="text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Недвижимость</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                Купля-продажа, аренда, выписка, раздел имущества
+              </p>
+              <p className="text-primary font-medium">от 8 000 ₽</p>
+            </div>
+
+            <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
+              <Icon name="Users" size={32} className="text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Семейное право</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                Развод, алименты, раздел имущества, опека
+              </p>
+              <p className="text-primary font-medium">от 10 000 ₽</p>
+            </div>
+
+            <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
+              <Icon name="Briefcase" size={32} className="text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Трудовое право</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                Увольнение, невыплата зарплаты, трудовые споры
+              </p>
+              <p className="text-primary font-medium">от 7 000 ₽</p>
+            </div>
+
+            <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
+              <Icon name="Scale" size={32} className="text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Гражданские споры</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                Защита прав потребителей, долги, договоры
+              </p>
+              <p className="text-primary font-medium">от 6 000 ₽</p>
+            </div>
+
+            <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
+              <Icon name="Plane" size={32} className="text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Миграционное право</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                РВП, ВНЖ, гражданство, депортация
+              </p>
+              <p className="text-primary font-medium">от 15 000 ₽</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center max-w-3xl">
           <h2 className="text-4xl font-bold mb-6">
