@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jurservice-v1';
+const CACHE_NAME = 'jurservice-v2';
 const urlsToCache = [
   '/',
   '/index.html',

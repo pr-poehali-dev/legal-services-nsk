@@ -192,33 +192,35 @@ def generate_jwt(user_data: Dict[str, Any]) -> str:
     
     return jwt.encode(payload, jwt_secret, algorithm='HS256')
 
+def add_cors_headers(response: Dict[str, Any]) -> Dict[str, Any]:
+    """Add CORS headers to response"""
+    if 'headers' not in response:
+        response['headers'] = {}
+    response['headers']['Access-Control-Allow-Origin'] = '*'
+    response['headers']['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response['headers']['Access-Control-Allow-Headers'] = 'Content-Type, X-Auth-Token'
+    return response
+
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     method: str = event.get('httpMethod', 'POST')
     
     # Handle CORS OPTIONS
     if method == 'OPTIONS':
-        return {
+        return add_cors_headers({
             'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Max-Age': '86400'
-            },
             'body': '',
             'isBase64Encoded': False
-        }
+        })
     
     if method != 'POST':
-        return {
+        return add_cors_headers({
             'statusCode': 405,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Method not allowed'}),
             'isBase64Encoded': False
-        }
+        })
     
     # Parse request
     body_data = json.loads(event.get('body', '{}'))
@@ -226,38 +228,35 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     phone = body_data.get('phone', '').strip()
     
     if not phone:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Phone is required'}),
             'isBase64Encoded': False
-        }
+        })
     
     # Action: send code
     if action == 'send':
         code = generate_code()
         
         if not save_code_to_db(phone, code):
-            return {
+            return add_cors_headers({
                 'statusCode': 500,
                 'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+                    'Content-Type': 'application/json'
                 },
                 'body': json.dumps({'error': 'Failed to save code'}),
                 'isBase64Encoded': False
-            }
+            })
         
         sms_sent = send_sms(phone, code)
         
-        return {
+        return add_cors_headers({
             'statusCode': 200,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({
                 'success': True,
@@ -265,53 +264,49 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'message': 'Code sent' if sms_sent else 'Code saved'
             }),
             'isBase64Encoded': False
-        }
+        })
     
     # Action: verify code
     elif action == 'verify':
         code = body_data.get('code', '').strip()
         
         if not code:
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
                 'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+                    'Content-Type': 'application/json'
                 },
                 'body': json.dumps({'error': 'Code is required'}),
                 'isBase64Encoded': False
-            }
+            })
         
         if not verify_code(phone, code):
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
                 'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+                    'Content-Type': 'application/json'
                 },
                 'body': json.dumps({'error': 'Invalid or expired code'}),
                 'isBase64Encoded': False
-            }
+            })
         
         user_data = get_or_create_user(phone)
         if not user_data:
-            return {
+            return add_cors_headers({
                 'statusCode': 500,
                 'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+                    'Content-Type': 'application/json'
                 },
                 'body': json.dumps({'error': 'Failed to get user'}),
                 'isBase64Encoded': False
-            }
+            })
         
         token = generate_jwt(user_data)
         
-        return {
+        return add_cors_headers({
             'statusCode': 200,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({
                 'success': True,
@@ -319,15 +314,14 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'user': user_data
             }),
             'isBase64Encoded': False
-        }
+        })
     
     else:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Invalid action. Use "send" or "verify"'}),
             'isBase64Encoded': False
-        }
+        })

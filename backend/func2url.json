@@ -1,4 +1,5 @@
 {
   "legal-crm": "https://functions.poehali.dev/45070852-d041-47e0-b7d4-1036ea1c8dc2",
-  "auth": "https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7"
+  "auth": "https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7",
+  "sms-auth": "https://functions.poehali.dev/3435e395-e2f4-4083-b5f9-45aa97f38b94"
 }

@@ -35,9 +35,8 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-// URL бэкенд функций (будут обновлены после деплоя)
+// URL бэкенд функций
 const AUTH_API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
-const PROFILE_API_URL = 'https://functions.poehali.dev/6d737c07-5eb6-4ce4-b92e-d455d785a16d';
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
@@ -149,11 +148,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         throw new Error('Токен авторизации не найден');
       }
 
-      const response = await fetch(PROFILE_API_URL, {
+      const response = await fetch(AUTH_API_URL, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'X-Auth-Token': token
         },
         body: JSON.stringify(data)
       });

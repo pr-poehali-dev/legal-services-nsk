@@ -52,13 +52,14 @@ const ClientDashboard: React.FC = () => {
   // Загрузка дел пользователя при монтировании компонента
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (!user?.token) return;
+      const token = localStorage.getItem('auth_token');
+      if (!token) return;
       
       try {
-        const response = await fetch('https://functions.poehali.dev/6d737c07-5eb6-4ce4-b92e-d455d785a16d?include_cases=true', {
+        const response = await fetch('https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7?type=cases', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${user.token}`,
+            'X-Auth-Token': token,
             'Content-Type': 'application/json'
           }
         });
