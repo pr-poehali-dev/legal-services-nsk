@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -209,14 +209,7 @@ export default function Login() {
             </form>
           )}
 
-          <div className="mt-6 text-center text-sm">
-            <p className="text-muted-foreground">
-              Нет аккаунта?{' '}
-              <Link to="/register" className="text-primary hover:underline font-medium transition-colors">
-                Зарегистрироваться как юрист
-              </Link>
-            </p>
-          </div>
+
         </CardContent>
       </Card>
     </div>

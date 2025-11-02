@@ -27,7 +27,7 @@ export default function Promo() {
             Решаем ваши правовые вопросы онлайн — быстро, прозрачно, по фиксированной цене
           </p>
           <div className="flex gap-4 justify-center">
-            <Link to="/register">
+            <Link to="/client/login">
               <Button size="lg" className="text-lg px-8">
                 Получить консультацию
               </Button>
@@ -275,7 +275,7 @@ export default function Promo() {
           <p className="text-xl mb-8 opacity-90">
             Опишите вашу ситуацию, и мы предложим план действий с точной стоимостью
           </p>
-          <Link to="/register">
+          <Link to="/client/login">
             <Button size="lg" variant="secondary" className="text-lg px-8">
               Получить консультацию
             </Button>

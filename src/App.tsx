@@ -32,7 +32,6 @@ const BadRepair = lazy(() => import("@/pages/BadRepair"));
 const Migration = lazy(() => import("@/pages/Migration"));
 const AdminPanel = lazy(() => import("@/pages/AdminPanel"));
 const Login = lazy(() => import("@/pages/Login"));
-const Register = lazy(() => import("@/pages/Register"));
 const LawyerDashboard = lazy(() => import("@/pages/LawyerDashboard"));
 const ClientCard = lazy(() => import("@/pages/ClientCard"));
 const ClientLogin = lazy(() => import("@/pages/ClientLogin"));
@@ -74,7 +73,6 @@ function App() {
                         <Route path="/privacy" element={<Privacy />} />
                         <Route path="/admin" element={<AdminPanel />} />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
                         <Route path="/lawyer" element={<LawyerDashboard />} />
                         <Route path="/lawyer/client/:id" element={<ClientCard />} />
                         <Route path="/client/login" element={<ClientLogin />} />
