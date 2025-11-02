@@ -33,7 +33,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         return add_cors_headers({
             'statusCode': 200,
             'headers': {'Content-Type': 'text/plain'},
-            'body': ''
+            'body': '',
+            'isBase64Encoded': False
         })
     
     token = event.get('headers', {}).get('X-Auth-Token') or event.get('headers', {}).get('x-auth-token')

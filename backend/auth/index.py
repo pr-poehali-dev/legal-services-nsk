@@ -83,7 +83,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         return add_cors_headers({
             'statusCode': 200,
             'headers': {'Content-Type': 'text/plain'},
-            'body': ''
+            'body': '',
+            'isBase64Encoded': False
         })
     
     if method == 'POST':
