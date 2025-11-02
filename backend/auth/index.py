@@ -66,21 +66,25 @@ def send_sms(phone: str, message: str) -> tuple[bool, str]:
         return False, f'{type(e).__name__}: {str(e)}'
 
 
+def add_cors_headers(response: Dict[str, Any]) -> Dict[str, Any]:
+    """Add CORS headers to response"""
+    if 'headers' not in response:
+        response['headers'] = {}
+    response['headers']['Access-Control-Allow-Origin'] = '*'
+    response['headers']['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response['headers']['Access-Control-Allow-Headers'] = 'Content-Type, X-User-Id, X-Auth-Token, X-Session-Id'
+    return response
+
+
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     method: str = event.get('httpMethod', 'GET')
     
     if method == 'OPTIONS':
-        return {
+        return add_cors_headers({
             'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, X-Auth-Token',
-                'Access-Control-Max-Age': '86400'
-            },
-            'body': '',
-            'isBase64Encoded': False
-        }
+            'headers': {'Content-Type': 'text/plain'},
+            'body': ''
+        })
     
     if method == 'POST':
         body = json.loads(event.get('body', '{}'))
@@ -117,27 +121,26 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     elif method == 'DELETE':
         return handle_delete(event)
     
-    return {
+    return add_cors_headers({
         'statusCode': 400,
         'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Content-Type': 'application/json'
         },
         'body': json.dumps({'error': 'Invalid action'}),
         'isBase64Encoded': False
-    }
+    })
 
 
 def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     phone = body.get('phone', '').strip().replace("'", "''")
     
     if not phone:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Phone number required'}),
             'isBase64Encoded': False
-        }
+        })
     
     code = generate_code()
     expires_at = (datetime.now() + timedelta(minutes=10)).isoformat()
@@ -155,9 +158,9 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
     sent, error_msg = send_sms(phone, sms_text)
     
-    return {
+    return add_cors_headers({
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        'headers': {'Content-Type': 'application/json'},
         'body': json.dumps({
             'message': 'Код отправлен на SMS' if sent else f'Код сгенерирован ({error_msg})', 
             'phone': phone,
@@ -166,7 +169,7 @@ def handle_phone_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
             'sms_error': error_msg if not sent else None
         }),
         'isBase64Encoded': False
-    }
+    })
 
 
 def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
@@ -174,12 +177,12 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     code = body.get('code', '').strip().replace("'", "''")
     
     if not phone or not code:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Phone and code required'}),
             'isBase64Encoded': False
-        }
+        })
     
     conn = psycopg2.connect(DSN)
     conn.autocommit = True
@@ -196,12 +199,12 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     if not row:
         cur.close()
         conn.close()
-        return {
+        return add_cors_headers({
             'statusCode': 401,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Invalid or expired code'}),
             'isBase64Encoded': False
-        }
+        })
     
     auth_code_id = row[0]
     
@@ -240,12 +243,12 @@ def handle_phone_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     cur.close()
     conn.close()
     
-    return {
+    return add_cors_headers({
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        'headers': {'Content-Type': 'application/json'},
         'body': json.dumps(result),
         'isBase64Encoded': False
-    }
+    })
 
 
 def handle_sms_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
@@ -253,12 +256,12 @@ def handle_sms_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     phone = body.get('phone', '').strip().replace("'", "''")
     
     if not phone:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Номер телефона обязателен'}),
             'isBase64Encoded': False
-        }
+        })
     
     code = generate_code()
     expires_at = (datetime.now() + timedelta(minutes=10)).isoformat()
@@ -276,9 +279,9 @@ def handle_sms_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
     sms_text = f'Ваш код для входа: {code}. Код действителен 10 минут.'
     sent, error_msg = send_sms(phone, sms_text)
     
-    return {
+    return add_cors_headers({
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        'headers': {'Content-Type': 'application/json'},
         'body': json.dumps({
             'message': 'Код отправлен в SMS' if sent else f'Ошибка отправки: {error_msg}',
             'phone': phone,
@@ -286,7 +289,7 @@ def handle_sms_request_code(body: Dict[str, Any]) -> Dict[str, Any]:
             'error': error_msg if not sent else None
         }),
         'isBase64Encoded': False
-    }
+    })
 
 
 def handle_sms_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
@@ -295,12 +298,12 @@ def handle_sms_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     code = body.get('code', '').strip().replace("'", "''")
     
     if not phone or not code:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Телефон и код обязательны'}),
             'isBase64Encoded': False
-        }
+        })
     
     conn = psycopg2.connect(DSN)
     conn.autocommit = True
@@ -317,12 +320,12 @@ def handle_sms_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     if not row:
         cur.close()
         conn.close()
-        return {
+        return add_cors_headers({
             'statusCode': 401,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Неверный или истёкший код'}),
             'isBase64Encoded': False
-        }
+        })
     
     auth_code_id = row[0]
     cur.execute(f"UPDATE t_p52877782_legal_services_nsk.auth_codes SET used = true WHERE id = {auth_code_id}")
@@ -360,12 +363,12 @@ def handle_sms_verify_code(body: Dict[str, Any]) -> Dict[str, Any]:
     cur.close()
     conn.close()
     
-    return {
+    return add_cors_headers({
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        'headers': {'Content-Type': 'application/json'},
         'body': json.dumps(result),
         'isBase64Encoded': False
-    }
+    })
 
 
 def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
@@ -377,12 +380,12 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
         
         if not auth_token:
             print('ERROR: No auth token')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Unauthorized'}),
                 'isBase64Encoded': False
-            }
+            })
         
         try:
             decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
@@ -390,20 +393,20 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             print(f'Decoded JWT: user_id={user_id}')
         except jwt.ExpiredSignatureError:
             print('ERROR: Token expired')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Token expired'}),
                 'isBase64Encoded': False
-            }
+            })
         except Exception as jwt_err:
             print(f'ERROR: Invalid token - {str(jwt_err)}')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Invalid token'}),
                 'isBase64Encoded': False
-            }
+            })
         
         conn = psycopg2.connect(DSN)
         cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -417,12 +420,12 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
         if not user:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 403,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Access denied'}),
                 'isBase64Encoded': False
-            }
+            })
         
         query_params = event.get('queryStringParameters') or {}
         request_type = query_params.get('type', 'cases')
@@ -476,24 +479,24 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             cur.close()
             conn.close()
             
-            return {
+            return add_cors_headers({
                 'statusCode': 200,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps(result),
                 'isBase64Encoded': False
-            }
+            })
         
         elif request_type == 'clients':
             print(f'CLIENTS REQUEST from user role={user["role"]}')
             if user['role'] not in ['lawyer', 'admin']:
                 cur.close()
                 conn.close()
-                return {
+                return add_cors_headers({
                     'statusCode': 403,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'headers': {'Content-Type': 'application/json'},
                     'body': json.dumps({'error': 'Access denied'}),
                     'isBase64Encoded': False
-                }
+                })
             
             cur.execute(
                 """
@@ -523,34 +526,34 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             cur.close()
             conn.close()
             
-            return {
+            return add_cors_headers({
                 'statusCode': 200,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps(result),
                 'isBase64Encoded': False
-            }
+            })
         
         elif request_type == 'client_detail':
             if user['role'] not in ['lawyer', 'admin']:
                 cur.close()
                 conn.close()
-                return {
+                return add_cors_headers({
                     'statusCode': 403,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'headers': {'Content-Type': 'application/json'},
                     'body': json.dumps({'error': 'Access denied'}),
                     'isBase64Encoded': False
-                }
+                })
             
             client_id = query_params.get('client_id')
             if not client_id:
                 cur.close()
                 conn.close()
-                return {
+                return add_cors_headers({
                     'statusCode': 400,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'headers': {'Content-Type': 'application/json'},
                     'body': json.dumps({'error': 'client_id required'}),
                     'isBase64Encoded': False
-                }
+                })
             
             cur.execute(
                 "SELECT * FROM t_p52877782_legal_services_nsk.users WHERE id = %s AND role = 'client'",
@@ -561,12 +564,12 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             if not client:
                 cur.close()
                 conn.close()
-                return {
+                return add_cors_headers({
                     'statusCode': 404,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'headers': {'Content-Type': 'application/json'},
                     'body': json.dumps({'error': 'Client not found'}),
                     'isBase64Encoded': False
-                }
+                })
             
             cur.execute(
                 """
@@ -641,12 +644,12 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             cur.close()
             conn.close()
             
-            return {
+            return add_cors_headers({
                 'statusCode': 200,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps(result),
                 'isBase64Encoded': False
-            }
+            })
         
         elif request_type == 'payments':
             cur.execute(
@@ -670,30 +673,30 @@ def handle_get_data(event: Dict[str, Any]) -> Dict[str, Any]:
             cur.close()
             conn.close()
             
-            return {
+            return add_cors_headers({
                 'statusCode': 200,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps(result),
                 'isBase64Encoded': False
-            }
+            })
     
         cur.close()
         conn.close()
         
-        return {
+        return add_cors_headers({
             'statusCode': 400,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Invalid request type'}),
             'isBase64Encoded': False
-        }
+        })
     except Exception as e:
         print(f'EXCEPTION in handle_get_data: {type(e).__name__} - {str(e)}')
-        return {
+        return add_cors_headers({
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
-        }
+        })
 
 
 def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
@@ -705,12 +708,12 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
         
         if not auth_token:
             print('ERROR: No auth token')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Unauthorized'}),
                 'isBase64Encoded': False
-            }
+            })
         
         try:
             decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
@@ -718,20 +721,20 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
             print(f'Decoded JWT: user_id={user_id}')
         except jwt.ExpiredSignatureError:
             print('ERROR: Token expired')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Token expired'}),
                 'isBase64Encoded': False
-            }
+            })
         except Exception as jwt_err:
             print(f'ERROR: Invalid token - {str(jwt_err)}')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Invalid token'}),
                 'isBase64Encoded': False
-            }
+            })
         
         conn = psycopg2.connect(DSN)
         cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -746,12 +749,12 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
             print(f'ERROR: User {user_id} not found or not lawyer/admin')
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 403,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Access denied'}),
                 'isBase64Encoded': False
-            }
+            })
         
         name = body.get('name', '').strip()
         phone = body.get('phone', '').strip()
@@ -761,12 +764,12 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
             print(f'ERROR: Missing name or phone: name={name}, phone={phone}')
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Name and phone are required'}),
                 'isBase64Encoded': False
-            }
+            })
         
         cur.execute(
             "SELECT id FROM t_p52877782_legal_services_nsk.users WHERE phone = %s",
@@ -778,12 +781,12 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
             print(f'ERROR: Phone {phone} already exists')
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Клиент с таким телефоном уже существует'}),
                 'isBase64Encoded': False
-            }
+            })
         
         if not email:
             email = f'{phone}@temp.local'
@@ -807,9 +810,9 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
         cur.close()
         conn.close()
         
-        return {
+        return add_cors_headers({
             'statusCode': 201,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({
                 'client': {
                     'id': str(new_client['id']),
@@ -821,15 +824,15 @@ def handle_create_client(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[st
                 }
             }),
             'isBase64Encoded': False
-        }
+        })
     except Exception as e:
         print(f'EXCEPTION in handle_create_client: {type(e).__name__} - {str(e)}')
-        return {
+        return add_cors_headers({
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
-        }
+        })
 
 
 def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
@@ -841,12 +844,12 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         
         if not auth_token:
             print('ERROR: No auth token')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Unauthorized'}),
                 'isBase64Encoded': False
-            }
+            })
         
         try:
             decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
@@ -854,20 +857,20 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
             print(f'Decoded JWT: user_id={user_id}')
         except jwt.ExpiredSignatureError:
             print('ERROR: Token expired')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Token expired'}),
                 'isBase64Encoded': False
-            }
+            })
         except Exception as jwt_err:
             print(f'ERROR: Invalid token - {str(jwt_err)}')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Invalid token'}),
                 'isBase64Encoded': False
-            }
+            })
         
         conn = psycopg2.connect(DSN)
         cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -881,12 +884,12 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         if not user:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 403,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Access denied'}),
                 'isBase64Encoded': False
-            }
+            })
         
         client_id = body.get('client_id')
         title = body.get('title', '')
@@ -898,12 +901,12 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         if not client_id or not title:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'client_id and title required'}),
                 'isBase64Encoded': False
-            }
+            })
         
         cur.execute(
             """
@@ -950,20 +953,20 @@ def handle_create_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         cur.close()
         conn.close()
         
-        return {
+        return add_cors_headers({
             'statusCode': 201,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'id': str(new_case['id']), 'message': 'Case created'}),
             'isBase64Encoded': False
-        }
+        })
     except Exception as e:
         print(f'EXCEPTION in handle_create_case: {type(e).__name__} - {str(e)}')
-        return {
+        return add_cors_headers({
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
-        }
+        })
 
 
 def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
@@ -979,12 +982,12 @@ def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
         
         if not auth_token or not table or not record_id:
             print(f'ERROR: Missing params - token={bool(auth_token)}, table={table}, id={record_id}')
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Missing parameters'}),
                 'isBase64Encoded': False
-            }
+            })
         
         try:
             decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
@@ -992,20 +995,20 @@ def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
             print(f'Decoded JWT: user_id={user_id}')
         except jwt.ExpiredSignatureError:
             print('ERROR: Token expired')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Token expired'}),
                 'isBase64Encoded': False
-            }
+            })
         except Exception as jwt_err:
             print(f'ERROR: Invalid token - {str(jwt_err)}')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Invalid token'}),
                 'isBase64Encoded': False
-            }
+            })
         
         conn = psycopg2.connect(DSN)
         conn.autocommit = True
@@ -1020,24 +1023,24 @@ def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
             print(f'ERROR: Access denied for user {user_id}')
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 403,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Unauthorized'}),
                 'isBase64Encoded': False
-            }
+            })
         
         allowed_tables = ['cases', 'users', 'blog_posts', 'blog_comments', 'auth_codes', 'payments', 'whatsapp_notifications']
         if table not in allowed_tables:
             print(f'ERROR: Invalid table {table}')
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Invalid table'}),
                 'isBase64Encoded': False
-            }
+            })
         
         if table == 'users':
             cur.execute(f"DELETE FROM t_p52877782_legal_services_nsk.whatsapp_notifications WHERE client_id = '{record_id}'")
@@ -1054,20 +1057,20 @@ def handle_delete(event: Dict[str, Any]) -> Dict[str, Any]:
         cur.close()
         conn.close()
         
-        return {
+        return add_cors_headers({
             'statusCode': 200,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'success': True, 'message': 'Record deleted'}),
             'isBase64Encoded': False
-        }
+        })
     except Exception as e:
         print(f'EXCEPTION in handle_delete: {type(e).__name__} - {str(e)}')
-        return {
+        return add_cors_headers({
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
-        }
+        })
 
 
 def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
@@ -1079,12 +1082,12 @@ def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         
         if not auth_token:
             print('ERROR: No auth token')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Unauthorized'}),
                 'isBase64Encoded': False
-            }
+            })
         
         try:
             decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
@@ -1092,20 +1095,20 @@ def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
             print(f'Decoded JWT: user_id={user_id}')
         except jwt.ExpiredSignatureError:
             print('ERROR: Token expired')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Token expired'}),
                 'isBase64Encoded': False
-            }
+            })
         except Exception as jwt_err:
             print(f'ERROR: Invalid token - {str(jwt_err)}')
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Invalid token'}),
                 'isBase64Encoded': False
-            }
+            })
         
         conn = psycopg2.connect(DSN)
         cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -1119,24 +1122,24 @@ def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         if not user:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 403,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Access denied'}),
                 'isBase64Encoded': False
-            }
+            })
         
         case_id = body.get('case_id')
         
         if not case_id:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'case_id required'}),
                 'isBase64Encoded': False
-            }
+            })
         
         cur.execute(
             """
@@ -1152,12 +1155,12 @@ def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         if not old_case:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 404,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Case not found'}),
                 'isBase64Encoded': False
-            }
+            })
         
         updates = []
         params = []
@@ -1190,12 +1193,12 @@ def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         if not updates:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'No fields to update'}),
                 'isBase64Encoded': False
-            }
+            })
         
         updates.append("updated_at = CURRENT_TIMESTAMP")
         params.append(case_id)
@@ -1239,20 +1242,20 @@ def handle_update_case(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str,
         cur.close()
         conn.close()
         
-        return {
+        return add_cors_headers({
             'statusCode': 200,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'message': 'Case updated', 'id': str(updated_case['id'])}),
             'isBase64Encoded': False
-        }
+        })
     except Exception as e:
         print(f'EXCEPTION in handle_update_case: {type(e).__name__} - {str(e)}')
-        return {
+        return add_cors_headers({
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
-        }
+        })
 
 
 def handle_login(body: Dict[str, Any]) -> Dict[str, Any]:
@@ -1260,15 +1263,14 @@ def handle_login(body: Dict[str, Any]) -> Dict[str, Any]:
     password = body.get('password', '')
     
     if not email or not password:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Email и пароль обязательны'}),
             'isBase64Encoded': False
-        }
+        })
     
     conn = psycopg2.connect(DSN)
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -1283,26 +1285,24 @@ def handle_login(body: Dict[str, Any]) -> Dict[str, Any]:
     conn.close()
     
     if not user:
-        return {
+        return add_cors_headers({
             'statusCode': 401,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Неверный email или пароль'}),
             'isBase64Encoded': False
-        }
+        })
     
     if not bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
-        return {
+        return add_cors_headers({
             'statusCode': 401,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Неверный email или пароль'}),
             'isBase64Encoded': False
-        }
+        })
     
     token = str(uuid.uuid4())
     
@@ -1313,11 +1313,10 @@ def handle_login(body: Dict[str, Any]) -> Dict[str, Any]:
     cursor2.close()
     conn2.close()
     
-    return {
+    return add_cors_headers({
         'statusCode': 200,
         'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Content-Type': 'application/json'
         },
         'body': json.dumps({
             'token': token,
@@ -1331,7 +1330,7 @@ def handle_login(body: Dict[str, Any]) -> Dict[str, Any]:
             }
         }),
         'isBase64Encoded': False
-    }
+    })
 
 
 def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
@@ -1341,26 +1340,24 @@ def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
     role = body.get('role', 'client')
     
     if not email or not password or not name:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Все поля обязательны'}),
             'isBase64Encoded': False
-        }
+        })
     
     if len(password) < 6:
-        return {
+        return add_cors_headers({
             'statusCode': 400,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Пароль должен быть минимум 6 символов'}),
             'isBase64Encoded': False
-        }
+        })
     
     password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     
@@ -1376,15 +1373,14 @@ def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
     if existing_user:
         cursor.close()
         conn.close()
-        return {
+        return add_cors_headers({
             'statusCode': 400,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Пользователь с таким email уже существует'}),
             'isBase64Encoded': False
-        }
+        })
     
     user_id = str(uuid.uuid4())
     
@@ -1404,11 +1400,10 @@ def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
     
     token = str(new_user['id'])
     
-    return {
+    return add_cors_headers({
         'statusCode': 201,
         'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Content-Type': 'application/json'
         },
         'body': json.dumps({
             'token': token,
@@ -1421,7 +1416,7 @@ def handle_register(body: Dict[str, Any]) -> Dict[str, Any]:
             }
         }),
         'isBase64Encoded': False
-    }
+    })
 
 
 def handle_add_interaction(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[str, Any]:
@@ -1430,12 +1425,12 @@ def handle_add_interaction(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[
         auth_token = headers.get('X-Auth-Token') or headers.get('x-auth-token')
         
         if not auth_token:
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Unauthorized'}),
                 'isBase64Encoded': False
-            }
+            })
         
         try:
             decoded = jwt.decode(auth_token, JWT_SECRET, algorithms=['HS256'])
@@ -1455,12 +1450,12 @@ def handle_add_interaction(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[
         if not user or user['role'] not in ['lawyer', 'admin']:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 403,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Access denied'}),
                 'isBase64Encoded': False
-            }
+            })
         
         client_id = body.get('client_id')
         interaction_type = body.get('type', 'note')
@@ -1469,12 +1464,12 @@ def handle_add_interaction(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[
         if not client_id or not description:
             cur.close()
             conn.close()
-            return {
+            return add_cors_headers({
                 'statusCode': 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'client_id and description required'}),
                 'isBase64Encoded': False
-            }
+            })
         
         cur.execute(
             """
@@ -1491,38 +1486,37 @@ def handle_add_interaction(event: Dict[str, Any], body: Dict[str, Any]) -> Dict[
         cur.close()
         conn.close()
         
-        return {
+        return add_cors_headers({
             'statusCode': 201,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({
                 'id': str(new_interaction['id']),
                 'created_at': new_interaction['created_at'].isoformat() if new_interaction['created_at'] else None
             }),
             'isBase64Encoded': False
-        }
+        })
     except Exception as e:
         print(f'EXCEPTION in handle_add_interaction: {type(e).__name__} - {str(e)}')
-        return {
+        return add_cors_headers({
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': f'Server error: {str(e)}'}),
             'isBase64Encoded': False
-        }
+        })
 
 
 def handle_verify(event: Dict[str, Any]) -> Dict[str, Any]:
     token = event.get('headers', {}).get('X-Auth-Token') or event.get('headers', {}).get('x-auth-token', '')
     
     if not token:
-        return {
+        return add_cors_headers({
             'statusCode': 401,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Токен не предоставлен'}),
             'isBase64Encoded': False
-        }
+        })
     
     user_id = token.split(':')[0] if ':' in token else token
     
@@ -1539,21 +1533,19 @@ def handle_verify(event: Dict[str, Any]) -> Dict[str, Any]:
     conn.close()
     
     if not user:
-        return {
+        return add_cors_headers({
             'statusCode': 401,
             'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
             'body': json.dumps({'error': 'Неверный токен'}),
             'isBase64Encoded': False
-        }
+        })
     
-    return {
+    return add_cors_headers({
         'statusCode': 200,
         'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Content-Type': 'application/json'
         },
         'body': json.dumps({
             'user': {
@@ -1566,4 +1558,4 @@ def handle_verify(event: Dict[str, Any]) -> Dict[str, Any]:
             }
         }),
         'isBase64Encoded': False
-    }
+    })

@@ -17,31 +17,34 @@ def get_db_connection():
         raise ValueError('DATABASE_URL not set')
     return psycopg2.connect(dsn)
 
+def add_cors_headers(response: Dict[str, Any]) -> Dict[str, Any]:
+    """Add CORS headers to response"""
+    if 'headers' not in response:
+        response['headers'] = {}
+    response['headers']['Access-Control-Allow-Origin'] = '*'
+    response['headers']['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response['headers']['Access-Control-Allow-Headers'] = 'Content-Type, X-Auth-Token'
+    return response
+
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     method: str = event.get('httpMethod', 'GET')
     
     if method == 'OPTIONS':
-        return {
+        return add_cors_headers({
             'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, X-Auth-Token',
-                'Access-Control-Max-Age': '86400'
-            },
-            'body': '',
-            'isBase64Encoded': False
-        }
+            'headers': {'Content-Type': 'text/plain'},
+            'body': ''
+        })
     
     token = event.get('headers', {}).get('X-Auth-Token') or event.get('headers', {}).get('x-auth-token')
     
     if not token:
-        return {
+        return add_cors_headers({
             'statusCode': 401,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Unauthorized'}),
             'isBase64Encoded': False
-        }
+        })
     
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -51,12 +54,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         user = cursor.fetchone()
         
         if not user:
-            return {
+            return add_cors_headers({
                 'statusCode': 401,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Invalid token'}),
                 'isBase64Encoded': False
-            }
+            })
         
         if method == 'GET':
             params = event.get('queryStringParameters', {}) or {}
@@ -65,12 +68,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             if request_type == 'client_detail':
                 client_id = params.get('client_id')
                 if not client_id:
-                    return {
+                    return add_cors_headers({
                         'statusCode': 400,
-                        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                        'headers': {'Content-Type': 'application/json'},
                         'body': json.dumps({'error': 'client_id required'}),
                         'isBase64Encoded': False
-                    }
+                    })
                 
                 cursor.execute("""
                     SELECT id, name, email, phone, created_at 
@@ -80,12 +83,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 client = cursor.fetchone()
                 
                 if not client:
-                    return {
+                    return add_cors_headers({
                         'statusCode': 404,
-                        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                        'headers': {'Content-Type': 'application/json'},
                         'body': json.dumps({'error': 'Client not found'}),
                         'isBase64Encoded': False
-                    }
+                    })
                 
                 cursor.execute("""
                     SELECT id, title, status, priority, category, price, progress, created_at
@@ -121,12 +124,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'total_debt': float(finances['total_debt']) if finances else 0
                 }
                 
-                return {
+                return add_cors_headers({
                     'statusCode': 200,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'headers': {'Content-Type': 'application/json'},
                     'body': json.dumps(result, default=str),
                     'isBase64Encoded': False
-                }
+                })
             
             cursor.execute("""
                 SELECT 
@@ -141,12 +144,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             """)
             clients = cursor.fetchall()
             
-            return {
+            return add_cors_headers({
                 'statusCode': 200,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps([dict(c) for c in clients], default=str),
                 'isBase64Encoded': False
-            }
+            })
         
         if method == 'POST':
             body_data = json.loads(event.get('body', '{}'))
@@ -158,12 +161,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 description = body_data.get('description')
                 
                 if not all([client_id, interaction_type, description]):
-                    return {
+                    return add_cors_headers({
                         'statusCode': 400,
-                        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                        'headers': {'Content-Type': 'application/json'},
                         'body': json.dumps({'error': 'Missing required fields'}),
                         'isBase64Encoded': False
-                    }
+                    })
                 
                 cursor.execute("""
                     INSERT INTO interactions (client_id, type, description, created_by)
@@ -173,19 +176,19 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 
                 conn.commit()
                 
-                return {
+                return add_cors_headers({
                     'statusCode': 200,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'headers': {'Content-Type': 'application/json'},
                     'body': json.dumps({'success': True, 'id': cursor.fetchone()['id']}),
                     'isBase64Encoded': False
-                }
+                })
         
-        return {
+        return add_cors_headers({
             'statusCode': 405,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Method not allowed'}),
             'isBase64Encoded': False
-        }
+        })
     
     finally:
         cursor.close()
