@@ -238,10 +238,19 @@ export default function Promo() {
             </div>
 
             <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
+              <Icon name="ShieldCheck" size={32} className="text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Защита прав потребителей</h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                Возврат товара, некачественные услуги, обман покупателей
+              </p>
+              <p className="text-primary font-medium">от 5 000 ₽</p>
+            </div>
+
+            <div className="bg-card p-6 rounded-lg border hover:shadow-lg transition-shadow">
               <Icon name="Scale" size={32} className="text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Гражданские споры</h3>
               <p className="text-muted-foreground text-sm mb-4">
-                Защита прав потребителей, долги, договоры
+                Долги, договоры, взыскания, имущественные споры
               </p>
               <p className="text-primary font-medium">от 6 000 ₽</p>
             </div>
