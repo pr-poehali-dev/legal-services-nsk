@@ -38,6 +38,7 @@ const ClientLogin = lazy(() => import("@/pages/ClientLogin"));
 const ClientDashboard = lazy(() => import("@/pages/ClientDashboard"));
 const Sitemap = lazy(() => import("@/pages/Sitemap"));
 const Promo = lazy(() => import("@/pages/Promo"));
+const ConsumerRights = lazy(() => import("@/pages/ConsumerRights"));
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
                         <Route path="/client/cabinet" element={<ClientDashboard />} />
                         <Route path="/sitemap.xml" element={<Sitemap />} />
                         <Route path="/promo" element={<Promo />} />
+                        <Route path="/consumer-rights" element={<ConsumerRights />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </Suspense>
