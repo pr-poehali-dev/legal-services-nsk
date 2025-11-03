@@ -1,5 +1,5 @@
 '''
-Business: CRM system for legal services - manage clients, cases, and interactions, handle car lawyer form submissions
+Business: CRM system for legal services - manage clients, cases, and interactions
 Args: event with httpMethod, queryStringParameters, body; context with request_id
 Returns: HTTP response with client data, cases, interactions
 '''
@@ -10,7 +10,6 @@ from typing import Dict, Any, Optional
 from datetime import datetime
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import requests
 
 def get_db_connection():
     dsn = os.environ.get('DATABASE_URL')
@@ -27,35 +26,6 @@ def add_cors_headers(response: Dict[str, Any]) -> Dict[str, Any]:
     response['headers']['Access-Control-Allow-Headers'] = 'Content-Type, X-Auth-Token'
     return response
 
-def send_whatsapp_message(name: str, phone: str, message: str = '') -> bool:
-    """Send WhatsApp notification via Green API"""
-    instance_id = os.environ.get('GREENAPI_INSTANCE_ID')
-    token = os.environ.get('GREENAPI_TOKEN')
-    
-    if not instance_id or not token:
-        return False
-    
-    chat_id = '79994523500@c.us'
-    api_url = f'https://1103.api.green-api.com/waInstance{instance_id}/sendMessage/{token}'
-    
-    whatsapp_text = f'''🚗 *Новая заявка с сайта - Автоюрист*
-
-👤 *Имя:* {name}
-📞 *Телефон:* {phone}'''
-    
-    if message:
-        whatsapp_text += f'\n\n💬 *Сообщение:*\n{message}'
-    
-    whatsapp_text += f'\n\n⏰ *Время:* {datetime.now().strftime("%d.%m.%Y, %H:%M:%S")}'
-    
-    payload = {
-        'chatId': chat_id,
-        'message': whatsapp_text
-    }
-    
-    response = requests.post(api_url, json=payload, timeout=10)
-    return response.status_code == 200
-
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     method: str = event.get('httpMethod', 'GET')
     
@@ -64,39 +34,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'statusCode': 200,
             'headers': {'Content-Type': 'text/plain'},
             'body': '',
-            'isBase64Encoded': False
-        })
-    
-    params = event.get('queryStringParameters', {}) or {}
-    
-    if method == 'POST' and params.get('action') == 'car_lawyer_form':
-        body_data = json.loads(event.get('body', '{}'))
-        name = body_data.get('name', '')
-        phone = body_data.get('phone', '')
-        message = body_data.get('message', '')
-        
-        if not name or not phone:
-            return add_cors_headers({
-                'statusCode': 400,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({'error': 'Name and phone are required'}),
-                'isBase64Encoded': False
-            })
-        
-        success = send_whatsapp_message(name, phone, message)
-        
-        if not success:
-            return add_cors_headers({
-                'statusCode': 500,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({'error': 'Failed to send WhatsApp message'}),
-                'isBase64Encoded': False
-            })
-        
-        return add_cors_headers({
-            'statusCode': 200,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'success': True, 'message': 'Заявка успешно отправлена'}),
             'isBase64Encoded': False
         })
     

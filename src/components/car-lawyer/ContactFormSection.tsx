@@ -18,21 +18,36 @@ export default function ContactFormSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.name || !formData.phone) {
+      setSubmitStatus('error');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
-      const response = await fetch('https://functions.poehali.dev/45070852-d041-47e0-b7d4-1036ea1c8dc2?action=car_lawyer_form', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          message: formData.message
-        })
-      });
+      const whatsappMessage = `🚗 *Новая заявка с сайта - Автоюрист*
+
+👤 *Имя:* ${formData.name}
+📞 *Телефон:* ${formData.phone}${formData.message ? `\n\n💬 *Сообщение:*\n${formData.message}` : ''}
+
+⏰ *Время:* ${new Date().toLocaleString('ru-RU')}`;
+
+      const response = await fetch(
+        'https://1103.api.green-api.com/waInstance1103279953/sendMessage/c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chatId: '79994523500@c.us',
+            message: whatsappMessage,
+          }),
+        }
+      );
 
       if (response.ok) {
         setSubmitStatus('success');
