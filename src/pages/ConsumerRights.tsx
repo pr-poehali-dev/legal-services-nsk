@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import ConsumerCalculator from '@/components/ConsumerCalculator';
 
 export default function ConsumerRights() {
   return (
@@ -42,6 +43,8 @@ export default function ConsumerRights() {
           </p>
         </div>
       </section>
+
+      <ConsumerCalculator />
 
       <section className="py-16 px-4 bg-primary/5">
         <div className="container mx-auto max-w-6xl">
