@@ -41,25 +41,27 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              <a href="#form">
-                <Button size="lg" className="bg-white text-red-700 hover:bg-gray-100 text-lg h-14 px-8">
-                  <Icon name="FileText" className="mr-2" size={20} />
-                  Оставить заявку
-                </Button>
-              </a>
-              <a href={`tel:${CONTACTS.phone}`}>
-                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 text-lg h-14 px-8">
-                  <Icon name="Phone" className="mr-2" size={20} />
-                  Позвонить сейчас
-                </Button>
-              </a>
-              <a href={`https://wa.me/${CONTACTS.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-lg h-14 px-8">
-                  <Icon name="MessageCircle" className="mr-2" size={20} />
-                  WhatsApp
-                </Button>
-              </a>
+            <div className="space-y-4">
+              <div className="flex flex-wrap gap-3">
+                <a href="#form">
+                  <Button size="lg" className="bg-white text-red-700 hover:bg-gray-100 text-lg h-14 px-8">
+                    <Icon name="FileText" className="mr-2" size={20} />
+                    Оставить заявку
+                  </Button>
+                </a>
+                <a href={`tel:${CONTACTS.phone}`}>
+                  <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 text-lg h-14 px-8">
+                    <Icon name="Phone" className="mr-2" size={20} />
+                    {CONTACTS.phoneFormatted}
+                  </Button>
+                </a>
+                <a href={`https://wa.me/${CONTACTS.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" className="bg-green-600 hover:bg-green-700 text-lg h-14 px-8">
+                    <Icon name="MessageCircle" className="mr-2" size={20} />
+                    WhatsApp
+                  </Button>
+                </a>
+              </div>
             </div>
           </div>
 
