@@ -13,11 +13,39 @@ export default function ContactFormSection() {
     phone: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const whatsappMessage = `Заявка с сайта:%0A%0AИмя: ${formData.name}%0AТелефон: ${formData.phone}%0AСообщение: ${formData.message}`;
-    window.open(`https://wa.me/${CONTACTS.whatsapp}?text=${whatsappMessage}`, '_blank');
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/45070852-d041-47e0-b7d4-1036ea1c8dc2?action=car_lawyer_form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          message: formData.message
+        })
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', phone: '', message: '' });
+        setTimeout(() => setSubmitStatus('idle'), 5000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -73,10 +101,31 @@ export default function ContactFormSection() {
                   />
                 </div>
 
-                <Button type="submit" className="w-full h-12 text-lg">
-                  <Icon name="Send" className="mr-2" size={20} />
-                  Отправить заявку
+                <Button type="submit" className="w-full h-12 text-lg" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Icon name="Loader2" className="mr-2 animate-spin" size={20} />
+                      Отправка...
+                    </>
+                  ) : (
+                    <>
+                      <Icon name="Send" className="mr-2" size={20} />
+                      Отправить заявку
+                    </>
+                  )}
                 </Button>
+
+                {submitStatus === 'success' && (
+                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm text-center">
+                    ✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.
+                  </div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm text-center">
+                    ❌ Ошибка отправки. Попробуйте позвонить нам напрямую.
+                  </div>
+                )}
 
                 <p className="text-xs text-center text-muted-foreground">
                   Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
