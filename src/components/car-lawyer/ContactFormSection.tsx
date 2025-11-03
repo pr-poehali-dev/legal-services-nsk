@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
+import { CONTACTS } from '@/config/contacts';
 
 export default function ContactFormSection() {
   const [formData, setFormData] = useState({
@@ -16,7 +17,7 @@ export default function ContactFormSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const whatsappMessage = `Заявка с сайта:%0A%0AИмя: ${formData.name}%0AТелефон: ${formData.phone}%0AСообщение: ${formData.message}`;
-    window.open(`https://wa.me/79994523500?text=${whatsappMessage}`, '_blank');
+    window.open(`https://wa.me/${CONTACTS.whatsapp}?text=${whatsappMessage}`, '_blank');
   };
 
   return (
@@ -27,7 +28,7 @@ export default function ContactFormSection() {
             Получите бесплатную консультацию
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Оставьте заявку — перезвоним в течение 15 минут и расскажем, сколько сможете получить
+            Оставьте заявку — перезвоним в течение {CONTACTS.responseTime} и расскажем, сколько сможете получить
           </p>
         </div>
 
@@ -91,11 +92,11 @@ export default function ContactFormSection() {
                   <Icon name="Phone" className="text-primary" size={24} />
                   Позвонить сейчас
                 </h4>
-                <a href="tel:+79994523500" className="text-2xl font-bold text-primary hover:underline">
-                  +7 (999) 452-35-00
+                <a href={`tel:${CONTACTS.phone}`} className="text-2xl font-bold text-primary hover:underline">
+                  {CONTACTS.phoneFormatted}
                 </a>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Работаем ежедневно с 9:00 до 21:00
+                  {CONTACTS.workingHours}
                 </p>
               </CardContent>
             </Card>
@@ -107,7 +108,7 @@ export default function ContactFormSection() {
                   Написать в WhatsApp
                 </h4>
                 <a 
-                  href="https://wa.me/79994523500" 
+                  href={`https://wa.me/${CONTACTS.whatsapp}`}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="block"
@@ -131,7 +132,7 @@ export default function ContactFormSection() {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <Icon name="CheckCircle2" className="text-green-600 mt-0.5 flex-shrink-0" size={16} />
-                    <span>Перезвоним в течение 15 минут</span>
+                    <span>Перезвоним в течение {CONTACTS.responseTime}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Icon name="CheckCircle2" className="text-green-600 mt-0.5 flex-shrink-0" size={16} />

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import { CONTACTS } from '@/config/contacts';
 
 export default function CarCheckSection() {
   return (
@@ -43,7 +44,7 @@ export default function CarCheckSection() {
               <CardContent className="p-6 text-center">
                 <div className="text-4xl font-bold text-green-600 mb-2">5 000 ₽</div>
                 <p className="text-sm text-muted-foreground mb-4">Полная проверка + сопровождение</p>
-                <a href="https://wa.me/79994523500?text=Хочу%20проверку%20авто%20перед%20покупкой" target="_blank" rel="noopener noreferrer">
+                <a href={`https://wa.me/${CONTACTS.whatsapp}?text=Хочу%20проверку%20авто%20перед%20покупкой`} target="_blank" rel="noopener noreferrer">
                   <Button className="w-full bg-green-600 hover:bg-green-700">
                     Заказать проверку
                   </Button>

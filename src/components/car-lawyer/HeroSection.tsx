@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import { CONTACTS } from '@/config/contacts';
 
 export default function HeroSection() {
   return (
@@ -47,13 +48,13 @@ export default function HeroSection() {
                   Оставить заявку
                 </Button>
               </a>
-              <a href="tel:+79994523500">
+              <a href={`tel:${CONTACTS.phone}`}>
                 <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 text-lg h-14 px-8">
                   <Icon name="Phone" className="mr-2" size={20} />
                   Позвонить сейчас
                 </Button>
               </a>
-              <a href="https://wa.me/79994523500" target="_blank" rel="noopener noreferrer">
+              <a href={`https://wa.me/${CONTACTS.whatsapp}`} target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="bg-green-600 hover:bg-green-700 text-lg h-14 px-8">
                   <Icon name="MessageCircle" className="mr-2" size={20} />
                   WhatsApp
