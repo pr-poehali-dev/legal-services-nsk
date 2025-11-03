@@ -39,6 +39,7 @@ const ClientDashboard = lazy(() => import("@/pages/ClientDashboard"));
 const Sitemap = lazy(() => import("@/pages/Sitemap"));
 const Promo = lazy(() => import("@/pages/Promo"));
 const ConsumerRights = lazy(() => import("@/pages/ConsumerRights"));
+const CarLawyer = lazy(() => import("@/pages/CarLawyer"));
 
 function App() {
   return (
@@ -81,6 +82,7 @@ function App() {
                         <Route path="/sitemap.xml" element={<Sitemap />} />
                         <Route path="/promo" element={<Promo />} />
                         <Route path="/consumer-rights" element={<ConsumerRights />} />
+                        <Route path="/car-lawyer" element={<CarLawyer />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </Suspense>
