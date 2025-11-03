@@ -32,6 +32,12 @@ const ContactForm = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
+      
+      // Отправляем событие в Яндекс.Метрику
+      if (typeof window !== 'undefined' && window.ym) {
+        window.ym(103525320, 'reachGoal', 'main_contact_form_submit');
+      }
+      
       setFormData({ name: '', phone: '', email: '', message: '', service: '' });
     }, 1000);
   };

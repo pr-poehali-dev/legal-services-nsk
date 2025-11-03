@@ -52,6 +52,11 @@ const ConsultationModal = () => {
         throw new Error("Ошибка отправки");
       }
 
+      // Отправляем событие в Яндекс.Метрику
+      if (typeof window !== 'undefined' && window.ym) {
+        window.ym(103525320, 'reachGoal', 'consultation_form_submit');
+      }
+
       toast.success("Заявка отправлена! Мы свяжемся с вами в ближайшее время");
       setFormData({ name: "", phone: "", question: "" });
       localStorage.setItem('consultationShown', 'true');

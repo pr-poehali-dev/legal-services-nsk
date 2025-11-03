@@ -64,6 +64,11 @@ ${formData.message}
       });
 
       if (response.ok) {
+        // Отправляем событие в Яндекс.Метрику
+        if (typeof window !== 'undefined' && window.ym) {
+          window.ym(103525320, 'reachGoal', 'contacts_form_submit');
+        }
+        
         alert('Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.');
         setFormData({
           name: '',

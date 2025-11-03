@@ -41,6 +41,11 @@ const DTPConsultationModal = ({ showForm, onClose }: DTPConsultationModalProps) 
       );
 
       if (res.ok) {
+        // Отправляем событие в Яндекс.Метрику
+        if (typeof window !== 'undefined' && window.ym) {
+          window.ym(103525320, 'reachGoal', 'dtp_consultation_form_submit');
+        }
+        
         alert("Спасибо! Мы свяжемся с вами в течение 15 минут.");
         onClose();
         setFormData({ name: "", phone: "", situation: "" });
