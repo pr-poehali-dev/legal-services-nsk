@@ -161,6 +161,12 @@ ${formData.message}
                               target={info.title === "WhatsApp" ? "_blank" : undefined}
                               rel={info.title === "WhatsApp" ? "noopener noreferrer" : undefined}
                               className="text-muted-foreground hover:text-primary transition-colors duration-200 text-lg font-semibold"
+                              onClick={() => {
+                                if (typeof window !== 'undefined' && window.ym) {
+                                  const goalName = info.title === "Телефон" ? 'phone_click' : 'whatsapp_click';
+                                  window.ym(103525320, 'reachGoal', goalName);
+                                }
+                              }}
                             >
                               {info.value}
                             </a>

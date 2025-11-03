@@ -13,10 +13,16 @@ const ContactBar = ({
   onConsultClick 
 }: ContactBarProps) => {
   const handlePhoneClick = () => {
+    if (typeof window !== 'undefined' && window.ym) {
+      window.ym(103525320, 'reachGoal', 'phone_click');
+    }
     window.location.href = `tel:${phone.replace(/[^\d+]/g, '')}`;
   };
 
   const handleWhatsAppClick = () => {
+    if (typeof window !== 'undefined' && window.ym) {
+      window.ym(103525320, 'reachGoal', 'whatsapp_click');
+    }
     window.open(`https://wa.me/${whatsapp}`, '_blank');
   };
 

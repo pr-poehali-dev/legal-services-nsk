@@ -84,6 +84,9 @@ const Footer = () => {
             <div className="space-y-3 text-sm">
               <button 
                 onClick={(e) => {
+                  if (typeof window !== 'undefined' && window.ym) {
+                    window.ym(103525320, 'reachGoal', 'phone_click');
+                  }
                   const hidden = e.currentTarget.querySelector('.phone-hidden');
                   if (hidden) {
                     (hidden as HTMLElement).style.filter = 'blur(0px)';

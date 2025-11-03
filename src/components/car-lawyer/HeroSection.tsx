@@ -49,13 +49,29 @@ export default function HeroSection() {
                     Оставить заявку
                   </Button>
                 </a>
-                <a href={`tel:${CONTACTS.phone}`}>
+                <a 
+                  href={`tel:${CONTACTS.phone}`}
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && window.ym) {
+                      window.ym(103525320, 'reachGoal', 'phone_click');
+                    }
+                  }}
+                >
                   <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 text-lg h-14 px-8">
                     <Icon name="Phone" className="mr-2" size={20} />
                     {CONTACTS.phoneFormatted}
                   </Button>
                 </a>
-                <a href={`https://wa.me/${CONTACTS.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                <a 
+                  href={`https://wa.me/${CONTACTS.whatsapp}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && window.ym) {
+                      window.ym(103525320, 'reachGoal', 'whatsapp_click');
+                    }
+                  }}
+                >
                   <Button size="lg" className="bg-green-600 hover:bg-green-700 text-lg h-14 px-8">
                     <Icon name="MessageCircle" className="mr-2" size={20} />
                     WhatsApp

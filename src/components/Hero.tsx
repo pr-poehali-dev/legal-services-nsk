@@ -52,7 +52,14 @@ const Hero = () => {
                 asChild
                 className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold transition-all"
               >
-                <a href="tel:+79931903500">
+                <a 
+                  href="tel:+79931903500"
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && window.ym) {
+                      window.ym(103525320, 'reachGoal', 'phone_click');
+                    }
+                  }}
+                >
                   <Icon name="Phone" className="h-5 w-5 mr-2" />
                   +7 993 190 35 00
                 </a>
