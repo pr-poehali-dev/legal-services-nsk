@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
-import { CONTACTS } from "@/utils/constants";
+import { CONTACTS } from "@/config/contacts";
 import { useState } from "react";
 
 const BusinessContacts = () => {

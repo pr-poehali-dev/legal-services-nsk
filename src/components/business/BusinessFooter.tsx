@@ -1,5 +1,5 @@
 import Icon from "@/components/ui/icon";
-import { CONTACTS } from "@/utils/constants";
+import { CONTACTS } from "@/config/contacts";
 
 const BusinessFooter = () => {
   const currentYear = new Date().getFullYear();

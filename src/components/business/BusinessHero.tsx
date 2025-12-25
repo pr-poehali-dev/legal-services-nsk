@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
-import { CONTACTS } from "@/utils/constants";
+import { CONTACTS } from "@/config/contacts";
 
 const BusinessHero = () => {
   const handlePhoneClick = () => {
