@@ -35,6 +35,17 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
   ];
 
   const isActive = (href: string) => location.pathname === href;
+  const isCitizensVersion = !location.pathname.startsWith('/business');
+
+  const handleVersionSwitch = () => {
+    if (isCitizensVersion) {
+      localStorage.setItem('audienceType', 'business');
+      window.location.href = '/business';
+    } else {
+      localStorage.setItem('audienceType', 'citizens');
+      window.location.href = '/citizens';
+    }
+  };
 
   return (
     <header 
@@ -74,6 +85,15 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleVersionSwitch}
+              className="border-2"
+            >
+              <Icon name={isCitizensVersion ? "Building2" : "Users"} className="h-4 w-4 mr-2" />
+              {isCitizensVersion ? "Для бизнеса" : "Для граждан"}
+            </Button>
             {isAuthenticated ? (
               <Link to={user?.role === 'client' ? '/client/cabinet' : '/lawyer'}>
                 <Button variant="outline">
@@ -108,7 +128,7 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
 
         {/* Mobile Menu */}
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          isMenuOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <div className="py-4 border-t border-border">
             <nav className="flex flex-col space-y-4">
@@ -126,6 +146,17 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
                   {item.name}
                 </Link>
               ))}
+              <Button
+                variant="outline"
+                className="w-full border-2"
+                onClick={() => {
+                  handleVersionSwitch();
+                  setIsMenuOpen(false);
+                }}
+              >
+                <Icon name={isCitizensVersion ? "Building2" : "Users"} className="h-4 w-4 mr-2" />
+                {isCitizensVersion ? "Для бизнеса" : "Для граждан"}
+              </Button>
               {isAuthenticated ? (
                 <Link 
                   to={user?.role === 'client' ? '/client/cabinet' : '/lawyer'}
