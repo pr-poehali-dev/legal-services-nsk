@@ -310,7 +310,7 @@ const defaultPosts: BlogPost[] = [
   },
 ];
 
-export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({
+const BlogProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -401,3 +401,6 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;
 };
+
+export { BlogProvider };
+export default BlogProvider;
