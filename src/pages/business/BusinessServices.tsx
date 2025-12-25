@@ -12,7 +12,7 @@ const BusinessServices = () => {
       title: "Арбитражные споры",
       description: "Представительство в арбитражных судах всех инстанций. Защита интересов в корпоративных конфликтах, взыскание задолженности.",
       price: "от 80 000 ₽",
-      color: "bg-emerald-600",
+      color: "bg-blue-900",
       features: [
         "Досудебное урегулирование",
         "Представительство в суде первой инстанции",
@@ -25,7 +25,7 @@ const BusinessServices = () => {
       title: "Договорное право",
       description: "Разработка, экспертиза и сопровождение исполнения договоров любой сложности. Претензионная работа.",
       price: "от 15 000 ₽",
-      color: "bg-teal-600",
+      color: "bg-slate-700",
       features: [
         "Составление договоров",
         "Правовая экспертиза",
@@ -38,7 +38,7 @@ const BusinessServices = () => {
       title: "Банкротство компаний",
       description: "Полное сопровождение процедуры банкротства юридических лиц. Защита от банкротства. Ликвидация.",
       price: "от 150 000 ₽",
-      color: "bg-cyan-600",
+      color: "bg-blue-800",
       features: [
         "Анализ финансового состояния",
         "Подготовка документов",
@@ -51,7 +51,7 @@ const BusinessServices = () => {
       title: "Налоговые споры",
       description: "Обжалование решений ФНС, представительство при налоговых проверках, возврат переплаты.",
       price: "от 60 000 ₽",
-      color: "bg-emerald-700",
+      color: "bg-slate-800",
       features: [
         "Налоговые проверки",
         "Обжалование решений ФНС",
@@ -64,7 +64,7 @@ const BusinessServices = () => {
       title: "Корпоративное право",
       description: "Регистрация компаний, реорганизация, корпоративные споры, защита прав участников.",
       price: "от 30 000 ₽",
-      color: "bg-teal-700",
+      color: "bg-blue-900",
       features: [
         "Регистрация ООО/ИП",
         "Реорганизация компаний",
@@ -77,7 +77,7 @@ const BusinessServices = () => {
       title: "Абонентское обслуживание",
       description: "Комплексное юридическое сопровождение бизнеса. Личный юрист компании с приоритетной поддержкой.",
       price: "от 50 000 ₽/мес",
-      color: "bg-cyan-700",
+      color: "bg-amber-600",
       features: [
         "Безлимитные консультации",
         "Экспертиза документов",
@@ -90,7 +90,7 @@ const BusinessServices = () => {
       title: "Трудовые споры",
       description: "Защита работодателя в трудовых спорах. Кадровый аудит. Разработка локальных актов.",
       price: "от 40 000 ₽",
-      color: "bg-emerald-800",
+      color: "bg-slate-700",
       features: [
         "Кадровый аудит",
         "Трудовые споры в суде",
@@ -103,7 +103,7 @@ const BusinessServices = () => {
       title: "Недвижимость для бизнеса",
       description: "Сопровождение сделок с коммерческой недвижимостью. Аренда, купля-продажа, строительство.",
       price: "от 50 000 ₽",
-      color: "bg-teal-800",
+      color: "bg-blue-800",
       features: [
         "Проверка объектов",
         "Сопровождение сделок",
@@ -116,7 +116,7 @@ const BusinessServices = () => {
       title: "Защита от проверок",
       description: "Подготовка к проверкам контролирующих органов. Обжалование предписаний и постановлений.",
       price: "от 35 000 ₽",
-      color: "bg-cyan-800",
+      color: "bg-slate-800",
       features: [
         "Подготовка к проверкам",
         "Сопровождение проверок",
@@ -153,13 +153,13 @@ const BusinessServices = () => {
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {services.map((service, index) => (
-                <Card key={index} className="border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition-all group bg-white">
+                <Card key={index} className="border border-slate-200 hover:border-blue-900 hover:shadow-lg transition-all group bg-white">
                   <CardHeader>
                     <div className={`w-12 h-12 ${service.color} rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                       <Icon name={service.icon} className="h-6 w-6 text-white" />
                     </div>
                     <CardTitle className="text-xl text-slate-900">{service.title}</CardTitle>
-                    <div className="text-2xl font-bold text-emerald-600 mt-2">
+                    <div className="text-2xl font-bold text-blue-900 mt-2">
                       {service.price}
                     </div>
                   </CardHeader>
@@ -171,13 +171,13 @@ const BusinessServices = () => {
                     <ul className="space-y-2">
                       {service.features.map((feature, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
-                          <Icon name="Check" className="h-4 w-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                          <Icon name="Check" className="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
 
-                    <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white">
+                    <Button className="w-full bg-blue-900 hover:bg-blue-950 text-white">
                       Заказать услугу
                     </Button>
                   </CardContent>
@@ -199,11 +199,11 @@ const BusinessServices = () => {
                     Свяжитесь с нами для обсуждения деталей и получения индивидуального предложения
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                    <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+                    <Button size="lg" className="bg-amber-600 hover:bg-amber-700">
                       <Icon name="MessageCircle" className="mr-2" />
                       Написать в WhatsApp
                     </Button>
-                    <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-slate-900">
+                    <Button size="lg" variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white">
                       <Icon name="Phone" className="mr-2" />
                       Позвонить
                     </Button>

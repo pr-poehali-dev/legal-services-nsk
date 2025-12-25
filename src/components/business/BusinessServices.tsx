@@ -9,42 +9,42 @@ const BusinessServices = () => {
       icon: "Scale",
       title: "Арбитражные споры",
       description: "Представительство в арбитражных судах всех инстанций, взыскание задолженности, корпоративные конфликты",
-      color: "bg-emerald-600",
+      color: "bg-blue-900",
       features: ["Споры с контрагентами", "Взыскание долгов", "Защита от исков"]
     },
     {
       icon: "FileText",
       title: "Договорное право",
       description: "Разработка и проверка договоров, контрактов, соглашений. Юридическая экспертиза документов",
-      color: "bg-teal-600",
+      color: "bg-slate-700",
       features: ["Составление договоров", "Экспертиза контрактов", "Претензионная работа"]
     },
     {
       icon: "DollarSign",
       title: "Банкротство",
       description: "Банкротство юридических лиц и ИП, защита от банкротства, сопровождение процедуры",
-      color: "bg-cyan-600",
+      color: "bg-blue-800",
       features: ["Банкротство ООО", "Ликвидация компаний", "Защита от кредиторов"]
     },
     {
       icon: "Calculator",
       title: "Налоговые споры",
       description: "Обжалование решений ФНС, налоговые проверки, возврат переплаты, оптимизация налогов",
-      color: "bg-emerald-700",
+      color: "bg-slate-800",
       features: ["Споры с налоговой", "Налоговые проверки", "Возврат налогов"]
     },
     {
       icon: "Building",
       title: "Корпоративное право",
       description: "Регистрация компаний, реорганизация, корпоративные споры, защита прав акционеров",
-      color: "bg-teal-700",
+      color: "bg-blue-900",
       features: ["Регистрация ООО/ИП", "Корпоративные споры", "Сделки M&A"]
     },
     {
       icon: "ShieldCheck",
       title: "Абонентское обслуживание",
       description: "Полное юридическое сопровождение бизнеса, личный юрист компании, консультации 24/7",
-      color: "bg-cyan-700",
+      color: "bg-amber-600",
       features: ["Личный юрист", "Безлимитные консультации", "Приоритетная поддержка"]
     }
   ];
@@ -70,7 +70,7 @@ const BusinessServices = () => {
           {businessServices.map((service, index) => (
             <Card
               key={index}
-              className="hover:shadow-lg transition-all duration-300 border border-slate-200 hover:border-blue-500 bg-white group"
+              className="hover:shadow-lg transition-all duration-300 border border-slate-200 hover:border-blue-900 bg-white group"
             >
               <CardHeader className="space-y-3">
                 <div className={`w-14 h-14 ${service.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
@@ -86,13 +86,13 @@ const BusinessServices = () => {
                 <ul className="space-y-3">
                   {service.features.map((feature, i) => (
                     <li key={i} className="flex items-center gap-3 text-slate-700">
-                      <Icon name="CheckCircle2" className="h-5 w-5 text-green-600 flex-shrink-0" />
+                      <Icon name="CheckCircle2" className="h-5 w-5 text-amber-600 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white mt-4">
+                <Button className="w-full bg-blue-900 hover:bg-blue-950 text-white mt-4">
                   Получить консультацию
                   <Icon name="ArrowRight" className="h-4 w-4 ml-2" />
                 </Button>
@@ -114,7 +114,7 @@ const BusinessServices = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     size="lg"
-                    className="bg-white text-blue-600 hover:bg-blue-50"
+                    className="bg-amber-600 hover:bg-amber-700 text-white"
                   >
                     <Icon name="MessageCircle" className="h-5 w-5 mr-2" />
                     Написать в WhatsApp
@@ -122,7 +122,7 @@ const BusinessServices = () => {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="border-2 border-white text-white hover:bg-white hover:text-blue-600"
+                    className="border-2 border-amber-600 text-amber-600 bg-white hover:bg-amber-600 hover:text-white"
                   >
                     <Icon name="Phone" className="h-5 w-5 mr-2" />
                     Позвонить
@@ -132,22 +132,22 @@ const BusinessServices = () => {
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
-                  <Icon name="Users" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <Icon name="Users" className="h-8 w-8 mx-auto mb-2 text-amber-500" />
                   <div className="text-2xl font-bold mb-1">500+</div>
                   <div className="text-slate-400 text-xs">Компаний</div>
                 </div>
                 <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
-                  <Icon name="Award" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <Icon name="Award" className="h-8 w-8 mx-auto mb-2 text-amber-500" />
                   <div className="text-2xl font-bold mb-1">92%</div>
                   <div className="text-slate-400 text-xs">Успех</div>
                 </div>
                 <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
-                  <Icon name="Clock" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <Icon name="Clock" className="h-8 w-8 mx-auto mb-2 text-amber-500" />
                   <div className="text-2xl font-bold mb-1">24/7</div>
                   <div className="text-slate-400 text-xs">Доступность</div>
                 </div>
                 <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
-                  <Icon name="Shield" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <Icon name="Shield" className="h-8 w-8 mx-auto mb-2 text-amber-500" />
                   <div className="text-2xl font-bold mb-1">15+</div>
                   <div className="text-slate-400 text-xs">Лет опыта</div>
                 </div>
