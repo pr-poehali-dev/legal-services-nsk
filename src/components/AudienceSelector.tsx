@@ -75,23 +75,43 @@ const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProp
                 <div className="text-left space-y-2">
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Корпоративные споры и арбитраж</span>
+                    <span>Арбитражные споры и взыскание долгов</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Договорное право и сделки</span>
+                    <span>Договорное право и сделки M&A</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Налоговые споры и проверки</span>
+                    <span>Банкротство и ликвидация компаний</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Регистрация и реорганизация</span>
+                    <span>Налоговые споры и проверки ФНС</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Абонентское обслуживание</span>
+                    <span>Регистрация, реорганизация бизнеса</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Трудовые споры с сотрудниками</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Лицензирование и разрешительные документы</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Защита интеллектуальной собственности</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Недвижимость и аренда</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Абонентское юридическое обслуживание</span>
                   </div>
                 </div>
               </div>
