@@ -1,3 +1,4 @@
+import BusinessNavigation from "@/components/business/BusinessNavigation";
 import BusinessHero from "@/components/business/BusinessHero";
 import BusinessServices from "@/components/business/BusinessServices";
 import BusinessBlog from "@/components/business/BusinessBlog";
@@ -14,6 +15,7 @@ const Business = () => {
         keywords="юрист для бизнеса, корпоративный юрист, арбитражный юрист, юридическое сопровождение бизнеса"
         canonical="https://yurist-kaluga.ru/business"
       />
+      <BusinessNavigation />
       <div className="min-h-screen bg-slate-50">
         <BusinessHero />
         <BusinessServices />

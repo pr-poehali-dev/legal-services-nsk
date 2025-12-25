@@ -50,20 +50,19 @@ const BusinessServices = () => {
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center space-y-4 mb-16">
-          <div className="inline-block">
-            <div className="flex items-center gap-2 bg-blue-100 rounded-full px-6 py-2 mb-4">
-              <Icon name="Briefcase" size={20} className="text-blue-600" />
-              <span className="text-sm font-semibold text-blue-900">Услуги для бизнеса</span>
-            </div>
+        <div className="text-center space-y-3 mb-16">
+          <div className="inline-block mb-4">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
+              Наши услуги
+            </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
-            Защита интересов вашего бизнеса
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+            Комплексная защита бизнеса
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Комплексные решения для компаний любого масштаба
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            Профессиональное решение юридических задач любой сложности
           </p>
         </div>
 
@@ -71,11 +70,11 @@ const BusinessServices = () => {
           {businessServices.map((service, index) => (
             <Card
               key={index}
-              className="hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-blue-600 bg-white"
+              className="hover:shadow-lg transition-all duration-300 border border-slate-200 hover:border-blue-500 bg-white group"
             >
-              <CardHeader className="space-y-4">
-                <div className={`w-16 h-16 ${service.color} rounded-2xl flex items-center justify-center shadow-lg`}>
-                  <Icon name={service.icon} className="h-8 w-8 text-white" />
+              <CardHeader className="space-y-3">
+                <div className={`w-14 h-14 ${service.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                  <Icon name={service.icon} className="h-7 w-7 text-white" />
                 </div>
                 <CardTitle className="text-2xl text-slate-900">{service.title}</CardTitle>
               </CardHeader>
@@ -102,15 +101,15 @@ const BusinessServices = () => {
           ))}
         </div>
 
-        <Card className="bg-gradient-to-br from-blue-600 to-blue-800 text-white border-none shadow-2xl">
+        <Card className="bg-slate-900 text-white border border-slate-800 shadow-xl">
           <CardContent className="p-10">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
-                <h3 className="text-3xl font-bold mb-4">
-                  Нужна индивидуальная консультация?
+                <h3 className="text-2xl md:text-3xl font-bold mb-3">
+                  Индивидуальная консультация
                 </h3>
-                <p className="text-blue-100 text-lg mb-6">
-                  Обсудим вашу ситуацию и предложим оптимальное решение для вашего бизнеса
+                <p className="text-slate-300 text-base mb-6">
+                  Анализ вашей ситуации и разработка стратегии защиты интересов компании
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
@@ -131,26 +130,26 @@ const BusinessServices = () => {
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
-                  <Icon name="Users" className="h-10 w-10 mx-auto mb-3 text-blue-200" />
-                  <div className="text-3xl font-bold mb-2">500+</div>
-                  <div className="text-blue-100 text-sm">Довольных клиентов</div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
+                  <Icon name="Users" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <div className="text-2xl font-bold mb-1">500+</div>
+                  <div className="text-slate-400 text-xs">Компаний</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
-                  <Icon name="Award" className="h-10 w-10 mx-auto mb-3 text-blue-200" />
-                  <div className="text-3xl font-bold mb-2">92%</div>
-                  <div className="text-blue-100 text-sm">Успешных дел</div>
+                <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
+                  <Icon name="Award" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <div className="text-2xl font-bold mb-1">92%</div>
+                  <div className="text-slate-400 text-xs">Успех</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
-                  <Icon name="Clock" className="h-10 w-10 mx-auto mb-3 text-blue-200" />
-                  <div className="text-3xl font-bold mb-2">24/7</div>
-                  <div className="text-blue-100 text-sm">Поддержка</div>
+                <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
+                  <Icon name="Clock" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <div className="text-2xl font-bold mb-1">24/7</div>
+                  <div className="text-slate-400 text-xs">Доступность</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
-                  <Icon name="Shield" className="h-10 w-10 mx-auto mb-3 text-blue-200" />
-                  <div className="text-3xl font-bold mb-2">15+</div>
-                  <div className="text-blue-100 text-sm">Лет опыта</div>
+                <div className="bg-slate-800 border border-slate-700 rounded-lg p-5 text-center">
+                  <Icon name="Shield" className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <div className="text-2xl font-bold mb-1">15+</div>
+                  <div className="text-slate-400 text-xs">Лет опыта</div>
                 </div>
               </div>
             </div>
