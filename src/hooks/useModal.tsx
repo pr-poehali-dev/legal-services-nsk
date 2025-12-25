@@ -21,7 +21,7 @@ export const useModal = () => {
   return context;
 };
 
-export const ModalProvider = ({ children }: { children: ReactNode }) => {
+const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [consultationIsOpen, setConsultationIsOpen] = useState(false);
 
@@ -47,3 +47,6 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     </ModalContext.Provider>
   );
 };
+
+export { ModalProvider };
+export default ModalProvider;
