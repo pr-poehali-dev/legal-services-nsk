@@ -82,24 +82,18 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground text-lg">Контакты</h3>
             <div className="space-y-3 text-sm">
-              <button 
-                onClick={(e) => {
+              <a 
+                href="tel:+79994523500"
+                onClick={() => {
                   if (typeof window !== 'undefined' && window.ym) {
                     window.ym(103525320, 'reachGoal', 'phone_click');
-                  }
-                  const hidden = e.currentTarget.querySelector('.phone-hidden');
-                  if (hidden) {
-                    (hidden as HTMLElement).style.filter = 'blur(0px)';
-                    (hidden as HTMLElement).style.opacity = '1';
-                    hidden.textContent = '35 00';
-                    setTimeout(() => window.open('tel:+79931903500', '_self'), 300);
                   }
                 }}
                 className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors group"
               >
                 <Icon name="Phone" className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                <span>+7 993 190 <span className="phone-hidden" style={{filter: 'blur(5px)', opacity: 0.6, transition: 'all 0.3s ease'}}>XX XX</span></span>
-              </button>
+                <span>+7 999 452 35 00</span>
+              </a>
               <a href="mailto:vituarten@icloud.com" className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors group">
                 <Icon name="Mail" className="h-4 w-4 group-hover:scale-110 transition-transform" />
                 <span>vituarten@icloud.com</span>

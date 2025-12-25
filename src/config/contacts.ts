@@ -1,5 +1,5 @@
 export const CONTACTS = {
-  phone: '+7 (999) 452-35-00',
+  phone: '+79994523500',
   phoneFormatted: '+7 (999) 452-35-00',
   whatsapp: '79994523500',
   email: 'info@yurist-kaluga.ru',
