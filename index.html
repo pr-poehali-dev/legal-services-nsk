@@ -55,32 +55,7 @@
     <link rel="preconnect" href="https://functions.poehali.dev">
     <link rel="dns-prefetch" href="https://counter.rambler.ru">
     
-    <!-- SoloGPT Integration -->
-    <script src="https://sologpt.ru/integrations/jurservisnsk_jura/prodstate/sologpt.iife.js" defer></script>
-    <script>
-      // Скрыть SoloGPT в личном кабинете
-      document.addEventListener('DOMContentLoaded', function() {
-        function hideSoloGPTIfNeeded() {
-          const path = window.location.pathname;
-          const isDashboard = path.startsWith('/lawyer') || path.startsWith('/client/cabinet') || path.startsWith('/admin');
-          
-          if (isDashboard) {
-            // Скрываем виджет
-            const widget = document.getElementById('solo-gpt-widget') || document.querySelector('[id*="solo"]');
-            if (widget) widget.style.display = 'none';
-            
-            // Скрываем все элементы SoloGPT
-            document.querySelectorAll('[class*="solo"], [id*="solo"]').forEach(el => {
-              if (el.tagName !== 'SCRIPT') el.style.display = 'none';
-            });
-          }
-        }
-        
-        // Проверяем при загрузке и при изменении URL
-        hideSoloGPTIfNeeded();
-        setInterval(hideSoloGPTIfNeeded, 500);
-      });
-    </script>
+
     
     <!-- Schema.org structured data -->
     <script type="application/ld+json">
