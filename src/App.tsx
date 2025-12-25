@@ -41,13 +41,14 @@ const Sitemap = lazy(() => import("@/pages/Sitemap"));
 const Promo = lazy(() => import("@/pages/Promo"));
 const ConsumerRights = lazy(() => import("@/pages/ConsumerRights"));
 const CarLawyer = lazy(() => import("@/pages/CarLawyer"));
+const Business = lazy(() => import("@/pages/Business"));
 
 function AppContent() {
   const navigate = useNavigate();
 
   const handleAudienceSelect = (type: 'business' | 'citizens') => {
     if (type === 'business') {
-      navigate('/services');
+      navigate('/business');
     } else {
       navigate('/');
     }
@@ -66,6 +67,7 @@ function AppContent() {
           }>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/business" element={<Business />} />
               <Route path="/services" element={<Services />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/dtp-lawyer" element={<DTPLawyerChoice />} />
