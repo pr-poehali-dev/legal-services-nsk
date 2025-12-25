@@ -25,14 +25,6 @@ const Services = () => {
 
   const allServices = [
     {
-      icon: "Building2",
-      title: "Сопровождение бизнеса",
-      description: "Полное юридическое сопровождение деятельности компании",
-      category: ["popular", "business"],
-      price: "от 25 000₽",
-      duration: "постоянно"
-    },
-    {
       icon: "Users",
       title: "Семейный юрист",
       description: "Развод, раздел имущества, алименты, опека",
@@ -63,14 +55,6 @@ const Services = () => {
       category: ["popular", "business", "citizens"],
       price: "от 15 000₽",
       duration: "2-6 месяцев"
-    },
-    {
-      icon: "FileCheck",
-      title: "Регистрация бизнеса",
-      description: "Регистрация ООО, ИП, изменение учредительных документов",
-      category: ["popular", "business"],
-      price: "от 12 000₽",
-      duration: "3-7 дней"
     },
     {
       icon: "FileText",

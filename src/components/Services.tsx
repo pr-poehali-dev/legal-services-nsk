@@ -28,12 +28,6 @@ const Services = () => {
 
   const allServices = [
     {
-      icon: "Building2",
-      title: "Сопровождение бизнеса",
-      description: "Полное юридическое сопровождение деятельности компании",
-      category: ["popular", "business"],
-    },
-    {
       icon: "Users",
       title: "Семейный юрист",
       description: "Развод, раздел имущества, алименты, опека",
@@ -56,12 +50,6 @@ const Services = () => {
       title: "Взыскание долгов",
       description: "Взыскание задолженности, работа с должниками",
       category: ["popular", "business", "citizens"],
-    },
-    {
-      icon: "FileCheck",
-      title: "Регистрация бизнеса",
-      description: "Регистрация ООО, ИП, изменение учредительных документов",
-      category: ["popular", "business"],
     },
     {
       icon: "FileText",
