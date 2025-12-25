@@ -63,9 +63,43 @@ const ServicesMain = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {mainServices.map((service, index) => (
+          {mainServices.slice(0, 1).map((service, index) => (
             <Card
               key={index}
+              className="md:col-span-2 lg:col-span-3 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary"
+            >
+              <CardHeader className="space-y-4">
+                <div className={`w-14 h-14 ${service.color} rounded-xl flex items-center justify-center`}>
+                  <Icon name={service.icon} className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl">{service.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground leading-relaxed">
+                  {service.description}
+                </p>
+                
+                <ul className="space-y-2">
+                  {service.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Check" className="h-4 w-4 text-green-600 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Link to={service.link}>
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white mt-2">
+                    Подробнее
+                    <Icon name="ArrowRight" className="h-4 w-4 ml-2" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+          {mainServices.slice(1).map((service, index) => (
+            <Card
+              key={index + 1}
               className="hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary"
             >
               <CardHeader className="space-y-4">
