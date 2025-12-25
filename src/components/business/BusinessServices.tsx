@@ -9,42 +9,42 @@ const BusinessServices = () => {
       icon: "Scale",
       title: "Арбитражные споры",
       description: "Представительство в арбитражных судах всех инстанций, взыскание задолженности, корпоративные конфликты",
-      color: "bg-blue-600",
+      color: "bg-emerald-600",
       features: ["Споры с контрагентами", "Взыскание долгов", "Защита от исков"]
     },
     {
       icon: "FileText",
       title: "Договорное право",
       description: "Разработка и проверка договоров, контрактов, соглашений. Юридическая экспертиза документов",
-      color: "bg-indigo-600",
+      color: "bg-teal-600",
       features: ["Составление договоров", "Экспертиза контрактов", "Претензионная работа"]
     },
     {
       icon: "DollarSign",
       title: "Банкротство",
       description: "Банкротство юридических лиц и ИП, защита от банкротства, сопровождение процедуры",
-      color: "bg-purple-600",
+      color: "bg-cyan-600",
       features: ["Банкротство ООО", "Ликвидация компаний", "Защита от кредиторов"]
     },
     {
       icon: "Calculator",
       title: "Налоговые споры",
       description: "Обжалование решений ФНС, налоговые проверки, возврат переплаты, оптимизация налогов",
-      color: "bg-green-600",
+      color: "bg-emerald-700",
       features: ["Споры с налоговой", "Налоговые проверки", "Возврат налогов"]
     },
     {
       icon: "Building",
       title: "Корпоративное право",
       description: "Регистрация компаний, реорганизация, корпоративные споры, защита прав акционеров",
-      color: "bg-orange-600",
+      color: "bg-teal-700",
       features: ["Регистрация ООО/ИП", "Корпоративные споры", "Сделки M&A"]
     },
     {
       icon: "ShieldCheck",
       title: "Абонентское обслуживание",
       description: "Полное юридическое сопровождение бизнеса, личный юрист компании, консультации 24/7",
-      color: "bg-cyan-600",
+      color: "bg-cyan-700",
       features: ["Личный юрист", "Безлимитные консультации", "Приоритетная поддержка"]
     }
   ];
@@ -92,7 +92,7 @@ const BusinessServices = () => {
                   ))}
                 </ul>
 
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4">
+                <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white mt-4">
                   Получить консультацию
                   <Icon name="ArrowRight" className="h-4 w-4 ml-2" />
                 </Button>

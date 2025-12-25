@@ -42,6 +42,10 @@ const Promo = lazy(() => import("@/pages/Promo"));
 const ConsumerRights = lazy(() => import("@/pages/ConsumerRights"));
 const CarLawyer = lazy(() => import("@/pages/CarLawyer"));
 const Business = lazy(() => import("@/pages/Business"));
+const BusinessServices = lazy(() => import("@/pages/business/BusinessServices"));
+const BusinessCases = lazy(() => import("@/pages/business/BusinessCases"));
+const BusinessPricing = lazy(() => import("@/pages/business/BusinessPricing"));
+const BusinessContactsPage = lazy(() => import("@/pages/business/BusinessContacts"));
 
 function AppContent() {
   const navigate = useNavigate();
@@ -68,6 +72,10 @@ function AppContent() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/business" element={<Business />} />
+              <Route path="/business/services" element={<BusinessServices />} />
+              <Route path="/business/cases" element={<BusinessCases />} />
+              <Route path="/business/pricing" element={<BusinessPricing />} />
+              <Route path="/business/contacts" element={<BusinessContactsPage />} />
               <Route path="/services" element={<Services />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/dtp-lawyer" element={<DTPLawyerChoice />} />
