@@ -4,21 +4,28 @@ import Icon from '@/components/ui/icon';
 
 interface AudienceSelectorProps {
   onSelect: (type: 'business' | 'citizens') => void;
+  alwaysShow?: boolean;
 }
 
-const AudienceSelector = ({ onSelect }: AudienceSelectorProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProps) => {
+  const [isOpen, setIsOpen] = useState(alwaysShow);
 
   useEffect(() => {
-    const hasSelected = localStorage.getItem('audienceType');
-    if (!hasSelected) {
+    if (!alwaysShow) {
+      const hasSelected = localStorage.getItem('audienceType');
+      if (!hasSelected) {
+        setIsOpen(true);
+      }
+    } else {
       setIsOpen(true);
     }
-  }, []);
+  }, [alwaysShow]);
 
   const handleSelect = (type: 'business' | 'citizens') => {
     localStorage.setItem('audienceType', type);
-    setIsOpen(false);
+    if (!alwaysShow) {
+      setIsOpen(false);
+    }
     onSelect(type);
     
     if (typeof window !== 'undefined' && window.ym) {

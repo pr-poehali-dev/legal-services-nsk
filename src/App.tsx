@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ModalProvider } from "@/hooks/useModal";
 import { ThemeProvider } from "next-themes";
@@ -13,8 +13,8 @@ import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "@/components/ui/sonner";
 import StructuredData from "@/components/StructuredData";
-import AudienceSelector from "@/components/AudienceSelector";
 
+const Citizens = lazy(() => import("@/pages/Citizens"));
 const Services = lazy(() => import("@/pages/Services"));
 const Pricing = lazy(() => import("@/pages/Pricing"));
 const Blog = lazy(() => import("@/pages/Blog"));
@@ -48,21 +48,13 @@ const BusinessPricing = lazy(() => import("@/pages/business/BusinessPricing"));
 const BusinessContactsPage = lazy(() => import("@/pages/business/BusinessContacts"));
 
 function AppContent() {
-  const navigate = useNavigate();
-
-  const handleAudienceSelect = (type: 'business' | 'citizens') => {
-    if (type === 'business') {
-      navigate('/business');
-    } else {
-      navigate('/');
-    }
-  };
+  const location = useLocation();
+  const showNavigation = location.pathname !== '/';
 
   return (
     <>
-      <AudienceSelector onSelect={handleAudienceSelect} />
       <div className="min-h-screen bg-background">
-        <Navigation />
+        {showNavigation && <Navigation />}
         <main>
           <Suspense fallback={
             <div className="min-h-screen flex items-center justify-center">
@@ -71,6 +63,7 @@ function AppContent() {
           }>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/citizens" element={<Citizens />} />
               <Route path="/business" element={<Business />} />
               <Route path="/business/services" element={<BusinessServices />} />
               <Route path="/business/cases" element={<BusinessCases />} />

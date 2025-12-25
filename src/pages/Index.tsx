@@ -1,33 +1,38 @@
-import Hero from "@/components/Hero";
-import ServicesMain from "@/components/ServicesMain";
-import Blog from "@/components/Blog";
-import Contacts from "@/components/Contacts";
-import Footer from "@/components/Footer";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import AudienceSelector from "@/components/AudienceSelector";
 import SEOHead from "@/components/SEOHead";
 
-import StructuredData from "@/components/StructuredData";
-import YandexQuickLinks from "@/components/YandexQuickLinks";
-import { getSEOConfig } from "@/utils/seoConfig";
-
 const Index = () => {
-  const seo = getSEOConfig('home');
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Если пользователь уже выбирал аудиторию, перенаправляем его
+    const audienceType = localStorage.getItem('audienceType');
+    if (audienceType === 'business') {
+      navigate('/business');
+    } else if (audienceType === 'citizens') {
+      navigate('/citizens');
+    }
+  }, [navigate]);
+
+  const handleAudienceSelect = (type: 'business' | 'citizens') => {
+    localStorage.setItem('audienceType', type);
+    if (type === 'business') {
+      navigate('/business');
+    } else {
+      navigate('/citizens');
+    }
+  };
+
   return (
     <>
       <SEOHead 
-        title={seo.title}
-        description={seo.description}
-        keywords={seo.keywords}
-        canonical={seo.canonical}
+        title="ЮрСервис НСК - Юридические услуги в Калуге"
+        description="Профессиональные юридические услуги для граждан и бизнеса в Калуге. Автоюрист, гражданские дела, банкротство, миграционные споры."
       />
-      <StructuredData />
-      <YandexQuickLinks />
-      <div className="min-h-screen">
-        <Hero />
-        <ServicesMain />
-        <Blog />
-        <Contacts />
-        <Footer />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50">
+        <AudienceSelector onSelect={handleAudienceSelect} />
       </div>
     </>
   );
