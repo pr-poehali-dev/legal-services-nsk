@@ -36,15 +36,24 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
 
   const isActive = (href: string) => location.pathname === href;
   const isCitizensVersion = !location.pathname.startsWith('/business');
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleVersionSwitch = () => {
-    if (isCitizensVersion) {
-      localStorage.setItem('audienceType', 'business');
-      window.location.href = '/business';
-    } else {
-      localStorage.setItem('audienceType', 'citizens');
-      window.location.href = '/citizens';
-    }
+    setIsTransitioning(true);
+    
+    // Создаем анимацию fade out
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.3s ease-out';
+    
+    setTimeout(() => {
+      if (isCitizensVersion) {
+        localStorage.setItem('audienceType', 'business');
+        window.location.href = '/business';
+      } else {
+        localStorage.setItem('audienceType', 'citizens');
+        window.location.href = '/citizens';
+      }
+    }, 300);
   };
 
   return (
@@ -89,10 +98,16 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
               variant="outline"
               size="sm"
               onClick={handleVersionSwitch}
-              className="border-2"
+              disabled={isTransitioning}
+              className={`border-2 transition-all duration-300 ${
+                isTransitioning ? 'opacity-50 scale-95' : 'hover:scale-105'
+              }`}
             >
-              <Icon name={isCitizensVersion ? "Building2" : "Users"} className="h-4 w-4 mr-2" />
-              {isCitizensVersion ? "Для бизнеса" : "Для граждан"}
+              <Icon 
+                name={isTransitioning ? "RefreshCw" : (isCitizensVersion ? "Building2" : "Users")} 
+                className={`h-4 w-4 mr-2 ${isTransitioning ? 'animate-spin' : ''}`}
+              />
+              {isTransitioning ? "Переключение..." : (isCitizensVersion ? "Для бизнеса" : "Для граждан")}
             </Button>
             {isAuthenticated ? (
               <Link to={user?.role === 'client' ? '/client/cabinet' : '/lawyer'}>
@@ -148,14 +163,20 @@ const Navigation = ({ onLoginClick }: NavigationProps) => {
               ))}
               <Button
                 variant="outline"
-                className="w-full border-2"
+                className={`w-full border-2 transition-all duration-300 ${
+                  isTransitioning ? 'opacity-50' : ''
+                }`}
+                disabled={isTransitioning}
                 onClick={() => {
                   handleVersionSwitch();
                   setIsMenuOpen(false);
                 }}
               >
-                <Icon name={isCitizensVersion ? "Building2" : "Users"} className="h-4 w-4 mr-2" />
-                {isCitizensVersion ? "Для бизнеса" : "Для граждан"}
+                <Icon 
+                  name={isTransitioning ? "RefreshCw" : (isCitizensVersion ? "Building2" : "Users")} 
+                  className={`h-4 w-4 mr-2 ${isTransitioning ? 'animate-spin' : ''}`}
+                />
+                {isTransitioning ? "Переключение..." : (isCitizensVersion ? "Для бизнеса" : "Для граждан")}
               </Button>
               {isAuthenticated ? (
                 <Link 

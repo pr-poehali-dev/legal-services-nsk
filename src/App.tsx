@@ -13,6 +13,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "@/components/ui/sonner";
 import StructuredData from "@/components/StructuredData";
+import PageTransition from "@/components/PageTransition";
 
 const Citizens = lazy(() => import("@/pages/Citizens"));
 const Services = lazy(() => import("@/pages/Services"));
@@ -53,6 +54,7 @@ function AppContent() {
 
   return (
     <>
+      <PageTransition />
       <div className="min-h-screen bg-background">
         {showNavigation && <Navigation />}
         <main>
