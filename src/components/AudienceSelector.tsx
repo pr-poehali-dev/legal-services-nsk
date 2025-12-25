@@ -39,11 +39,17 @@ const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProp
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-8 md:p-12 animate-in fade-in zoom-in duration-300">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Добро пожаловать!
-          </h2>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Icon name="Scale" size={48} className="text-blue-600" />
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              ЮрСервис НСК
+            </h2>
+          </div>
+          <p className="text-xl font-semibold text-gray-800 mb-2">
+            Юридическая компания полного цикла
+          </p>
           <p className="text-lg text-gray-600">
-            Выберите, что вас интересует:
+            Выберите, кто вы:
           </p>
         </div>
 
@@ -60,8 +66,11 @@ const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProp
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   Для бизнеса
                 </h3>
-                <p className="text-gray-600">
-                  ОСАГО для компаний, корпоративные услуги, юридическое сопровождение
+                <p className="text-gray-600 mb-3">
+                  Юридическое сопровождение организаций
+                </p>
+                <p className="text-sm text-gray-500">
+                  ООО • АО • ЗАО • НКО • УК • ЖСК • ТСЖ • СНТ
                 </p>
               </div>
               <div className="flex items-center gap-2 text-blue-600 font-semibold">
