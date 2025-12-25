@@ -38,7 +38,7 @@ interface AuthProviderProps {
 // URL бэкенд функций
 const AUTH_API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b5021e841de7';
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -245,4 +245,5 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 };
 
+export { AuthProvider };
 export default AuthProvider;
