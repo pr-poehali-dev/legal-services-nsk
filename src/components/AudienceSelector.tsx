@@ -69,11 +69,33 @@ const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProp
                 <p className="text-gray-600 mb-3">
                   Юридическое сопровождение организаций
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 mb-4">
                   ООО • АО • ЗАО • НКО • УК • ЖСК • ТСЖ • СНТ
                 </p>
+                <div className="text-left space-y-2">
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Корпоративные споры и арбитраж</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Договорное право и сделки</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Налоговые споры и проверки</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Регистрация и реорганизация</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Абонентское обслуживание</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-blue-600 font-semibold">
+              <div className="flex items-center gap-2 text-blue-600 font-semibold mt-2">
                 <span>Перейти</span>
                 <Icon name="ArrowRight" size={20} />
               </div>
@@ -92,11 +114,33 @@ const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProp
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   Для граждан
                 </h3>
-                <p className="text-gray-600">
-                  ОСАГО для физлиц, консультации по ДТП, защита прав водителей
+                <p className="text-gray-600 mb-4">
+                  Юридическая помощь физическим лицам
                 </p>
+                <div className="text-left space-y-2">
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+                    <span>Автоюрист: ДТП, ОСАГО, лишение прав</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+                    <span>Семейные споры и наследство</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+                    <span>Банкротство физических лиц</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+                    <span>Защита прав потребителей</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-700">
+                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+                    <span>Миграционные вопросы</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-green-600 font-semibold">
+              <div className="flex items-center gap-2 text-green-600 font-semibold mt-2">
                 <span>Перейти</span>
                 <Icon name="ArrowRight" size={20} />
               </div>
