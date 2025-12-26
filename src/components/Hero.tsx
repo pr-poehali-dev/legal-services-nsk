@@ -65,36 +65,32 @@ const Hero = () => {
               </Button>
             </div>
 
-            {/* Stats */}
-            <div
-              className="grid grid-cols-3 gap-6 pt-6"
-              itemScope
-              itemType="https://schema.org/Organization"
-            >
-              <div className="text-center p-3 bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors">
-                <div
-                  className="text-2xl font-bold text-primary"
-                  itemProp="numberOfEmployees"
-                >
-                  500+
-                </div>
-                <div className="text-sm text-muted-foreground font-medium">
-                  Выигранных дел
-                </div>
-              </div>
-              <div className="text-center p-3 bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors">
-                <div
-                  className="text-2xl font-bold text-primary"
-                  itemProp="foundingDate"
-                >
-                  10+
-                </div>
-                <div className="text-sm text-muted-foreground font-medium">лет опыта</div>
-              </div>
-              <div className="text-center p-3 bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors">
-                <div className="text-2xl font-bold text-primary">98%</div>
-                <div className="text-sm text-muted-foreground font-medium">
-                  Довольных клиентов
+            {/* Mission */}
+            <div className="pt-6 space-y-4">
+              <div className="bg-gradient-to-r from-primary/10 via-blue-50 to-primary/5 rounded-xl p-6 border-l-4 border-primary">
+                <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                  <Icon name="Target" className="h-5 w-5 text-primary" />
+                  Наша миссия
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      <strong className="text-foreground">Честность превыше всего.</strong> Мы не продаём юридические услуги — мы защищаем людей и их права.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      <strong className="text-foreground">Прозрачность на каждом этапе.</strong> Вы всегда знаете, что происходит с вашим делом и сколько это стоит.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      <strong className="text-foreground">Результат важнее процесса.</strong> Мы работаем до победы, а не до окончания оплаченных часов.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
