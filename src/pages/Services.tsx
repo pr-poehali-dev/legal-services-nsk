@@ -98,7 +98,8 @@ const Services = () => {
       description: "Возврат некачественного товара, споры с продавцами и услугами",
       category: ["popular", "citizens"],
       price: "от 10 000₽",
-      duration: "1-6 месяцев"
+      duration: "1-6 месяцев",
+      link: "/consumer-protection"
     },
     {
       icon: "Building",
