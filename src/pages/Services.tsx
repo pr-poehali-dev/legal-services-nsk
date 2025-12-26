@@ -19,67 +19,34 @@ import {
 } from "@/components/ui/breadcrumb";
 
 const Services = () => {
-  const [activeTab, setActiveTab] = useState("popular");
+  const [activeTab, setActiveTab] = useState("all");
   const { openModal } = useModal();
   const seo = getSEOConfig('services');
   
   useDynamicSEO();
 
-  const mainServices = [
-    {
-      icon: "Car",
-      title: "Автоюрист",
-      description: "Взыскание по ОСАГО, споры со страховыми, лишение прав, административные дела по ДТП",
-      link: "/dtp-lawyer",
-      color: "bg-blue-500",
-      features: ["Взыскание ущерба", "Споры со страховыми", "Защита от лишения прав"]
-    },
-    {
-      icon: "Scale",
-      title: "Гражданский юрист",
-      description: "Семейные споры, наследство, защита прав потребителей, недвижимость",
-      link: "/services",
-      color: "bg-purple-500",
-      features: ["Семейные дела", "Защита прав потребителей", "Недвижимость"]
-    },
-    {
-      icon: "DollarSign",
-      title: "Банкротство",
-      description: "Банкротство физических лиц и ИП, списание долгов, защита имущества от кредиторов",
-      link: "/services",
-      color: "bg-indigo-500",
-      features: ["Списание долгов", "Защита имущества", "Сопровождение процедуры"]
-    },
-    {
-      icon: "FileText",
-      title: "Миграционные споры",
-      description: "Получение РВП, ВНЖ, гражданства, депортация, миграционный учёт",
-      link: "/migration",
-      color: "bg-orange-500",
-      features: ["РВП и ВНЖ", "Гражданство РФ", "Защита от депортации"]
-    },
-    {
-      icon: "Shield",
-      title: "Адвокат по уголовным делам",
-      description: "Защита в уголовных делах, представительство в суде, обжалование приговоров",
-      link: "/services",
-      color: "bg-red-500",
-      features: ["Защита в суде", "Следствие", "Апелляция"]
-    }
-  ];
-
   const tabs = [
+    { id: "all", label: "ВСЕ УСЛУГИ" },
     { id: "popular", label: "ПОПУЛЯРНЫЕ" },
-    { id: "citizens", label: "УСЛУГИ ДЛЯ ГРАЖДАН" },
+    { id: "citizens", label: "ДЛЯ ГРАЖДАН" },
     { id: "realestate", label: "НЕДВИЖИМОСТЬ" },
     { id: "bankruptcy", label: "БАНКРОТСТВО" },
   ];
 
   const allServices = [
     {
+      icon: "Car",
+      title: "Автоюрист. Споры по ДТП",
+      description: "Взыскание ущерба по ОСАГО, споры со страховыми, защита от лишения прав, административные дела",
+      category: ["popular", "citizens"],
+      price: "от 18 000₽",
+      duration: "2-12 месяцев",
+      link: "/dtp-lawyer"
+    },
+    {
       icon: "Users",
       title: "Семейный юрист",
-      description: "Развод, раздел имущества, алименты, опека",
+      description: "Развод, раздел имущества, алименты, опека, споры по детям",
       category: ["popular", "citizens"],
       price: "от 15 000₽",
       duration: "1-3 месяца"
@@ -87,15 +54,32 @@ const Services = () => {
     {
       icon: "TrendingDown",
       title: "Банкротство физических лиц",
-      description: "Процедура банкротства для граждан, списание долгов",
+      description: "Процедура банкротства для граждан, списание долгов, защита имущества от кредиторов",
       category: ["popular", "bankruptcy", "citizens"],
       price: "от 50 000₽",
       duration: "6-12 месяцев"
     },
     {
+      icon: "FileText",
+      title: "Миграционные споры",
+      description: "Получение РВП, ВНЖ, гражданства, защита от депортации, миграционный учёт",
+      category: ["popular", "citizens"],
+      price: "от 20 000₽",
+      duration: "2-6 месяцев",
+      link: "/migration"
+    },
+    {
+      icon: "Shield",
+      title: "Уголовная защита",
+      description: "Защита в уголовных делах, представительство в суде, обжалование приговоров",
+      category: ["popular", "citizens"],
+      price: "от 30 000₽",
+      duration: "3-24 месяца"
+    },
+    {
       icon: "Home",
       title: "Недвижимость и перепланировки",
-      description: "Сделки с недвижимостью, узаконивание перепланировок",
+      description: "Сделки с недвижимостью, узаконивание перепланировок, споры с соседями",
       category: ["popular", "realestate"],
       price: "от 20 000₽",
       duration: "1-4 месяца"
@@ -103,42 +87,18 @@ const Services = () => {
     {
       icon: "CreditCard",
       title: "Взыскание долгов",
-      description: "Взыскание задолженности, работа с должниками",
-      category: ["popular", "business", "citizens"],
+      description: "Взыскание задолженности, работа с должниками, исполнительное производство",
+      category: ["popular", "citizens"],
       price: "от 15 000₽",
       duration: "2-6 месяцев"
     },
     {
-      icon: "FileText",
-      title: "Составление и анализ документов",
-      description: "Подготовка договоров, анализ документации, правовая экспертиза",
-      category: ["popular", "business", "citizens"],
-      price: "от 5 000₽",
-      duration: "1-5 дней"
-    },
-    {
-      icon: "Shield",
-      title: "Представительство и защита в суде",
-      description: "Представительство интересов в судах всех инстанций",
-      category: ["popular", "business", "citizens"],
-      price: "от 30 000₽",
-      duration: "3-24 месяца"
-    },
-    {
       icon: "ShieldCheck",
       title: "Защита прав потребителей",
-      description: "Возврат некачественного товара, споры с продавцами",
+      description: "Возврат некачественного товара, споры с продавцами и услугами",
       category: ["popular", "citizens"],
       price: "от 10 000₽",
       duration: "1-6 месяцев"
-    },
-    {
-      icon: "Car",
-      title: "Автоюрист. Споры по ДТП",
-      description: "Взыскание ущерба, представительство в суде по автоавариям",
-      category: ["popular", "citizens"],
-      price: "от 18 000₽",
-      duration: "2-12 месяцев"
     },
     {
       icon: "Building",
@@ -149,9 +109,17 @@ const Services = () => {
       duration: "6-18 месяцев"
     },
     {
+      icon: "FileText",
+      title: "Составление документов",
+      description: "Подготовка договоров, исков, жалоб, анализ документации, правовая экспертиза",
+      category: ["citizens"],
+      price: "от 5 000₽",
+      duration: "1-5 дней"
+    },
+    {
       icon: "Briefcase",
       title: "Трудовое право",
-      description: "Защита трудовых прав, взыскание заработной платы",
+      description: "Защита трудовых прав, взыскание заработной платы, восстановление на работе",
       category: ["citizens"],
       price: "от 8 000₽",
       duration: "1-8 месяцев"
@@ -159,15 +127,15 @@ const Services = () => {
     {
       icon: "Building",
       title: "Банкротство юридических лиц",
-      description: "Ликвидация предприятий, банкротство организаций",
-      category: ["bankruptcy", "business"],
+      description: "Ликвидация предприятий, банкротство организаций, процедура несостоятельности",
+      category: ["bankruptcy"],
       price: "от 80 000₽",
       duration: "12-24 месяца"
     },
     {
       icon: "MapPin",
       title: "Земельное право",
-      description: "Оформление земельных участков, споры по межеванию",
+      description: "Оформление земельных участков, споры по межеванию, аренда земли",
       category: ["realestate"],
       price: "от 15 000₽",
       duration: "1-6 месяцев"
@@ -175,6 +143,9 @@ const Services = () => {
   ];
 
   const getFilteredServices = () => {
+    if (activeTab === "all") {
+      return allServices;
+    }
     if (activeTab === "popular") {
       return allServices.filter((service) =>
         service.category.includes("popular"),
@@ -218,93 +189,10 @@ const Services = () => {
             Наши услуги
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Предоставляем полный спектр юридических услуг для физических лиц и предприятий. 
+            Полный спектр юридических услуг для граждан. 
             Прозрачные цены, профессиональное качество, гарантия результата.
           </p>
         </div>
-
-        {/* Области практики */}
-        <section className="mb-20">
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
-              Области практики
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Специализируемся на сложных делах, требующих глубоких знаний и опыта
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {mainServices.slice(0, 1).map((service, index) => (
-              <Card
-                key={index}
-                className="md:col-span-2 lg:col-span-3 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary"
-              >
-                <CardHeader className="space-y-4">
-                  <div className={`w-14 h-14 ${service.color} rounded-xl flex items-center justify-center`}>
-                    <Icon name={service.icon} className="h-8 w-8 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
-                  
-                  <ul className="space-y-2">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Icon name="Check" className="h-4 w-4 text-green-600 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Link to={service.link}>
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-white mt-2">
-                      Подробнее
-                      <Icon name="ArrowRight" className="h-4 w-4 ml-2" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-            {mainServices.slice(1).map((service, index) => (
-              <Card
-                key={index + 1}
-                className="hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary"
-              >
-                <CardHeader className="space-y-4">
-                  <div className={`w-14 h-14 ${service.color} rounded-xl flex items-center justify-center`}>
-                    <Icon name={service.icon} className="h-8 w-8 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
-                  
-                  <ul className="space-y-2">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Icon name="Check" className="h-4 w-4 text-green-600 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Link to={service.link}>
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-white mt-2">
-                      Подробнее
-                      <Icon name="ArrowRight" className="h-4 w-4 ml-2" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
 
         {/* Category Tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
@@ -361,13 +249,26 @@ const Services = () => {
                   </div>
                 </div>
 
-                <Button 
-                  className="w-full bg-primary hover:bg-primary/90 text-white"
-                  onClick={() => openModal()}
-                >
-                  <Icon name="MessageCircle" className="h-4 w-4 mr-2" />
-                  Получить консультацию
-                </Button>
+                <div className="flex gap-2">
+                  {service.link ? (
+                    <Link to={service.link} className="flex-1">
+                      <Button 
+                        className="w-full bg-primary hover:bg-primary/90 text-white"
+                      >
+                        <Icon name="ArrowRight" className="h-4 w-4 mr-2" />
+                        Подробнее
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-white"
+                      onClick={() => openModal()}
+                    >
+                      <Icon name="MessageCircle" className="h-4 w-4 mr-2" />
+                      Заказать услугу
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
           ))}
