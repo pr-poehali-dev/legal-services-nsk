@@ -9,6 +9,14 @@ import { getSEOConfig } from "@/utils/seoConfig";
 import { useDynamicSEO } from "@/hooks/useDynamicSEO";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState("popular");
@@ -190,6 +198,21 @@ const Services = () => {
       />
       <div className="min-h-screen bg-background pt-20">
         <div className="container mx-auto px-4 py-12">
+        {/* Breadcrumbs */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/citizens">Главная</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Услуги</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         {/* Header */}
         <div className="text-center space-y-4 mb-12">
           <h1 className="text-4xl lg:text-5xl font-bold text-foreground">
