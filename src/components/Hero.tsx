@@ -13,7 +13,7 @@ const Hero = () => {
   return (
     <main
       id="home"
-      className="pt-20 pb-16 bg-gradient-to-br from-background to-secondary/30"
+      className="pt-20 pb-16 bg-background"
       role="main"
     >
       <div className="container mx-auto px-4">

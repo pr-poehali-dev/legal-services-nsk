@@ -69,7 +69,7 @@ const ServicesMain = () => {
   return (
     <section
       id="services"
-      className="py-20 bg-gradient-to-b from-white to-blue-50"
+      className="py-20 bg-secondary/20"
     >
       <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-12">
@@ -85,7 +85,7 @@ const ServicesMain = () => {
           {advantages.map((advantage, index) => (
             <Card key={index} className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
               <CardContent className="p-6 space-y-4">
-                <div className="inline-block p-4 bg-gradient-to-br from-primary to-blue-600 rounded-xl">
+                <div className="inline-block p-4 bg-primary rounded-xl">
                   <Icon name={advantage.icon} className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-foreground">
@@ -99,7 +99,7 @@ const ServicesMain = () => {
           ))}
         </div>
 
-        <Card className="bg-gradient-to-r from-primary to-blue-600 text-white border-none shadow-2xl">
+        <Card className="bg-primary text-white border-none shadow-2xl">
           <CardContent className="p-8">
             <div className="text-center space-y-6">
               <h3 className="text-2xl lg:text-3xl font-bold">
