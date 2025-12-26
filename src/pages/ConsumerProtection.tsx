@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import CompensationCalculator from "@/components/consumer/CompensationCalculator";
 import ConsumerRightsSection from "@/components/consumer/ConsumerRightsSection";
+import ConsumerCases from "@/components/consumer/ConsumerCases";
 import ConsumerProtectionInfo from "@/components/consumer/ConsumerProtectionInfo";
 
 const ConsumerProtection = () => {
@@ -89,6 +90,8 @@ const ConsumerProtection = () => {
         </div>
 
         <ConsumerRightsSection />
+
+        <ConsumerCases />
 
         <ConsumerProtectionInfo />
 
