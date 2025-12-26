@@ -71,7 +71,6 @@ const Services = () => {
   const tabs = [
     { id: "popular", label: "ПОПУЛЯРНЫЕ" },
     { id: "citizens", label: "УСЛУГИ ДЛЯ ГРАЖДАН" },
-    { id: "business", label: "УСЛУГИ ДЛЯ БИЗНЕСА" },
     { id: "realestate", label: "НЕДВИЖИМОСТЬ" },
     { id: "bankruptcy", label: "БАНКРОТСТВО" },
   ];
