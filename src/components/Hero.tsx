@@ -138,21 +138,7 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-card border border-border rounded-xl p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                  <Icon name="Award" className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <div className="font-semibold text-sm">
-                    Лицензированный адвокат
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Адвокатская палата НСО
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
