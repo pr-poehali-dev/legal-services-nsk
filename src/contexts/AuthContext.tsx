@@ -40,7 +40,7 @@ const AUTH_API_URL = 'https://functions.poehali.dev/051ee883-7010-44a8-a46c-b502
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
@@ -205,26 +205,41 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Проверка сохраненного пользователя при загрузке
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    const savedToken = localStorage.getItem('auth_token');
-    
-    if (savedUser && savedToken) {
+    const initAuth = () => {
       try {
-        const parsedUser = JSON.parse(savedUser);
-        // Проверяем, что у пользователя есть токен
-        if (parsedUser.token || savedToken) {
-          setUser({ ...parsedUser, token: parsedUser.token || savedToken });
-        } else {
-          // Если токена нет, очищаем данные
-          localStorage.removeItem('user');
-          localStorage.removeItem('auth_token');
+        if (typeof window === 'undefined') {
+          setIsLoading(false);
+          return;
+        }
+
+        const savedUser = localStorage.getItem('user');
+        const savedToken = localStorage.getItem('auth_token');
+        
+        if (savedUser && savedToken) {
+          try {
+            const parsedUser = JSON.parse(savedUser);
+            // Проверяем, что у пользователя есть токен
+            if (parsedUser.token || savedToken) {
+              setUser({ ...parsedUser, token: parsedUser.token || savedToken });
+            } else {
+              // Если токена нет, очищаем данные
+              localStorage.removeItem('user');
+              localStorage.removeItem('auth_token');
+            }
+          } catch (error) {
+            console.error('Error parsing saved user:', error);
+            localStorage.removeItem('user');
+            localStorage.removeItem('auth_token');
+          }
         }
       } catch (error) {
-        console.error('Error parsing saved user:', error);
-        localStorage.removeItem('user');
-        localStorage.removeItem('auth_token');
+        console.error('Auth initialization error:', error);
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
+
+    initAuth();
   }, []);
 
   const value: AuthContextType = {
@@ -237,6 +252,18 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     logout,
     updateProfile
   };
+
+  // Показываем загрузку только во время инициализации
+  if (isLoading && user === null && typeof window !== 'undefined') {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      );
+    }
+  }
 
   return (
     <AuthContext.Provider value={value}>
