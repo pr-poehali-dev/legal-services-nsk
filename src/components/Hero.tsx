@@ -65,18 +65,6 @@ const Hero = () => {
               </Button>
             </div>
 
-            {/* Срочность и гарантии */}
-            <div className="bg-accent/10 border-l-4 border-accent p-4 rounded-r-lg">
-              <div className="flex items-center space-x-2">
-                <Icon name="Clock" className="h-5 w-5 text-accent" />
-                <p className="font-semibold text-accent">СРОЧНЫЕ ДЕЛА — В ТЕЧЕНИЕ ЧАСА</p>
-              </div>
-              <div className="flex items-center space-x-2 mt-2">
-                <Icon name="Shield" className="h-5 w-5 text-accent" />
-                <p className="text-sm text-muted-foreground">Гарантия возврата средств при неудовлетворительном результате</p>
-              </div>
-            </div>
-
             {/* Stats */}
             <div
               className="grid grid-cols-3 gap-6 pt-6"
