@@ -2,24 +2,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
 
 const WhyUs = () => {
-  const stats = [
-    {
-      value: "500+",
-      label: "Выигранных дел",
-      icon: "Award"
-    },
-    {
-      value: "10+",
-      label: "Лет опыта",
-      icon: "Calendar"
-    },
-    {
-      value: "98%",
-      label: "Довольных клиентов",
-      icon: "ThumbsUp"
-    }
-  ];
-
   const reasons = [
     {
       icon: "Scale",
@@ -51,26 +33,8 @@ const WhyUs = () => {
             Почему выбирают нас
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Результаты нашей работы говорят сами за себя
+            Профессиональная защита ваших прав и интересов
           </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          {stats.map((stat, index) => (
-            <Card key={index} className="text-center border-2 hover:border-primary transition-colors">
-              <CardContent className="p-8 space-y-4">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Icon name={stat.icon} className="h-8 w-8 text-primary" />
-                </div>
-                <div className="text-4xl font-bold text-primary">
-                  {stat.value}
-                </div>
-                <div className="text-muted-foreground font-medium">
-                  {stat.label}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
