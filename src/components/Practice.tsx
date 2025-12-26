@@ -88,8 +88,8 @@ const Practice = () => {
                     className="h-6 w-6 text-primary mt-0.5"
                   />
                   <div>
-                    <div className="font-semibold">Многолетний опыт</div>
-                    <div className="text-sm text-muted-foreground">Более 10 лет успешной практики</div>
+                    <div className="font-semibold">Профессиональный опыт</div>
+                    <div className="text-sm text-muted-foreground">Опытные специалисты в различных отраслях права</div>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
