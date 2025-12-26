@@ -41,11 +41,6 @@ const ConsumerProtectionInfo = () => {
       description: "Успешная практика по защите прав потребителей"
     },
     {
-      icon: "DollarSign",
-      title: "Без предоплаты",
-      description: "Оплата после получения результата"
-    },
-    {
       icon: "FileCheck",
       title: "Все расходы с ответчика",
       description: "Юридические услуги оплачивает проигравшая сторона"
@@ -101,7 +96,7 @@ const ConsumerProtectionInfo = () => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {advantages.map((item, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="pt-8 pb-6">
