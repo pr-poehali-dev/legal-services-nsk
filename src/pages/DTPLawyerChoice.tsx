@@ -180,7 +180,7 @@ const DTPLawyerChoice = () => {
                 <Button 
                   size="lg"
                   className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
-                  onClick={() => window.location.href = 'tel:+79994523500'}
+                  onClick={() => window.location.href = 'tel:+79931903500'}
                 >
                   <Icon name="Phone" size={20} className="mr-2" />
                   Позвонить юристу
@@ -188,7 +188,7 @@ const DTPLawyerChoice = () => {
                 <Button 
                   size="lg"
                   className="bg-green-500 text-white hover:bg-green-600 font-semibold"
-                  onClick={() => window.open('https://wa.me/79994523500', '_blank')}
+                  onClick={() => window.open('https://wa.me/79931903500', '_blank')}
                 >
                   <Icon name="MessageCircle" size={20} className="mr-2" />
                   WhatsApp

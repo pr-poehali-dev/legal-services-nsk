@@ -96,7 +96,7 @@ const Contacts = () => {
       icon: "Phone",
       title: "Телефоны",
       content: ["+7 (999) 452-35-00"],
-      action: "tel:+79994523500",
+      action: "tel:+79931903500",
     },
     {
       icon: "Mail",
@@ -140,11 +140,11 @@ const Contacts = () => {
               </p>
               <div className="space-y-3">
                 <Button
-                  onClick={() => window.open('tel:+79994523500', '_self')}
+                  onClick={() => window.open('tel:+79931903500', '_self')}
                   className="w-full bg-primary hover:bg-primary/90"
                 >
                   <Icon name="Phone" className="h-4 w-4 mr-2" />
-                  Позвонить сейчас: +7 999 452 35 00
+                  Позвонить сейчас: +7 993 190 35 00
                 </Button>
                 <Button
                   onClick={() => setIsSubmitted(false)}
