@@ -100,20 +100,21 @@ const BusinessNavigation = () => {
               {CONTACTS.phone}
             </Button>
             
-            <Link to="/">
-              <Button
-                variant={isScrolled ? "ghost" : "outline"}
-                size="sm"
-                className={
-                  isScrolled
-                    ? "text-slate-700 hover:bg-slate-100"
-                    : "text-white hover:bg-white/10 border border-white/30"
-                }
-              >
+            <Button
+              variant={isScrolled ? "ghost" : "outline"}
+              size="sm"
+              asChild
+              className={
+                isScrolled
+                  ? "text-slate-700 hover:bg-slate-100"
+                  : "text-white hover:bg-white/10 border border-white/30"
+              }
+            >
+              <Link to="/">
                 <Icon name="Users" size={18} className="mr-2" />
                 Для граждан
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
 
           <button
@@ -158,12 +159,12 @@ const BusinessNavigation = () => {
                 <Icon name="Phone" size={18} className="mr-2" />
                 {CONTACTS.phone}
               </Button>
-              <Link to="/">
-                <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" asChild>
+                <Link to="/">
                   <Icon name="Users" size={18} className="mr-2" />
                   Для граждан
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         )}
