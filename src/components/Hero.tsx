@@ -74,7 +74,7 @@ const Hero = () => {
             ЮрСервисНСК
           </h2>
           
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
+          <div className="flex flex-col lg:flex-row gap-12 items-center">
             {/* Left side - Text content */}
             <div className="lg:w-1/2 space-y-6">
               <p className="text-lg text-muted-foreground">
@@ -104,34 +104,28 @@ const Hero = () => {
               </p>
             </div>
 
-            {/* Right side - Logos with animation */}
-            <div className="lg:w-1/2 grid grid-cols-2 gap-8">
-              <div className="flex flex-col items-center gap-3">
-                <div className="relative w-48 h-48">
-                  <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
-                  <div className="absolute inset-4 flex items-center justify-center">
-                    <img
-                      src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.jpeg"
-                      alt="Народная Дружина Октябрьская"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+            {/* Right side - Logos with animation (vertical) */}
+            <div className="lg:w-1/2 flex flex-col items-center gap-8">
+              <div className="relative w-64 h-64">
+                <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
+                <div className="absolute inset-6 flex items-center justify-center bg-white rounded-full">
+                  <img
+                    src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.jpeg"
+                    alt="Народная Дружина Октябрьская"
+                    className="w-4/5 h-4/5 object-contain"
+                  />
                 </div>
-                <p className="text-sm text-center text-muted-foreground font-medium">Народная Дружина</p>
               </div>
 
-              <div className="flex flex-col items-center gap-3">
-                <div className="relative w-48 h-48">
-                  <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
-                  <div className="absolute inset-4 flex items-center justify-center">
-                    <img
-                      src="https://cdn.poehali.dev/files/Unknown.png"
-                      alt="ЮрСервисНСК"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+              <div className="relative w-64 h-64">
+                <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
+                <div className="absolute inset-6 flex items-center justify-center bg-white rounded-full">
+                  <img
+                    src="https://cdn.poehali.dev/files/Unknown.png"
+                    alt="ЮрСервисНСК"
+                    className="w-4/5 h-4/5 object-contain"
+                  />
                 </div>
-                <p className="text-sm text-center text-muted-foreground font-medium">ООО "Правоотношение"</p>
               </div>
             </div>
           </div>
