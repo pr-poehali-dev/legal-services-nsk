@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useState } from "react";
+import { sendWhatsAppMessage } from "@/utils/whatsapp";
 
 const Contacts = () => {
   const [formData, setFormData] = useState({
@@ -35,11 +36,6 @@ const Contacts = () => {
     setIsSubmitting(true);
 
     try {
-      // Green API настройки
-      const idInstance = '1103279953';
-      const apiTokenInstance = 'c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e';
-      const chatId = '79994523500@c.us'; // Номер получателя
-
       const message = `🆕 Новое обращение с сайта:
 
 👤 Имя: ${formData.name}
@@ -50,20 +46,14 @@ ${formData.subject ? `📋 Тема: ${formData.subject}` : ''}
 💬 Сообщение:
 ${formData.message}
 
-⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+⏰ Время: ${new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Novosibirsk' })}`;
 
-      const response = await fetch(`https://1103.api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chatId: chatId,
-          message: message
-        })
+      const result = await sendWhatsAppMessage({
+        phone: '79994523500',
+        message
       });
 
-      if (response.ok) {
+      if (result.success) {
         // Отправляем событие в Яндекс.Метрику
         if (typeof window !== 'undefined' && window.ym) {
           window.ym(103525320, 'reachGoal', 'contacts_form_submit');

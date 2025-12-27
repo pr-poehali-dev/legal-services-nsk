@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import Icon from "@/components/ui/icon";
 import { useModal } from "@/hooks/useModal";
 import { toast } from "sonner";
+import { sendConsultationNotification } from "@/utils/whatsapp";
 
 const ConsultationModal = () => {
   const { consultationModal } = useModal();
@@ -31,25 +32,16 @@ const ConsultationModal = () => {
     setIsSubmitting(true);
 
     try {
-      // Отправляем уведомление через Green API
-      const message = `🆕 Новая заявка на консультацию\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n❓ Вопрос: ${formData.question || "Не указан"}\n⏰ Время: ${new Date().toLocaleString("ru-RU")}`;
+      // Отправляем уведомление юристу через Green API
+      const notificationResult = await sendConsultationNotification({
+        name: formData.name,
+        phone: formData.phone,
+        service: formData.question || undefined
+      });
 
-      const response = await fetch(
-        `https://1103.api.green-api.com/waInstance1103279953/sendMessage/c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            chatId: "79994523500@c.us",
-            message: message,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Ошибка отправки");
+      if (!notificationResult.success) {
+        console.error('WhatsApp notification failed:', notificationResult.error);
+        // Продолжаем работу даже если уведомление не отправилось
       }
 
       // Отправляем событие в Яндекс.Метрику
