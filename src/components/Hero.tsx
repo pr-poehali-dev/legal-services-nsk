@@ -109,7 +109,7 @@ const Hero = () => {
               <div className="relative w-[500px] h-[500px] flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
                 
-                <div className="absolute w-40 h-40 animate-orbit">
+                <div className="absolute w-[480px] h-[480px] animate-orbit">
                   <img
                     src="https://cdn.poehali.dev/files/ЛоготипНД54%20(%20без%20фона%20)%20.jpe%20g.png"
                     alt="Народная Дружина Октябрьская"
