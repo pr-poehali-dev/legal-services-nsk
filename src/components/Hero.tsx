@@ -113,7 +113,7 @@ const Hero = () => {
                   <img
                     src="https://cdn.poehali.dev/files/ЛоготипНД54%20(%20без%20фона%20)%20.jpe%20g.png"
                     alt="Народная Дружина Октябрьская"
-                    className="w-full h-full object-contain drop-shadow-2xl"
+                    className="w-full h-full object-contain drop-shadow-xl rounded-lg"
                   />
                 </div>
 
