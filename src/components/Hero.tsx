@@ -112,7 +112,7 @@ const Hero = () => {
                 <img
                   src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.png"
                   alt="Народная Дружина Октябрьская"
-                  className="w-64 h-64 object-contain animate-pulse"
+                  className="w-64 h-64 object-contain animate-spin-slow"
                 />
               </div>
 
@@ -122,7 +122,7 @@ const Hero = () => {
                 <img
                   src="https://cdn.poehali.dev/files/Unknown.png"
                   alt="ЮрСервисНСК"
-                  className="w-64 h-64 object-contain animate-pulse"
+                  className="w-64 h-64 object-contain animate-spin-slow"
                 />
               </div>
             </div>
