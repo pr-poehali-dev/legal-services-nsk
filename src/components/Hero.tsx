@@ -111,7 +111,7 @@ const Hero = () => {
                 
                 <div className="absolute w-32 h-32 animate-orbit">
                   <img
-                    src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.png"
+                    src="https://cdn.poehali.dev/files/ЛоготипНД54%20(%20без%20фона%20)%20.jpe%20g.png"
                     alt="Народная Дружина Октябрьская"
                     className="w-full h-full object-contain drop-shadow-xl"
                   />
