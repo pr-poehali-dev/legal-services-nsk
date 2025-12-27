@@ -74,62 +74,66 @@ const Hero = () => {
             ЮрСервисНСК
           </h2>
           
-          <div className="space-y-4 text-muted-foreground leading-relaxed max-w-4xl mx-auto">
-            <p className="text-lg text-center mb-8">
-              Компания, объединяющая в себе:
-            </p>
-            
-            <div className="bg-gradient-to-r from-primary/10 via-blue-50 to-primary/5 rounded-xl p-6 border-l-4 border-primary space-y-6">
-              <div className="flex flex-col lg:flex-row gap-6 items-center">
-                <div className="lg:w-2/3">
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* Left side - Text content */}
+            <div className="lg:w-1/2 space-y-6">
+              <p className="text-lg text-muted-foreground">
+                Компания, объединяющая в себе:
+              </p>
+              
+              <div className="bg-gradient-to-r from-primary/10 via-blue-50 to-primary/5 rounded-xl p-6 border-l-4 border-primary space-y-4">
+                <div>
                   <h3 className="font-semibold text-foreground mb-2">Общественная деятельность</h3>
-                  <p className="text-sm">
+                  <p className="text-sm text-muted-foreground">
                     При поддержке <strong>Народной Дружины</strong> в лице ФЗ о дружинах, зарегистрированной в МВД и подчиняющейся Администрации г. Новосибирска
                   </p>
                 </div>
                 
-                <div className="lg:w-1/3 flex justify-center">
-                  <div className="relative w-40 h-40">
-                    <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
-                    <div className="absolute inset-2 flex items-center justify-center">
-                      <img
-                        src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.jpeg"
-                        alt="Народная Дружина Октябрьская"
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="h-px bg-border"></div>
-              
-              <div className="flex flex-col lg:flex-row gap-6 items-center">
-                <div className="lg:w-2/3">
+                <div className="h-px bg-border"></div>
+                
+                <div>
                   <h3 className="font-semibold text-foreground mb-2">ООО "Правоотношение"</h3>
-                  <p className="text-sm">
+                  <p className="text-sm text-muted-foreground">
                     Юридическая компания, работающая с 2016 года в области права и оказывающая профессиональные юридические услуги
                   </p>
                 </div>
-                
-                <div className="lg:w-1/3 flex justify-center">
-                  <div className="relative w-40 h-40">
-                    <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
-                    <div className="absolute inset-2 flex items-center justify-center">
-                      <img
-                        src="https://cdn.poehali.dev/files/Unknown.png"
-                        alt="ЮрСервисНСК"
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                </div>
               </div>
+
+              <p className="text-base text-muted-foreground">
+                Такое объединение позволяет нам сочетать общественную защиту прав граждан с профессиональной юридической поддержкой на самом высоком уровне.
+              </p>
             </div>
 
-            <p className="text-base pt-6 text-center">
-              Такое объединение позволяет нам сочетать общественную защиту прав граждан с профессиональной юридической поддержкой на самом высоком уровне.
-            </p>
+            {/* Right side - Logos with animation */}
+            <div className="lg:w-1/2 grid grid-cols-2 gap-8">
+              <div className="flex flex-col items-center gap-3">
+                <div className="relative w-48 h-48">
+                  <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
+                  <div className="absolute inset-4 flex items-center justify-center">
+                    <img
+                      src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.jpeg"
+                      alt="Народная Дружина Октябрьская"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                <p className="text-sm text-center text-muted-foreground font-medium">Народная Дружина</p>
+              </div>
+
+              <div className="flex flex-col items-center gap-3">
+                <div className="relative w-48 h-48">
+                  <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
+                  <div className="absolute inset-4 flex items-center justify-center">
+                    <img
+                      src="https://cdn.poehali.dev/files/Unknown.png"
+                      alt="ЮрСервисНСК"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                <p className="text-sm text-center text-muted-foreground font-medium">ООО "Правоотношение"</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
