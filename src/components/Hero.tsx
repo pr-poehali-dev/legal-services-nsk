@@ -104,26 +104,31 @@ const Hero = () => {
               </p>
             </div>
 
-            {/* Right side - Logos with animation (vertical) */}
-            <div className="lg:w-1/2 flex flex-col items-center gap-12">
-              <div className="relative w-80 h-80 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-4 border-red-500/30 animate-spin-slow"></div>
-                <div className="absolute inset-4 rounded-full border-2 border-yellow-500/20 animate-spin-slow" style={{ animationDirection: 'reverse' }}></div>
-                <img
-                  src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.png"
-                  alt="Народная Дружина Октябрьская"
-                  className="w-64 h-64 object-contain animate-spin-slow"
-                />
-              </div>
+            {/* Right side - Logos with orbit animation */}
+            <div className="lg:w-1/2 flex items-center justify-center">
+              <div className="relative w-[500px] h-[500px] flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
+                
+                <div className="absolute w-32 h-32 animate-orbit">
+                  <img
+                    src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.png"
+                    alt="Народная Дружина Октябрьская"
+                    className="w-full h-full object-contain drop-shadow-xl"
+                  />
+                </div>
 
-              <div className="relative w-80 h-80 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-4 border-gray-700/30 animate-spin-slow"></div>
-                <div className="absolute inset-4 rounded-full border-2 border-gray-500/20 animate-spin-slow" style={{ animationDirection: 'reverse' }}></div>
-                <img
-                  src="https://cdn.poehali.dev/files/Unknown.png"
-                  alt="ЮрСервисНСК"
-                  className="w-64 h-64 object-contain animate-spin-slow"
-                />
+                <div className="absolute w-32 h-32 animate-orbit" style={{ animationDelay: '-5s' }}>
+                  <img
+                    src="https://cdn.poehali.dev/files/Unknown.png"
+                    alt="ЮрСервисНСК"
+                    className="w-full h-full object-contain drop-shadow-xl"
+                  />
+                </div>
+
+                <div className="text-center z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                  <h3 className="text-2xl font-bold text-foreground">ЮрСервисНСК</h3>
+                  <p className="text-sm text-muted-foreground mt-2">Юридическая защита</p>
+                </div>
               </div>
             </div>
           </div>
