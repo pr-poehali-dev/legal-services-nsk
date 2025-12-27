@@ -96,24 +96,7 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Image */}
-          <div
-            className={`relative transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-          >
-            <div className="aspect-square lg:aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 hover:scale-105 transition-transform duration-500">
-              <img
-                src="/img/44535199-aa32-4b9a-9bbf-4b7dfb3075bf.jpg"
-                alt="Профессиональный юрист в Новосибирске - консультация в офисе ЮрСервис НСК"
-                className="w-full h-full object-cover brightness-75"
-                loading="eager"
-                width="600"
-                height="750"
-                itemProp="image"
-              />
 
-            </div>
-
-          </div>
         </div>
       </div>
     </main>
