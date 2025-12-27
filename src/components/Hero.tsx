@@ -119,7 +119,7 @@ const Hero = () => {
 
                 <div className="absolute w-32 h-32 animate-orbit" style={{ animationDelay: '-5s' }}>
                   <img
-                    src="https://cdn.poehali.dev/files/Unknown.png"
+                    src="https://cdn.poehali.dev/files/Unkwn.png"
                     alt="ЮрСервисНСК"
                     className="w-full h-full object-contain drop-shadow-xl"
                   />
