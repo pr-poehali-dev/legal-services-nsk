@@ -69,49 +69,26 @@ const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProp
                 <p className="text-gray-600 mb-3">
                   Юридическое сопровождение организаций
                 </p>
-                <p className="text-sm text-gray-500 mb-4">
-                  ООО • АО • ЗАО • НКО • УК • ЖСК • ТСЖ • СНТ
-                </p>
                 <div className="text-left space-y-2">
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Арбитражные споры и взыскание долгов</span>
+                    <span>Арбитражные споры</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Договорное право и сделки M&A</span>
+                    <span>Договоры и сделки</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Банкротство и ликвидация компаний</span>
+                    <span>Банкротство</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Налоговые споры и проверки ФНС</span>
+                    <span>Налоговые споры</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Регистрация, реорганизация бизнеса</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Трудовые споры с сотрудниками</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Лицензирование и разрешительные документы</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Защита интеллектуальной собственности</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Недвижимость и аренда</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>Абонентское юридическое обслуживание</span>
+                    <span>Абонентское обслуживание</span>
                   </div>
                 </div>
               </div>
@@ -140,43 +117,23 @@ const AudienceSelector = ({ onSelect, alwaysShow = false }: AudienceSelectorProp
                 <div className="text-left space-y-2">
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Автоюрист: ДТП, ОСАГО, лишение прав</span>
+                    <span>Автоюрист: ДТП, ОСАГО</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Взыскание долгов и работа с должниками</span>
+                    <span>Взыскание долгов</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Залив квартиры, потопы, ЖКХ споры</span>
+                    <span>Залив квартиры, ЖКХ</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Семейные споры, наследство, алименты</span>
+                    <span>Семейные споры</span>
                   </div>
                   <div className="flex items-start gap-2 text-sm text-gray-700">
                     <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Банкротство и списание долгов</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Защита прав потребителей и возврат товара</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Недвижимость, споры с застройщиками</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Трудовые споры и защита от увольнения</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Миграция: РВП, ВНЖ, гражданство</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-700">
-                    <Icon name="CheckCircle2" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span>Уголовные дела и защита в суде</span>
+                    <span>Банкротство</span>
                   </div>
                 </div>
               </div>
