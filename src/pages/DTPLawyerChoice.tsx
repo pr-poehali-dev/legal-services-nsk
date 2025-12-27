@@ -7,6 +7,15 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
+    id: "guilt-determination",
+    title: "Установление вины за ДТП",
+    description: "Доказательство невиновности и защита ваших интересов в споре о виновнике",
+    icon: "Scale",
+    color: "bg-yellow-50 border-yellow-200",
+    iconColor: "text-yellow-600",
+    cta: "Доказать невиновность"
+  },
+  {
     id: "insurance-dispute",
     title: "Спор со страховой",
     description: "Страховая занижает выплату или отказывает в возмещении",
