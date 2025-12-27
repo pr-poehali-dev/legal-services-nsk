@@ -109,19 +109,19 @@ const Hero = () => {
               <div className="relative w-[500px] h-[500px] flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
                 
-                <div className="absolute w-32 h-32 animate-orbit">
+                <div className="absolute w-40 h-40 animate-orbit">
                   <img
                     src="https://cdn.poehali.dev/files/ЛоготипНД54%20(%20без%20фона%20)%20.jpe%20g.png"
                     alt="Народная Дружина Октябрьская"
-                    className="w-full h-full object-contain drop-shadow-xl"
+                    className="w-full h-full object-contain drop-shadow-2xl"
                   />
                 </div>
 
-                <div className="absolute w-32 h-32 animate-orbit" style={{ animationDelay: '-5s' }}>
+                <div className="absolute w-40 h-40 animate-orbit" style={{ animationDelay: '-5s' }}>
                   <img
                     src="https://cdn.poehali.dev/files/Unkwn.png"
                     alt="ЮрСервисНСК"
-                    className="w-full h-full object-contain drop-shadow-xl"
+                    className="w-full h-full object-contain drop-shadow-2xl"
                   />
                 </div>
 
