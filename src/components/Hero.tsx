@@ -125,7 +125,12 @@ const Hero = () => {
                   />
                 </div>
 
-                <div className="text-center z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                <div className="flex flex-col items-center justify-center z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                  <img
+                    src="https://cdn.poehali.dev/files/Unkwn.png"
+                    alt="ЮрСервисНСК"
+                    className="w-24 h-24 object-contain mb-3"
+                  />
                   <h3 className="text-2xl font-bold text-foreground">ЮрСервисНСК</h3>
                   <p className="text-sm text-muted-foreground mt-2">Юридическая защита</p>
                 </div>
