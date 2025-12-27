@@ -105,27 +105,25 @@ const Hero = () => {
             </div>
 
             {/* Right side - Logos with animation (vertical) */}
-            <div className="lg:w-1/2 flex flex-col items-center gap-8">
-              <div className="relative w-64 h-64">
-                <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
-                <div className="absolute inset-6 flex items-center justify-center bg-white rounded-full">
-                  <img
-                    src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.jpeg"
-                    alt="Народная Дружина Октябрьская"
-                    className="w-4/5 h-4/5 object-contain"
-                  />
-                </div>
+            <div className="lg:w-1/2 flex flex-col items-center gap-12">
+              <div className="relative w-80 h-80 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-4 border-red-500/30 animate-spin-slow"></div>
+                <div className="absolute inset-4 rounded-full border-2 border-yellow-500/20 animate-spin-slow" style={{ animationDirection: 'reverse' }}></div>
+                <img
+                  src="https://cdn.poehali.dev/files/ЛоготипНД54 ( без фона ) .jpe g.png"
+                  alt="Народная Дружина Октябрьская"
+                  className="w-64 h-64 object-contain animate-pulse"
+                />
               </div>
 
-              <div className="relative w-64 h-64">
-                <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-spin-slow"></div>
-                <div className="absolute inset-6 flex items-center justify-center bg-white rounded-full">
-                  <img
-                    src="https://cdn.poehali.dev/files/Unknown.png"
-                    alt="ЮрСервисНСК"
-                    className="w-4/5 h-4/5 object-contain"
-                  />
-                </div>
+              <div className="relative w-80 h-80 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-4 border-gray-700/30 animate-spin-slow"></div>
+                <div className="absolute inset-4 rounded-full border-2 border-gray-500/20 animate-spin-slow" style={{ animationDirection: 'reverse' }}></div>
+                <img
+                  src="https://cdn.poehali.dev/files/Unknown.png"
+                  alt="ЮрСервисНСК"
+                  className="w-64 h-64 object-contain animate-pulse"
+                />
               </div>
             </div>
           </div>
