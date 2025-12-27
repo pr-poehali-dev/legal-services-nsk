@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
 import { CONTACTS } from '@/config/contacts';
+import { sendConsultationNotification } from '@/utils/whatsapp';
 
 export default function ContactFormSection() {
   const [formData, setFormData] = useState({
@@ -28,28 +29,13 @@ export default function ContactFormSection() {
     setSubmitStatus('idle');
 
     try {
-      const whatsappMessage = `🚗 *Новая заявка с сайта - Автоюрист*
+      const result = await sendConsultationNotification({
+        name: formData.name,
+        phone: formData.phone,
+        service: formData.message || 'Автоюрист'
+      });
 
-👤 *Имя:* ${formData.name}
-📞 *Телефон:* ${formData.phone}${formData.message ? `\n\n💬 *Сообщение:*\n${formData.message}` : ''}
-
-⏰ *Время:* ${new Date().toLocaleString('ru-RU')}`;
-
-      const response = await fetch(
-        'https://1103.api.green-api.com/waInstance1103279953/sendMessage/c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            chatId: '79994523500@c.us',
-            message: whatsappMessage,
-          }),
-        }
-      );
-
-      if (response.ok) {
+      if (result.success) {
         setSubmitStatus('success');
         
         // Отправляем событие в Яндекс.Метрику

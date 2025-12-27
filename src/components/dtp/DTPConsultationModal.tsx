@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Icon from '@/components/ui/icon';
+import { sendConsultationNotification } from '@/utils/whatsapp';
 
 interface DTPConsultationModalProps {
   showForm: boolean;
@@ -16,31 +17,14 @@ const DTPConsultationModal = ({ showForm, onClose }: DTPConsultationModalProps) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const textMsg = `Заявка с сайта:
-Имя: ${formData.name}
-Телефон: ${formData.phone}
-Ситуация: ${formData.situation}`;
-
-    const INSTANCE_ID = "1103279953";
-    const API_TOKEN = "c80e4b7d4aa14f7c9f0b86e05730e35f1200768ef5b046209e";
-    const ADMIN_PHONE = "79994523500";
-
     try {
-      const res = await fetch(
-        `https://1103.api.green-api.com/waInstance${INSTANCE_ID}/sendMessage/${API_TOKEN}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            chatId: `${ADMIN_PHONE}@c.us`,
-            message: textMsg,
-          }),
-        },
-      );
+      const result = await sendConsultationNotification({
+        name: formData.name,
+        phone: formData.phone,
+        service: formData.situation
+      });
 
-      if (res.ok) {
+      if (result.success) {
         // Отправляем событие в Яндекс.Метрику
         if (typeof window !== 'undefined' && window.ym) {
           window.ym(103525320, 'reachGoal', 'dtp_consultation_form_submit');
